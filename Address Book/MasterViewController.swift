@@ -44,6 +44,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
          
     // If appropriate, configure the new managed object.
     newEvent.timestamp = NSDate()
+// properties need to be from get functions()
     newEvent.firstname = "Wayne"
 
     // Save the context.
