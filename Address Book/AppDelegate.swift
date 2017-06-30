@@ -64,6 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
       }
       return false
   }
+
   // MARK: - Core Data stack
 
   lazy var persistentContainer: NSPersistentContainer = {
