@@ -1,6 +1,7 @@
 //
 //  DetailViewController.swift
 //  Address Book
+//     - using Core Data
 //
 //  Created by Wayne Hill on 6/27/17.
 //  Copyright © 2017 Surfside Software Solution. All rights reserved.
@@ -39,7 +40,6 @@ class DetailViewController: UIViewController {
         self.configureView()
     }
   }
-
 
 }
 
