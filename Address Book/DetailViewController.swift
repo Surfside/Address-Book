@@ -11,7 +11,12 @@ import UIKit
 class DetailViewController: UIViewController {
 
   @IBOutlet weak var detailDescriptionLabel: UILabel!
-
+  @IBOutlet weak var emailTextField: UITextField!
+  @IBOutlet weak var phoneTextField: UITextField!
+  @IBOutlet weak var streetTextField: UITextField!
+  @IBOutlet weak var cityTextField: UITextField!
+  @IBOutlet weak var stateTextField: UITextField!
+  @IBOutlet weak var zipTextField: UITextField!
 
   func configureView() {
     // Update the user interface for the detail item.
@@ -25,6 +30,7 @@ class DetailViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view, typically from a nib.
+
     self.configureView()
   }
 

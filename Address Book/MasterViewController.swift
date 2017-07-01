@@ -59,7 +59,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
   // MARK: - Segues
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if segue.identifier == "showDetail" {
+    if segue.identifier == "showContactDetails" {
         if let indexPath = self.tableView.indexPathForSelectedRow {
         let object = self.fetchedResultsController.object(at: indexPath)
             let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
