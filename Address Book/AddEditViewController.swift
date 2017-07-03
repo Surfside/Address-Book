@@ -11,8 +11,12 @@ import CoreData
 
 class AddEditViewController: UITableViewController 
 {
+
+  @IBOutlet weak var saveButtonPressed: UIBarButtonItem!
+
+  @IBOutlet var inputFields: [UITextField]!
+
 //, NSFetchedResultsControllerDelegate {
-  
 //  var detailViewController: DetailViewController? = nil
 //  var managedObjectContext: NSManagedObjectContext? = nil
   
