@@ -11,6 +11,8 @@ import CoreData
 
 class MasterViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
+//NSFetchedResultsController informs MasterViewcontroller if the underlying data has changed i.e. a Contact has been changed
+
   var detailViewController: DetailViewController? = nil
   var managedObjectContext: NSManagedObjectContext? = nil
 
@@ -28,10 +30,35 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
     }
   }
-
+  
   override func viewWillAppear(_ animated: Bool) {
-    self.clearsSelectionOnViewWillAppear = self.splitViewController!.isCollapsed
     super.viewWillAppear(animated)
+    //self.clearsSelectionOnViewWillAppear = self.splitViewController!.isCollapsed
+    displayFirstContactOrInstructions()
+  }
+
+  func displayFirstContactOrInstructions()
+  {
+
+    if let splitViewController = self.splitViewController
+    {
+
+      if !splitViewController.isCollapsed
+      { // display first contact if there is one
+
+        if self.tableView.numberOfRows(inSection: 0) > 0 
+        {
+          let indexPath = NSIndexPath(row: 0, section: 0)
+          self.tableView.selectRow(at: indexPath as IndexPath, animated: false, scrollPosition: UITableViewScrollPosition.top)
+          self.performSegue(withIdentifier: "showContactDetail", sender: self)
+        }
+        else
+        { // display InstructionsViewController
+          self.performSegue(withIdentifier: "showInstructions", sender: self)
+        }
+
+      }
+    }
   }
 
   override func didReceiveMemoryWarning() {
@@ -59,16 +86,38 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
 
   // MARK: - Segues
 
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if segue.identifier == "showContactDetails" {
-        if let indexPath = self.tableView.indexPathForSelectedRow {
-        let object = self.fetchedResultsController.object(at: indexPath)
-            let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
-            controller.detailItem = object
-            controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
-            controller.navigationItem.leftItemsSupplementBackButton = true
-        }
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) 
+  {
+
+    if segue.identifier == "showContactDetails" 
+    {
+
+      if let indexPath = self.tableView.indexPathForSelectedRow
+      {  // get Contact for selected row
+         let object = self.fetchedResultsController.object(at: indexPath)
+
+         // Configure  DetailViewController
+         let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
+         controller.detailItem = object
+         controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
+         controller.navigationItem.leftItemsSupplementBackButton = true
+      }
+
     }
+    else if segue.identifier == "showAddContact"
+    {  // create a contact object that is not yet managed
+//      let entity = self.fetchedResultsController.fetchRequest.entity!
+//      let newContact = Event(entity: entity, insertInto: nil)
+
+      // configure the AddEditTableviewController
+      let controller = (segue.destination as! UINavigationController).topViewController as! AddEditTableViewControllerDelegate
+      controller.navigationItem.title = "Add Contact"
+//      controller.delegate = self
+      controller.editingContact = false // adding, not editing
+//      controller.contact = newContact
+
+    }
+
   }
 
   // MARK: - Table View

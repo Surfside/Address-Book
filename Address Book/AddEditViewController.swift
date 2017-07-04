@@ -9,18 +9,14 @@
 import UIKit
 import CoreData
 
-class AddEditViewController: UITableViewController 
+class AddEditViewController: UITableViewController, UITextFieldDelegate
+  //, NSFetchedResultsControllerDelegate
 {
 
   @IBOutlet weak var saveButtonPressed: UIBarButtonItem!
-
   @IBOutlet var inputFields: [UITextField]!
 
-//, NSFetchedResultsControllerDelegate {
-//  var detailViewController: DetailViewController? = nil
-//  var managedObjectContext: NSManagedObjectContext? = nil
-  
-  
+
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view, typically from a nib.
