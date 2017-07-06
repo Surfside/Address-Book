@@ -108,11 +108,11 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
       if let indexPath = self.tableView.indexPathForSelectedRow
       {  
         // get Contact for selected row
-        let object = self.fetchedResultsController.object(at: indexPath)
+        let selectedContact = self.fetchedResultsController.object(at: indexPath) as Contact
 
         // Configure  DetailViewController
         let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
-        controller.detailItem = object
+        controller.detailItem = selectedContact
         controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
         controller.navigationItem.leftItemsSupplementBackButton = true
       }
@@ -120,15 +120,15 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     }
     else if segue.identifier == "showAddContact"
     {  // create a contact object that is not yet managed
-//      let entity = self.fetchedResultsController.fetchRequest.entity!
-//      let newContact = Event(entity: entity, insertInto: nil)
+      let entity = self.fetchedResultsController.fetchRequest.entity!
+      let newContact = Contact(entity: entity, insertInto: nil)
 
       // configure the AddEditTableviewController
-      let controller = (segue.destination as! UINavigationController).topViewController as! AddEditTableViewControllerDelegate
+      let controller = (segue.destination as! UINavigationController).topViewController as! AddEditTableViewController
       controller.navigationItem.title = "Add Contact"
-//      controller.delegate = self
+      controller.delegate = self
       controller.editingContact = false // adding, not editing
-//      controller.contact = newContact
+      controller.contact = newContact
     }
 
   }
