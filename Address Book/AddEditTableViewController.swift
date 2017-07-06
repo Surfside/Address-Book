@@ -91,6 +91,73 @@ class AddEditTableViewController: UITableViewController, UITextFieldDelegate
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
+    func keyboardWillShow(notification: NSNotification)
+    {
+        let userInfo = notification.userInfo!
+        let frame = userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue!
+        let size = frame?.CGRectValue.size // keyboard's size
+
+        // get duration of keyboard's slid-in animation
+        let animationTime = (userInfo[UIKeyboardAnimationDurationUserInfoKey]! as AnyObject).doubleValue
+      
+        // scroll self.tableView so selected UITextField stays above keyboard
+        UIView.animatedWithDuration(animationTime)
+        {
+          var insets = self.tableView.contentInset
+          insets.bottom = size.height
+          self.tbleView.contentInset = insets
+          self.tableview.scrollIndicatorInsets = insets
+        }
+    }
+
+    // called when app receives UIKeyboardWillHideNotification
+    func keyboardWillHide(notification: NSNotification)
+    {
+        var insets = self.tableView.contentInset
+        insets.bottom = 0
+        self.tableView.contentInset = insets
+        self.tableView.scrollIndicatorInsets = insets
+    }
+
+    // hide keyboard if user touches Return key
+    func textFieldShouldReturn(textField: UITextField) -> Bool
+    {
+        textField.resignFirstResponder()
+        return true
+    }
+
+    // called to notify delegate to store changes in the model
+    @IBAction func saveButtonPressed(sender: AnyObject)
+    {
+       // ensure that first name and last name UITextFields are not empty
+       if (inputFields[0].text?.isEmpty)! || (inputFields[1].text?.isEmpty)!
+       {
+           // create UIAlertController to display error message
+           let alertController = UIAlertController(title: "Error",
+                message: "First name and last name are required",
+                preferredStyle: UIAlertControllerStyle.alert)
+           let okAction = UIAlertAction(title: "OK", 
+                style: UIAlertActionStyle.cancel, handler: nil)
+           alertController.addAction(okAction)
+           present(alertController, animated: true,
+                 completion: nil)
+       } 
+       else
+       {
+          // update the Contract using NSManagedObject method setValue
+          for i in 0..<fieldNames.count
+          {
+              let value = (!((inputFields[i].text?.isEmpty)!) ?  inputFields[i].text : nil)
+              self.contact?.setValue(value, forKey: fieldNames[i])
+          }
+
+          self.delegate?.didSaveContact(self)
+      }
+
+    }
+
+
+
     override func didReceiveMemoryWarning() 
     {
         super.didReceiveMemoryWarning()
