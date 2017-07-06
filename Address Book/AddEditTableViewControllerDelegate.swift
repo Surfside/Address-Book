@@ -60,14 +60,25 @@ class AddEditTableViewControllerDelegate: UIViewController
 
   }
   
-  /*
+
   // MARK: - Navigation
   // In a storyboard-based application, you will often want to do a little preparation before navigation
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) 
   {
-    // Get the new view controller using segue.destinationViewController.
+      // Get the new view controller using segue.destinationViewController.
+      if segue.identifier == "showEditContact"
+      {
+         let controller = (segue.destination as! UINavigationController).topViewController as! AddEditTableViewController
+        controller.naviagationItem.title = "Edit Contact"
+        controller.delegate = self
+        controller.editingContrat = true
+        controller.contact = detailItem
+        controller.navigationItem.leftBarButtonItem = self.splitViewCongroller?.displayModeButtonItem()
+        controllerr.navigationitem.leftItemsSupplementBackButton = true
+
+      }
+
     // Pass the selected object to the new view controller.
   }
-  */
 
 }

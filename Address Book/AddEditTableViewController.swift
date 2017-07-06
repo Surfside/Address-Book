@@ -31,9 +31,58 @@ class AddEditTableViewController: UITableViewController, UITextFieldDelegate
   var contact: Contact? // Contact to add or edit
   var editingContact = false // differentiates adding / editing
 
+    override func viewWillAppear(animated: Bool)
+    {
+      super.viewWillAppear(animated)
+      
+      // listen for keyboard show/hide notifications
+      NotificationCenter.defaultCenter().addObserver(self, 
+              selector: "keyboardWillShow:", 
+              name: UIKeyboardWillShowNotification, 
+              object: nil)
+      NotificationCenter.defaultCenter().addObserver(self, 
+              selector: "keyboardWillShow:", 
+              name: UIKeyboardWillHideNotification, 
+              object: nil)
+    }
+
+    // called when AddEditTableViwControler about to disappear
+    override func viewWillDisappear(animated: Bool)
+    {
+      super.viewWillDisappear(animated)
+
+      // unregister for keyboard show/hide notifications
+      NotificationCenter.defaultCenter().removeObserver(self, 
+             name: UIKeyboardWillShowNotification, object: nil)
+      NotificationCenter.defaultCenter().removeObserver(self, 
+              name: UIKeyboardWillHideNotification, object: nil)
+    }
+
     override func viewDidLoad() 
     {
         super.viewDidLoad()
+
+        // set AddEditTableViewController as the UITetFieldDelegate
+        for textField in inputFields
+        {
+          textField.delegate = self
+        }
+
+        // if editing a Contact, display its data
+        if editingContact
+        {
+
+            for i in 0..<fieldNames.count
+            {
+
+                // query Contact object with valueForKey
+                if let value: AnyObject =  contact?.value(forKey: fieldNames[i]) as AnyObject?
+                {
+                    inputFields[i].text = (value as AnyObject).description
+                }
+
+            }
+        }
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
