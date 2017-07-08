@@ -184,7 +184,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     
       // save the contexty to store the new contact
       var error: NSError? = nil
-//   if !context.save(&error)
+//   if !context.save(&error) {
       do
       {
          try managedObjectContext?.save()
@@ -198,9 +198,10 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             //print("Unresolved error \(error), \(error.userInfo)")
           NSLog("Unresolved error \(error), \(error.userInfo)")
       }
-
+    
       // if no error, display new contat details
       let sectionInfo = self.fetchedResultsController.sections![0] as NSFetchedResultsSectionInfo
+//    if let row = find(sectionInfo.objects as [NSManagedObject], controller.contact!)
       if let row = find(sectionInfo.objects as [NSManagedObject], controller.contact!)
       {
          let path = NSIndexPath(forRow: row, inSection: 0 )
