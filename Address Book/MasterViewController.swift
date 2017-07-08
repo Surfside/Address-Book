@@ -9,7 +9,9 @@
 import UIKit
 import CoreData
 
-class MasterViewController: UITableViewController, NSFetchedResultsControllerDelegate 
+class MasterViewController: UITableViewController, NSFetchedResultsControllerDelegate, 
+  AddEditTableViewControllerDelegate,
+  DetailViewControllerDelegate
 {
 
   //NSFetchedResultsController informs MasterViewcontroller if the underlying data has changed i.e. a Contact has been changed
@@ -17,24 +19,21 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
   var detailViewController: DetailViewController? = nil
   var managedObjectContext: NSManagedObjectContext? = nil
 
-
-  override func viewDidLoad() 
+  // configure popover for UITableView on IPad
+  override func awakeFromNib() 
   {
-    super.viewDidLoad()
-    // Do any additional setup after loading the view, typically from a nib.
-    self.navigationItem.leftBarButtonItem = self.editButtonItem
-/*
-    let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(insertNewObject(_:)))
-    self.navigationItem.rightBarButtonItem = addButton
-*/
-    if let split = self.splitViewController 
-    {
-      let controllers = split.viewControllers
-      self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
-    }
+     super.awakeFromNib()
 
+//if UIDevice.currentDevice().userInterfaceIdiom == .pad
+    if UIDevice.current.userInterfaceIdiom == .pad
+    {
+       self.clearsSelectionOnViewWillAppear = false
+       self.preferredContentSize = CGSize(width: 320.0, height: 600.0)
+    }
   }
-  
+
+  // called just before MasterViewController is presented on the screen
+//override func viewWillAppear(animated: Bool)
   override func viewWillAppear(_ animated: Bool) 
   {
     super.viewWillAppear(animated)
@@ -42,6 +41,8 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     displayFirstContactOrInstructions()
   }
 
+  // if the UISplitViewController is not collapsed
+  // select first contact or display InstructionsViewController
   func displayFirstContactOrInstructions()
   {
 
@@ -49,23 +50,50 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     {
 
       if !splitViewController.isCollapsed
-      { // display first contact if there is one
+      { // select and display first contact if there is one
 
         if self.tableView.numberOfRows(inSection: 0) > 0 
         {
+//       let indexPath = NSIndexPath(forRow: 0, inSection: 0)
           let indexPath = NSIndexPath(row: 0, section: 0)
-          self.tableView.selectRow(at: indexPath as IndexPath, animated: false, scrollPosition: UITableViewScrollPosition.top)
+//       self.tableView.selectRowAtIndexPath(indexPath,
+//            animated: false,
+//            scrollPosition: UITableViewScrollPosition.Top)
+          self.tableView.selectRow(at: indexPath as IndexPath, 
+               animated: false, 
+               scrollPosition: UITableViewScrollPosition.top)
+//       self.performSegueWithIdentifier( "showContactDetail", sender: self)
           self.performSegue(withIdentifier: "showContactDetail", sender: self)
         }
         else
         { // display InstructionsViewController
+//       self.performSegueWithIdentifier( "showInstructions", sender: self)
           self.performSegue(withIdentifier: "showInstructions", sender: self)
         }
-
       }
-
     }
+  }
 
+  // callled after the view loads for further UI configuration
+  override func viewDidLoad()
+  {
+    super.viewDidLoad()
+    /*
+    // Do any additional setup after loading the view, typically from a nib.
+    self.navigationItem.leftBarButtonItem = self.editButtonItem
+
+     let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(insertNewObject(_:)))
+     self.navigationItem.rightBarButtonItem = addButton
+     */
+    if let split = self.splitViewController
+    {
+      let controllers = split.viewControllers
+//   self.detailViewController =
+//          controllers[controllers.count-1].topViewController as?
+//          DetailViewController
+      self.detailViewController = 
+            (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
+    }
   }
 
   override func didReceiveMemoryWarning() 
@@ -98,44 +126,128 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
   }
 
   // MARK: - Segues
+//override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+   override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+   {
+      if segue.identifier == "showContactDetail"
+      {
+//      if let indexPath = self.tableView.indexPathForSelectedRow()
+         if let indexPath = self.tableView.indexPathForSelectedRow
+         {
+            // get Contact for selected row
+//         let selectedContact = self.fetchedResultsController.objectAtIndexpath( indexPath) as Contact
+            let selectedContact = self.fetchedResultsController.object(at: indexPath) as Contact
 
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) 
-  {
+            // Configure  DetailViewController
+//         let controller = (segue.destinationViewController as UINavigationController).topViewController as DetailViewController
+            let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
+            controller.delegate = self
+            controller.detailItem = selectedContact
+            controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem     // displayModeButtonItem()
+            controller.navigationItem.leftItemsSupplementBackButton = true
+         }
+      }
+      else if segue.identifier == "showAddContact"
+      {
+         // create a contact object that is not yet managed
+         let entity = self.fetchedResultsController.fetchRequest.entity!
+//      let newContact = Contact(entity: entity, 
+//           insertIntoManagedObjectContext: nil)
+         let newContact = Contact(entity: entity, 
+              insertInto: nil)
 
-    if segue.identifier == "showContactDetails" 
-    {
+         // configure the AddEditTableViewController
+//      let controller = (segue.destinationViewController as
+//           UINavigationController).topViewController as
+//           AddEditTableViewController
+         let controller = (segue.destination as! 
+               UINavigationController).topViewController as!
+               AddEditTableViewController
+         controller.navigationItem.title = "Add Contact"
+         controller.delegate = self
+         controller.editingContact = false // adding, not editing
+         controller.contact = newContact
+      }
+   }
 
-      if let indexPath = self.tableView.indexPathForSelectedRow
-      {  
-        // get Contact for selected row
-        let selectedContact = self.fetchedResultsController.object(at: indexPath) as Contact
+  // MARK: - Save or Edit Contact
 
-        // Configure  DetailViewController
-        let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
-        controller.detailItem = selectedContact
-        controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
-        controller.navigationItem.leftItemsSupplementBackButton = true
+   // called by AddEditViewController after a contact is added
+   func didSaveContact(controller: AddEditTableViewController)
+   {
+      //get NSManagedObjectContext and insert new contact into it
+      let context = self.fetchedResultsController.managedObjectContext
+//   context.insertObject(controller.contact!)
+      context.insert(controller.contact!)
+//   self.navigationController?.popToRootViewController(animated: true)
+      self.navigationController?.popToViewController(controller, animated: true)
+    
+      // save the contexty to store the new contact
+      var error: NSError? = nil
+//   if !context.save(&error)
+      do
+      {
+         try managedObjectContext?.save()
+      }
+      catch let error as NSError
+      {
+        displayError(error: error, title: "Error Saving Data",
+                     message: "Unable to save contact")
+          // Replace this implementation with code to handle the error appropriately.
+          // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            //print("Unresolved error \(error), \(error.userInfo)")
+          NSLog("Unresolved error \(error), \(error.userInfo)")
       }
 
-    }
-    else if segue.identifier == "showAddContact"
-    {  // create a contact object that is not yet managed
-      let entity = self.fetchedResultsController.fetchRequest.entity!
-      let newContact = Contact(entity: entity, insertInto: nil)
+      // if no error, display new contat details
+      let sectionInfo = self.fetchedResultsController.sections![0] as NSFetchedResultsSectionInfo
+      if let row = find(sectionInfo.objects as [NSManagedObject], controller.contact!)
+      {
+         let path = NSIndexPath(forRow: row, inSection: 0 )
+         tableView.selectRowAtIndexPath(path,
+                                     animated: true, scrollPosition: .Middle)
+         performSegue(withIdentifier: "showContactDetail", sender: nil)
+      }
+   }
 
-      // configure the AddEditTableviewController
-      let controller = (segue.destination as! UINavigationController).topViewController as! AddEditTableViewController
-      controller.navigationItem.title = "Add Contact"
-      controller.delegate = self
-      controller.editingContact = false // adding, not editing
-      controller.contact = newContact
-    }
+   // called by DetailViewController after a contact is edited
+   func didEditContact(controller: DetailViewController)
+   {
+      let context = self.fetchedResultsController.managedObjectContext
+      var error: NSError? = nil
+//   if !context.save(&error)
+      do
+      {
+         try managedObjectContext?.save()
+      }
+      catch let error as NSError
+      {
+         displayError(error: error, title: "Error Saving Data",
+                   message: "Unable to save contact")
+         // Replace this implementation with code to handle the error appropriately.
+         // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+         //print("Unresolved error \(error), \(error.userInfo)")
+         NSLog("Unresolved error \(error), \(error.userInfo)")
+      }
+   }
 
-  }
+   // indicate that an error occurred hen saving database changes
+   func displayError(error: NSError?, title: String, message: String)
+   {
+       let alertController = UIAlertController(title: title,
+                 message: String(format:  "%@\nError:\(error)\n", message),
+                 preferredStyle: UIAlertControllerStyle.alert)
+       let okAction = UIAlertAction(title: "OK",
+                 style: UIAlertActionStyle.cancel, handler: nil)
+       alertController.addAction(okAction)
+       present(alertController, animated: true,
+                 completion: nil)
+   }
+
 
   // MARK: - Table View
 
-  override func numberOfSections(in tableView: UITableView) -> Int 
+  override func numberOfSections(in tableView: UITableView) -> Int
   {
     return self.fetchedResultsController.sections?.count ?? 0
   }

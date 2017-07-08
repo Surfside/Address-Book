@@ -18,8 +18,7 @@
 		B01D505B1F02520A0024A15F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B01D50591F02520A0024A15F /* LaunchScreen.storyboard */; };
 		B01D50661F02520B0024A15F /* Address_BookTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01D50651F02520B0024A15F /* Address_BookTests.swift */; };
 		B01D50711F02520B0024A15F /* Address_BookUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01D50701F02520B0024A15F /* Address_BookUITests.swift */; };
-		B06535971F0BA5C900274012 /* Contact+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B06535951F0BA5C900274012 /* Contact+CoreDataClass.swift */; };
-		B06535981F0BA5C900274012 /* Contact+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B06535961F0BA5C900274012 /* Contact+CoreDataProperties.swift */; };
+		B06535971F0BA5C900274012 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = B06535951F0BA5C900274012 /* Contact.swift */; };
 		B0893C741F0B32D300DF15EA /* AddEditTableViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0893C731F0B32D300DF15EA /* AddEditTableViewControllerDelegate.swift */; };
 		B0A4692F1F0DC02E00C06DBC /* AddEditTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A4692E1F0DC02E00C06DBC /* AddEditTableViewController.swift */; };
 /* End PBXBuildFile section */
@@ -59,8 +58,7 @@
 		B01D506C1F02520B0024A15F /* Address BookUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Address BookUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B01D50701F02520B0024A15F /* Address_BookUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address_BookUITests.swift; sourceTree = "<group>"; };
 		B01D50721F02520B0024A15F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B06535951F0BA5C900274012 /* Contact+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Contact+CoreDataClass.swift"; sourceTree = "<group>"; };
-		B06535961F0BA5C900274012 /* Contact+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Contact+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		B06535951F0BA5C900274012 /* Contact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Contact.swift; path = ../Contact.swift; sourceTree = "<group>"; };
 		B0893C731F0B32D300DF15EA /* AddEditTableViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddEditTableViewControllerDelegate.swift; sourceTree = "<group>"; };
 		B0A4692E1F0DC02E00C06DBC /* AddEditTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddEditTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -93,8 +91,6 @@
 		B01D503F1F02520A0024A15F = {
 			isa = PBXGroup;
 			children = (
-				B06535951F0BA5C900274012 /* Contact+CoreDataClass.swift */,
-				B06535961F0BA5C900274012 /* Contact+CoreDataProperties.swift */,
 				B01D504A1F02520A0024A15F /* Address Book */,
 				B01D50641F02520B0024A15F /* Address BookTests */,
 				B01D506F1F02520B0024A15F /* Address BookUITests */,
@@ -115,6 +111,7 @@
 		B01D504A1F02520A0024A15F /* Address Book */ = {
 			isa = PBXGroup;
 			children = (
+				B06535951F0BA5C900274012 /* Contact.swift */,
 				B0A4692E1F0DC02E00C06DBC /* AddEditTableViewController.swift */,
 				B01C54EB1F0847D000743F85 /* AddEditViewController.swift */,
 				B0893C731F0B32D300DF15EA /* AddEditTableViewControllerDelegate.swift */,
@@ -289,12 +286,11 @@
 				B00A9B461F0AB5F2009B35B0 /* InstructionsViewController.swift in Sources */,
 				B01D504C1F02520A0024A15F /* AppDelegate.swift in Sources */,
 				B01C54EC1F0847D000743F85 /* AddEditViewController.swift in Sources */,
-				B06535981F0BA5C900274012 /* Contact+CoreDataProperties.swift in Sources */,
 				B0A4692F1F0DC02E00C06DBC /* AddEditTableViewController.swift in Sources */,
 				B01D504F1F02520A0024A15F /* Address_Book.xcdatamodeld in Sources */,
 				B01D50511F02520A0024A15F /* MasterViewController.swift in Sources */,
 				B0893C741F0B32D300DF15EA /* AddEditTableViewControllerDelegate.swift in Sources */,
-				B06535971F0BA5C900274012 /* Contact+CoreDataClass.swift in Sources */,
+				B06535971F0BA5C900274012 /* Contact.swift in Sources */,
 				B01D50531F02520A0024A15F /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
