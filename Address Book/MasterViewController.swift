@@ -179,26 +179,29 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
       let context = self.fetchedResultsController.managedObjectContext
 //   context.insertObject(controller.contact!)
       context.insert(controller.contact!)
-//   self.navigationController?.popToRootViewController(animated: true)
-      self.navigationController?.popToViewController(controller, animated: true)
+      self.navigationController?.popToRootViewController(animated: true)
     
       // save the contexty to store the new contact
       var error: NSError? = nil
-//   if !context.save(&error) {
+    
+      // try !context.save(&error)
       do
       {
          try managedObjectContext?.save()
       }
       catch let error as NSError
       {
-        displayError(error: error, title: "Error Saving Data",
-                     message: "Unable to save contact")
           // Replace this implementation with code to handle the error appropriately.
           // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            //print("Unresolved error \(error), \(error.userInfo)")
+          //print("Unresolved error \(error), \(error.userInfo)")
           NSLog("Unresolved error \(error), \(error.userInfo)")
       }
-    
+//         {
+    displayError(error: error, title: "Error Saving Data",
+                 message: "Unable to save contact")
+//         }
+    //else
+    //{
       // if no error, display new contat details
       let sectionInfo = self.fetchedResultsController.sections![0] as NSFetchedResultsSectionInfo
 //    if let row = find(sectionInfo.objects as [NSManagedObject], controller.contact!)
@@ -207,6 +210,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
          let path = NSIndexPath(forRow: row, inSection: 0 )
          tableView.selectRowAtIndexPath(path,
                                      animated: true, scrollPosition: .Middle)
+    //  permormSegueWithIentifier("showContactDetail", sender: nil)
          performSegue(withIdentifier: "showContactDetail", sender: nil)
       }
    }
@@ -217,19 +221,22 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
       let context = self.fetchedResultsController.managedObjectContext
       var error: NSError? = nil
 //   if !context.save(&error)
+//  {
       do
       {
-         try managedObjectContext?.save()
+         try context.save()
       }
-      catch let error as NSError
+      catch
       {
-         displayError(error: error, title: "Error Saving Data",
-                   message: "Unable to save contact")
-         // Replace this implementation with code to handle the error appropriately.
-         // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-         //print("Unresolved error \(error), \(error.userInfo)")
-         NSLog("Unresolved error \(error), \(error.userInfo)")
+        // Replace this implementation with code to handle the error appropriately.
+        // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+        let nserror = error as NSError
+        fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
       }
+
+     displayError(error: error, title: "Error Saving Data",
+                 message: "Unable to save contact")
+// }
    }
 
    // indicate that an error occurred hen saving database changes
@@ -253,13 +260,15 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     return self.fetchedResultsController.sections?.count ?? 0
   }
 
-  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int 
+  // callback that returns  number of rows in the UITbleView
+  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
   {
-    let sectionInfo = self.fetchedResultsController.sections![section]
-    return sectionInfo.numberOfObjects
+     let sectionInfo = self.fetchedResultsController.sections![section] as NSFetchedResultsSectionInfo
+     return sectionInfo.numberOfObjects
   }
-
-  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell 
+  
+  // callback that returns a configured cell for the given NSIndexPath
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath:  IndexPath) -> UITableViewCell
   {
     let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
     let event = self.fetchedResultsController.object(at: indexPath)
@@ -267,12 +276,14 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     return cell
   }
 
+  // callback that returns whether a cell is editable
   override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool 
   {
     // Return false if you do not want the specified item to be editable.
     return true
   }
-
+  
+  // callback that deletes a row from the UITableView
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) 
   {
 
@@ -287,14 +298,14 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
       }
       catch
       {
-        // Replace this implementation with code to handle the error appropriately.
-        // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-        let nserror = error as NSError
-        fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+         // Replace this implementation with code to handle the error appropriately.
+         // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+         let nserror = error as NSError
+         fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
       }
 
+      displayFirstContactOrInstructions()
     }
-
   }
 
   func configureCell(_ cell: UITableViewCell, withEvent event: Contact)
