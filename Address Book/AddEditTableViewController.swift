@@ -1,5 +1,5 @@
 //
-//  AddEditTableViewControllerDelegateTableViewController.swift
+//  AddEditTableViewControllerDelegate.swift
 //  Address Book
 //
 //  Created by Wayne Hill on 7/5/17.
