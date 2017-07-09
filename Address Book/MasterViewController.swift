@@ -311,7 +311,10 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
   func configureCell(_ cell: UITableViewCell, withEvent event: Contact)
   {
     cell.textLabel!.text = event.timestamp!.description
+//    cell.textLabel!.text = event.lastName
+    cell.detailTextLabel!.text = event.firstName
   }
+
 
   // MARK: - Fetched results controller
 
@@ -330,8 +333,13 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
       
     // Edit the sort key as appropriate.
     let sortDescriptor = NSSortDescriptor(key: "timestamp", ascending: false)
-      
-    fetchRequest.sortDescriptors = [sortDescriptor]
+
+    // Edited to sort by last name, then first name
+    // both using case insensitive comparisons
+    let lastNameSortDescriptor = NSSortDescriptor(key: "lastName", ascending: false)
+    let firstNameSortDescriptor = NSSortDescriptor(key: "firstName", ascending: false)
+    
+    fetchRequest.sortDescriptors = [sortDescriptor, lastNameSortDescriptor, firstNameSortDescriptor]
       
     // Edit the section name key path and cache name if appropriate.
     // nil for section name key path means "no sections".
@@ -348,6 +356,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
       // Replace this implementation with code to handle the error appropriately.
       // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
       let nserror = error as NSError
+      displayError(error: nserror, title: "Error Fetching Data", message: "Unable to get data from database")
       fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
     }
 
@@ -360,6 +369,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
   {
     self.tableView.beginUpdates()
   }
+
 
   func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) 
   {
