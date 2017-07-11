@@ -31,31 +31,49 @@ class AddEditTableViewController: UITableViewController, UITextFieldDelegate
   var contact: Contact? // Contact to add or edit
   var editingContact = false // differentiates adding / editing
 
-    override func viewWillAppear(animated: Bool)
+    override func viewWillAppear(_ animated: Bool)
     {
       super.viewWillAppear(animated)
       
       // listen for keyboard show/hide notifications
-      NotificationCenter.defaultCenter().addObserver(self, 
-              selector: "keyboardWillShow:", 
-              name: UIKeyboardWillShowNotification, 
-              object: nil)
-      NotificationCenter.defaultCenter().addObserver(self, 
-              selector: "keyboardWillShow:", 
-              name: UIKeyboardWillHideNotification, 
-              object: nil)
+//      NotificationCenter.defaultCenter().addObserver(self,
+//              selector: "keyboardWillShow:",
+//              name: UIKeyboardWillShowNotification,
+//              object: nil)
+//      NotificationCenter.defaultCenter().addObserver(self,
+//              selector: "keyboardWillHide:",
+//              name: UIKeyboardWillHideNotification,
+//              object: nil)
+
+      NotificationCenter.default.addObserver(self,
+                         selector: Selector(("keyboardWillShow")),
+                         name: .UIKeyboardWillShow,
+                         object: nil)
+      
+      NotificationCenter.default.addObserver(self,
+                         selector: Selector(("keyboardWillHide")),
+                         name: .UIKeyboardWillHide,
+                         object: nil)
     }
 
     // called when AddEditTableViwControler about to disappear
-    override func viewWillDisappear(animated: Bool)
+    override func viewWillDisappear(_ animated: Bool)
     {
       super.viewWillDisappear(animated)
 
       // unregister for keyboard show/hide notifications
-      NotificationCenter.defaultCenter().removeObserver(self, 
-             name: UIKeyboardWillShowNotification, object: nil)
-      NotificationCenter.defaultCenter().removeObserver(self, 
-              name: UIKeyboardWillHideNotification, object: nil)
+//      NotificationCenter.defaultCenter().removeObserver(self,
+//             name: UIKeyboardWillShowNotification, object: nil)
+//      NotificationCenter.defaultCenter().removeObserver(self,
+//              name: UIKeyboardWillHideNotification, object: nil)
+
+      NotificationCenter.default.removeObserver(self, 
+                  name: NSNotification.Name.UIKeyboardWillShow, 
+                  object: nil)
+      NotificationCenter.default.removeObserver(self, 
+                  name: NSNotification.Name.UIKeyboardWillHide, 
+                  object: nil)
+
     }
 
     override func viewDidLoad() 
@@ -65,7 +83,7 @@ class AddEditTableViewController: UITableViewController, UITextFieldDelegate
         // set AddEditTableViewController as the UITetFieldDelegate
         for textField in inputFields
         {
-          textField.delegate = self
+            textField.delegate = self
         }
 
         // if editing a Contact, display its data
@@ -95,18 +113,19 @@ class AddEditTableViewController: UITableViewController, UITextFieldDelegate
     {
         let userInfo = notification.userInfo!
         let frame = userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue!
-        let size = frame?.CGRectValue.size // keyboard's size
+        let size = frame?.cgRectValue.size // keyboard's size
 
         // get duration of keyboard's slid-in animation
         let animationTime = (userInfo[UIKeyboardAnimationDurationUserInfoKey]! as AnyObject).doubleValue
       
         // scroll self.tableView so selected UITextField stays above keyboard
-        UIView.animatedWithDuration(animationTime)
+//    UIView.animatedWithDuration(animationTime)
+        UIView.animate(withDuration: animationTime!)
         {
           var insets = self.tableView.contentInset
-          insets.bottom = size.height
-          self.tbleView.contentInset = insets
-          self.tableview.scrollIndicatorInsets = insets
+          insets.bottom = (size?.height)!
+          self.tableView.contentInset = insets
+          self.tableView.scrollIndicatorInsets = insets
         }
     }
 
@@ -120,7 +139,7 @@ class AddEditTableViewController: UITableViewController, UITextFieldDelegate
     }
 
     // hide keyboard if user touches Return key
-    func textFieldShouldReturn(textField: UITextField) -> Bool
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool
     {
         textField.resignFirstResponder()
         return true
