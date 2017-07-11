@@ -19,8 +19,8 @@ public class Contact: NSManagedObject
   }
   
   @NSManaged public var timestamp: NSDate?
-  @NSManaged public var lastName: String?
-  @NSManaged public var firstName: String?
+  @NSManaged public var lastname: String?
+  @NSManaged public var firstname: String?
   @NSManaged public var email: String?
   @NSManaged public var phone: String?
   @NSManaged public var street: String?

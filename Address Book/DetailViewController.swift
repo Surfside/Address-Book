@@ -28,8 +28,19 @@ class DetailViewController: UIViewController, AddEditTableViewControllerDelegate
   var delegate: DetailViewControllerDelegate!
   var detailItem: Contact!
 
+//  var detailItem: Contact?
+//    {
+//    didSet
+//    {
+      // Update the view.
+//      self.configureView()
+//    }
+//  }
+
+
   func configureView() 
   {
+/*
     // Update the user interface for the detail item.
     if let detail = self.detailItem 
     {
@@ -40,37 +51,79 @@ class DetailViewController: UIViewController, AddEditTableViewControllerDelegate
         }
 
     }
+*/
   }
 
-  override func viewDidLoad() 
+   override func viewDidLoad()
+   {
+      super.viewDidLoad()
+      // Do any additional setup after loading the view, typically from a nib.
+//      self.configureView()
+
+      if detailItem != nil
+      {
+        displayContact()
+      }
+
+   }
+
+   func displayContact()
+   {
+      // Update the user interface for the detail item.
+      if let detail = self.detailItem
+      {
+
+         if let label = self.detailDescriptionLabel
+         {
+            label.text = detail.timestamp!.description
+         }
+
+      }
+
+      self.navigationItem.title = detailItem.firstname! + " " + detailItem.lastname!
+
+      // display other attributes if they have values
+      emailTextField.text = detailItem?.email
+      phoneTextField.text = detailItem?.phone
+      streetTextField.text = detailItem?.street
+      cityTextField.text = detailItem?.city
+      stateTextField.text = detailItem?.state
+      zipTextField.text = detailItem?.zip
+   }
+
+  func didSaveContact(controller: AddEditTableViewController)
   {
-    super.viewDidLoad()
-    // Do any additional setup after loading the view, typically from a nib.
-    if detailItem != nil {
-      displayContact()
-    }
-//    self.configureView()
+    displayContact() //update contact data on screen
+    self.navigationController?.popViewController(animated: true)
+    delegate?.didEditContact(controller: self)
   }
+  
+   //override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+   override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+   {
+    
+      // configure destinationViewConroller for eiting current contact
+      if segue.identifier == "showEditContact"
+      {
+         let controller = (segue.destination as! UINavigationController).topViewController as! AddEditTableViewController
+         controller.navigationItem.title = "Edit Contact"
+         controller.delegate = self
+         controller.editingContact = true
+         controller.contact = detailItem
+         controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
+         controller.navigationItem.leftItemsSupplementBackButton = true
+      }
+    
+   }
+  
 
-  func displayContact()
-  {
-    self.navigationItem.title = detailItem.firstname + " " + detailItem.lastname
-
-    // display other attributes if they have values
-    emailTextField = detailItem.email?
-    phoneTextField = detailItem.phone?
-    streetTextField = detailItem.street?
-    cityTextField = detailItem.city?
-    stateTextField = detailItem.state?
-    zipTextField = detailItem.zip?
-  }
-
-  override func didReceiveMemoryWarning() 
+  override func didReceiveMemoryWarning()
   {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
   }
 
+/*
   // called by DetailViewController after a contact is edited
   func didEditContact(controller: DetailViewController)
   {
@@ -90,15 +143,8 @@ class DetailViewController: UIViewController, AddEditTableViewControllerDelegate
     alertController.addAction(okAction)
     present(alertController, animated: true, completion: nil)
   }
+*/
 
-  var detailItem: Contact?
-  {
-    didSet 
-    {
-        // Update the view.
-        self.configureView()
-    }
-  }
 
 }
 
