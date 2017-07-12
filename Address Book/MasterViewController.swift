@@ -9,9 +9,7 @@
 import UIKit
 import CoreData
 
-class MasterViewController: UITableViewController, NSFetchedResultsControllerDelegate, 
-  AddEditTableViewControllerDelegate,
-  DetailViewControllerDelegate
+class MasterViewController: UITableViewController,NSFetchedResultsControllerDelegate,  AddEditTableViewControllerDelegate, DetailViewControllerDelegate
 {
 
   //NSFetchedResultsController informs MasterViewcontroller if the underlying data has changed i.e. a Contact has been changed
@@ -102,6 +100,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     // Dispose of any resources that can be recreated.
   }
 
+
   func insertNewObject(_ sender: Any) 
   {
     let context = self.fetchedResultsController.managedObjectContext
@@ -175,44 +174,32 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
    // called by AddEditViewController after a contact is added
    func didSaveContact(controller: AddEditTableViewController)
    {
-      //get NSManagedObjectContext and insert new contact into it
-      let context = self.fetchedResultsController.managedObjectContext
-//   context.insertObject(controller.contact!)
-      context.insert(controller.contact!)
-      self.navigationController?.popToRootViewController(animated: true)
+/*
+    // get NSManagedObjectContext and insert new contact into it
+    let context = self.fetchedResultsController.managedObjectContext
+    context.insert(controller.contact!)
+    self.navigationController?.popToRootViewController(animated: true)
     
-      // save the contexty to store the new contact
-      var error: NSError? = nil
-    
-      // try !context.save(&error)
-      do
-      {
-         try managedObjectContext?.save()
+    // save the context to store the new contact
+    var error: NSError? = nil
+//    if !context.save(&error) { // check for error
+if (error != nil) 
+    {
+      displayError(error: error, title: "Error Saving Data",
+                   message: "Unable to save contact")
+    } else { // if no error, display new contact details
+//      let sectionInfo =
+ //       self.fetchedResultsController.sections![0] as NSFetchedResultsSectionInfo
+//  if let row = find(sectionInfo.objects as [NSManagedObject], controller.contact!)
+
+//     {
+//        let path = NSIndexPath(row: row, section: 0)
+//        tableView.selectRow(at: path as IndexPath, animated: true, scrollPosition: .middle)
+        performSegue(withIdentifier: "showContactDetail",
+                                   sender: nil)
       }
-      catch let error as NSError
-      {
-          // Replace this implementation with code to handle the error appropriately.
-          // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-          //print("Unresolved error \(error), \(error.userInfo)")
-          NSLog("Unresolved error \(error), \(error.userInfo)")
-      }
-//         {
-    displayError(error: error, title: "Error Saving Data",
-                 message: "Unable to save contact")
-//         }
-    //else
-    //{
-      // if no error, display new contat details
-      let sectionInfo = self.fetchedResultsController.sections![0] as NSFetchedResultsSectionInfo
-//    if let row = find(sectionInfo.objects as [NSManagedObject], controller.contact!)
-      if let row = find(sectionInfo.objects as [NSManagedObject], controller.contact!)
-      {
-         let path = NSIndexPath(forRow: row, inSection: 0 )
-         tableView.selectRowAtIndexPath(path,
-                                     animated: true, scrollPosition: .Middle)
-    //  permormSegueWithIentifier("showContactDetail", sender: nil)
-         performSegue(withIdentifier: "showContactDetail", sender: nil)
-      }
+    }
+*/
    }
 
    // called by DetailViewController after a contact is edited
@@ -312,7 +299,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
   {
     cell.textLabel!.text = event.timestamp!.description
 //    cell.textLabel!.text = event.lastName
-    cell.detailTextLabel!.text = event.firstName
+    cell.detailTextLabel!.text = event.firstname
   }
 
 
