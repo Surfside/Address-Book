@@ -170,7 +170,7 @@ class AddEditTableViewController: UITableViewController, UITextFieldDelegate
               self.contact?.setValue(value, forKey: fieldNames[i])
           }
 
-          self.delegate?.didSaveContact(self)
+          self.delegate?.didSaveContact(controller: self)
       }
 
     }
