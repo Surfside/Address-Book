@@ -1,5 +1,5 @@
 //
-//  Contact+CoreDataClass.swift
+//  Contact.swift
 //  Address Book
 //
 //  Created by Wayne Hill on 7/4/17.
@@ -28,3 +28,18 @@ public class Contact: NSManagedObject
   @NSManaged public var state: String?
   @NSManaged public var zip: String?
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

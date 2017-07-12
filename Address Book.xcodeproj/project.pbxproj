@@ -111,8 +111,6 @@
 		B01D504A1F02520A0024A15F /* Address Book */ = {
 			isa = PBXGroup;
 			children = (
-				B06535951F0BA5C900274012 /* Contact.swift */,
-				B0A4692E1F0DC02E00C06DBC /* AddEditTableViewController.swift */,
 				B01C54EB1F0847D000743F85 /* AddEditViewController.swift */,
 				B0893C731F0B32D300DF15EA /* AddEditTableViewControllerDelegate.swift */,
 				B01D504B1F02520A0024A15F /* AppDelegate.swift */,
@@ -121,9 +119,10 @@
 				B01D50541F02520A0024A15F /* Main.storyboard */,
 				B01D50571F02520A0024A15F /* Assets.xcassets */,
 				B01D50591F02520A0024A15F /* LaunchScreen.storyboard */,
-				B01D505C1F02520A0024A15F /* Info.plist */,
 				B01D504D1F02520A0024A15F /* Address_Book.xcdatamodeld */,
-				B00A9B451F0AB5F2009B35B0 /* InstructionsViewController.swift */,
+				B06535951F0BA5C900274012 /* Contact.swift */,
+				B01D505C1F02520A0024A15F /* Info.plist */,
+				B06DF33A1F159E4F00B873A3 /* Supporting Files */,
 			);
 			path = "Address Book";
 			sourceTree = "<group>";
@@ -144,6 +143,15 @@
 				B01D50721F02520B0024A15F /* Info.plist */,
 			);
 			path = "Address BookUITests";
+			sourceTree = "<group>";
+		};
+		B06DF33A1F159E4F00B873A3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B0A4692E1F0DC02E00C06DBC /* AddEditTableViewController.swift */,
+				B00A9B451F0AB5F2009B35B0 /* InstructionsViewController.swift */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

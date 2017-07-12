@@ -183,7 +183,7 @@ class AddEditTableViewController: UITableViewController, UITextFieldDelegate
         // Dispose of any resources that can be recreated.
     }
 
-
+/*
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -195,6 +195,7 @@ class AddEditTableViewController: UITableViewController, UITextFieldDelegate
         // #warning Incomplete implementation, return the number of rows
         return 0
     }
+*/
 
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
