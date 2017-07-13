@@ -20,8 +20,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
   {
     // Override point for customization after application launch.
     let splitViewController = self.window!.rootViewController as! UISplitViewController
-    let navigationController = splitViewController.viewControllers[splitViewController.viewControllers.count-1] as! UINavigationController
-    navigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
+
+let navigationController = splitViewController.viewControllers[splitViewController.viewControllers.count-1] as! UINavigationController
+
+navigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
+
     splitViewController.delegate = self
 
     let masterNavigationController = splitViewController.viewControllers[0] as! UINavigationController
@@ -66,18 +69,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
           onto primaryViewController:UIViewController)
                -> Bool
   {
-      if let secondaryAsNavController = secondaryViewController as? UINavigationController {  // else { return false }
-
+      if let secondaryAsNavController = secondaryViewController as? UINavigationController {
          if let topAsDetailController = secondaryAsNavController.topViewController as? DetailViewController {  // else { return false }
-
             if topAsDetailController.detailItem == nil
             {
                // Return true to indicate that we have handled the collapse by doing nothing; the secondary controller will be discarded.
                return true
             }
-         } else if let topAsDetailController =  secondaryAsNavController.topViewController as? InstructionsViewController  {
+         } else if let topAsDetailController = secondaryAsNavController.topViewController as? InstructionsViewController
+            {
                  return true
-         }
+            }
       }
       return false
    }

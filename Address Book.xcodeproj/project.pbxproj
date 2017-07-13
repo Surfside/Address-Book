@@ -119,6 +119,8 @@
 				B01D504D1F02520A0024A15F /* Address_Book.xcdatamodeld */,
 				B06535951F0BA5C900274012 /* Contact.swift */,
 				B01D505C1F02520A0024A15F /* Info.plist */,
+				B0A4692E1F0DC02E00C06DBC /* AddEditTableViewController.swift */,
+				B00A9B451F0AB5F2009B35B0 /* InstructionsViewController.swift */,
 				B06DF33A1F159E4F00B873A3 /* Supporting Files */,
 			);
 			path = "Address Book";
@@ -145,8 +147,6 @@
 		B06DF33A1F159E4F00B873A3 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				B0A4692E1F0DC02E00C06DBC /* AddEditTableViewController.swift */,
-				B00A9B451F0AB5F2009B35B0 /* InstructionsViewController.swift */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
