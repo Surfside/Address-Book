@@ -110,7 +110,9 @@
 			isa = PBXGroup;
 			children = (
 				B01C54EB1F0847D000743F85 /* AddEditViewController.swift */,
+				B0A4692E1F0DC02E00C06DBC /* AddEditTableViewController.swift */,
 				B01D504B1F02520A0024A15F /* AppDelegate.swift */,
+				B00A9B451F0AB5F2009B35B0 /* InstructionsViewController.swift */,
 				B01D50501F02520A0024A15F /* MasterViewController.swift */,
 				B01D50521F02520A0024A15F /* DetailViewController.swift */,
 				B01D50541F02520A0024A15F /* Main.storyboard */,
@@ -119,8 +121,6 @@
 				B01D504D1F02520A0024A15F /* Address_Book.xcdatamodeld */,
 				B06535951F0BA5C900274012 /* Contact.swift */,
 				B01D505C1F02520A0024A15F /* Info.plist */,
-				B0A4692E1F0DC02E00C06DBC /* AddEditTableViewController.swift */,
-				B00A9B451F0AB5F2009B35B0 /* InstructionsViewController.swift */,
 				B06DF33A1F159E4F00B873A3 /* Supporting Files */,
 			);
 			path = "Address Book";

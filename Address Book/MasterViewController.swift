@@ -206,7 +206,8 @@ if (error != nil)
    func didEditContact(controller: DetailViewController)
    {
       let context = self.fetchedResultsController.managedObjectContext
-      var error: NSError? = nil
+
+//      var error: NSError? = nil
 //   if !context.save(&error)
 //  {
       do
@@ -218,11 +219,11 @@ if (error != nil)
         // Replace this implementation with code to handle the error appropriately.
         // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
         let nserror = error as NSError
+        displayError(error: nserror, title: "Error Saving Data",
+                     message: "Unable to save contact")
         fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
       }
 
-     displayError(error: error, title: "Error Saving Data",
-                 message: "Unable to save contact")
 // }
    }
 

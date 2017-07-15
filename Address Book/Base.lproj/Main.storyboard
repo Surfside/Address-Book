@@ -396,7 +396,7 @@
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cZU-Oi-B1e" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1188" y="599"/>
+            <point key="canvasLocation" x="-1103" y="511"/>
         </scene>
         <!--MasterViewController-->
         <scene sceneID="smW-Zh-WAh">
@@ -461,7 +461,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SLD-UC-DBI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="540" y="238"/>
+            <point key="canvasLocation" x="425" y="238"/>
         </scene>
         <!--InstructionsNavigationController-->
         <scene sceneID="ik6-VJ-ca8">
@@ -512,7 +512,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="Bjs-91-zEQ"/>
         <segue reference="35a-zF-ugN"/>
-        <segue reference="slR-FR-xuE"/>
     </inferredMetricsTieBreakers>
 </document>

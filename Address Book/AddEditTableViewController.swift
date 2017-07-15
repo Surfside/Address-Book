@@ -27,7 +27,7 @@ class AddEditTableViewController: UITableViewController, UITextFieldDelegate
   private let fieldNames = ["firstname","lastname","email",
                             "phone","street","city","state","zip"]
   
-  var delegate: AddEditTableViewControllerDelegate?
+  var delegate: AddEditTableViewControllerDelegate!
   var contact: Contact? // Contact to add or edit
   var editingContact = false // differentiates adding / editing
 

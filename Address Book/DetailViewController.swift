@@ -94,7 +94,10 @@ class DetailViewController: UIViewController, AddEditTableViewControllerDelegate
   func didSaveContact(controller: AddEditTableViewController)
   {
     displayContact() //update contact data on screen
-    self.navigationController?.popViewController(animated: true)
+//    self.navigationController?.popViewController(animated: true)
+    if let navController = self.navigationController {
+      navController.popViewController(animated: true)
+    }
     delegate?.didEditContact(controller: self)
   }
   

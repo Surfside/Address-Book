@@ -76,10 +76,10 @@ navigationController.topViewController!.navigationItem.leftBarButtonItem = split
                // Return true to indicate that we have handled the collapse by doing nothing; the secondary controller will be discarded.
                return true
             }
-         } else if let topAsDetailController = secondaryAsNavController.topViewController as? InstructionsViewController
-            {
+         } else if (secondaryAsNavController.topViewController as? InstructionsViewController) != nil
+              {
                  return true
-            }
+              }
       }
       return false
    }
