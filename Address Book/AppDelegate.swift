@@ -95,7 +95,7 @@ navigationController.topViewController!.navigationItem.leftBarButtonItem = split
   is optional since there are legitimate error conditions
   that could cause the creation of the store to fail.
 */
-    let container = NSPersistentContainer(name: "Address_Book")
+    let container = NSPersistentContainer(name: "AddressBook")
 
     container.loadPersistentStores(completionHandler:
     {

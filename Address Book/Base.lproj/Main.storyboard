@@ -350,10 +350,13 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Add or Edit" id="rHZ-gN-TlP">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="JET-e1-3tA"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="JET-e1-3tA">
+                            <connections>
+                                <action selector="saveButtonPressed:" destination="omF-be-0V8" id="7Hh-oC-PDH"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="saveButtonPressed" destination="JET-e1-3tA" id="RAE-gV-M3P"/>
                         <outletCollection property="inputFields" destination="sEn-Km-bPB" collectionClass="NSMutableArray" id="U4i-qa-Qez"/>
                         <outletCollection property="inputFields" destination="OMv-9D-94u" collectionClass="NSMutableArray" id="wci-jP-bQu"/>
                         <outletCollection property="inputFields" destination="rf1-aD-kHo" collectionClass="NSMutableArray" id="lIt-hv-QMw"/>
@@ -411,11 +414,11 @@
                                 <rect key="frame" x="0.0" y="22" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WCw-Qf-5nD" id="37f-cq-3Eg">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Arm-wq-HPj">
-                                            <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
+                                            <rect key="frame" x="15" y="0.0" width="345" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>

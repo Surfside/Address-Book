@@ -1,5 +1,5 @@
 //
-//  Address_BookTests.swift
+//  AddressBookTests.swift
 //  Address BookTests
 //
 //  Created by Wayne Hill on 6/27/17.
@@ -7,9 +7,9 @@
 //
 
 import XCTest
-@testable import Address_Book
+@testable import AddressBook
 
-class Address_BookTests: XCTestCase {
+class AddressBookTests: XCTestCase {
     
     override func setUp() {
         super.setUp()

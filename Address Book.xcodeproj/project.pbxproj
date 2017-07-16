@@ -10,15 +10,17 @@
 		B00A9B461F0AB5F2009B35B0 /* InstructionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00A9B451F0AB5F2009B35B0 /* InstructionsViewController.swift */; };
 		B01C54EC1F0847D000743F85 /* AddEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01C54EB1F0847D000743F85 /* AddEditViewController.swift */; };
 		B01D504C1F02520A0024A15F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01D504B1F02520A0024A15F /* AppDelegate.swift */; };
-		B01D504F1F02520A0024A15F /* Address_Book.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B01D504D1F02520A0024A15F /* Address_Book.xcdatamodeld */; };
+		B01D504F1F02520A0024A15F /* AddressBook.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B01D504D1F02520A0024A15F /* AddressBook.xcdatamodeld */; };
 		B01D50511F02520A0024A15F /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01D50501F02520A0024A15F /* MasterViewController.swift */; };
 		B01D50531F02520A0024A15F /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01D50521F02520A0024A15F /* DetailViewController.swift */; };
 		B01D50561F02520A0024A15F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B01D50541F02520A0024A15F /* Main.storyboard */; };
 		B01D50581F02520A0024A15F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B01D50571F02520A0024A15F /* Assets.xcassets */; };
 		B01D505B1F02520A0024A15F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B01D50591F02520A0024A15F /* LaunchScreen.storyboard */; };
-		B01D50661F02520B0024A15F /* Address_BookTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01D50651F02520B0024A15F /* Address_BookTests.swift */; };
-		B01D50711F02520B0024A15F /* Address_BookUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01D50701F02520B0024A15F /* Address_BookUITests.swift */; };
-		B06535971F0BA5C900274012 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = B06535951F0BA5C900274012 /* Contact.swift */; };
+		B01D50661F02520B0024A15F /* AddressBookTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01D50651F02520B0024A15F /* AddressBookTests.swift */; };
+		B01D50711F02520B0024A15F /* AddressBookUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01D50701F02520B0024A15F /* AddressBookUITests.swift */; };
+		B07B68501F1C2E12009F1B5B /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07B684F1F1C2E12009F1B5B /* Contact.swift */; };
+		B07B68511F1C2E12009F1B5B /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07B684F1F1C2E12009F1B5B /* Contact.swift */; };
+		B07B68521F1C2E12009F1B5B /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07B684F1F1C2E12009F1B5B /* Contact.swift */; };
 		B0A4692F1F0DC02E00C06DBC /* AddEditTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A4692E1F0DC02E00C06DBC /* AddEditTableViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -44,7 +46,7 @@
 		B01C54EB1F0847D000743F85 /* AddEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddEditViewController.swift; sourceTree = "<group>"; };
 		B01D50481F02520A0024A15F /* Address Book.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Address Book.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B01D504B1F02520A0024A15F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B01D504E1F02520A0024A15F /* Address_Book.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Address_Book.xcdatamodel; sourceTree = "<group>"; };
+		B01D504E1F02520A0024A15F /* AddressBook.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AddressBook.xcdatamodel; sourceTree = "<group>"; };
 		B01D50501F02520A0024A15F /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		B01D50521F02520A0024A15F /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		B01D50551F02520A0024A15F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -52,12 +54,12 @@
 		B01D505A1F02520A0024A15F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B01D505C1F02520A0024A15F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B01D50611F02520B0024A15F /* Address BookTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Address BookTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		B01D50651F02520B0024A15F /* Address_BookTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address_BookTests.swift; sourceTree = "<group>"; };
+		B01D50651F02520B0024A15F /* AddressBookTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressBookTests.swift; sourceTree = "<group>"; };
 		B01D50671F02520B0024A15F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B01D506C1F02520B0024A15F /* Address BookUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Address BookUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		B01D50701F02520B0024A15F /* Address_BookUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address_BookUITests.swift; sourceTree = "<group>"; };
+		B01D50701F02520B0024A15F /* AddressBookUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressBookUITests.swift; sourceTree = "<group>"; };
 		B01D50721F02520B0024A15F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B06535951F0BA5C900274012 /* Contact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Contact.swift; path = ../Contact.swift; sourceTree = "<group>"; };
+		B07B684F1F1C2E12009F1B5B /* Contact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		B0A4692E1F0DC02E00C06DBC /* AddEditTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddEditTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -89,9 +91,9 @@
 		B01D503F1F02520A0024A15F = {
 			isa = PBXGroup;
 			children = (
-				B01D504A1F02520A0024A15F /* Address Book */,
-				B01D50641F02520B0024A15F /* Address BookTests */,
-				B01D506F1F02520B0024A15F /* Address BookUITests */,
+				B01D504A1F02520A0024A15F /* AddressBook */,
+				B01D50641F02520B0024A15F /* AddressBookTests */,
+				B01D506F1F02520B0024A15F /* AddressBookUITests */,
 				B01D50491F02520A0024A15F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -106,9 +108,10 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		B01D504A1F02520A0024A15F /* Address Book */ = {
+		B01D504A1F02520A0024A15F /* AddressBook */ = {
 			isa = PBXGroup;
 			children = (
+				B07B684F1F1C2E12009F1B5B /* Contact.swift */,
 				B01C54EB1F0847D000743F85 /* AddEditViewController.swift */,
 				B0A4692E1F0DC02E00C06DBC /* AddEditTableViewController.swift */,
 				B01D504B1F02520A0024A15F /* AppDelegate.swift */,
@@ -118,29 +121,31 @@
 				B01D50541F02520A0024A15F /* Main.storyboard */,
 				B01D50571F02520A0024A15F /* Assets.xcassets */,
 				B01D50591F02520A0024A15F /* LaunchScreen.storyboard */,
-				B01D504D1F02520A0024A15F /* Address_Book.xcdatamodeld */,
-				B06535951F0BA5C900274012 /* Contact.swift */,
+				B01D504D1F02520A0024A15F /* AddressBook.xcdatamodeld */,
 				B01D505C1F02520A0024A15F /* Info.plist */,
 				B06DF33A1F159E4F00B873A3 /* Supporting Files */,
 			);
+			name = AddressBook;
 			path = "Address Book";
 			sourceTree = "<group>";
 		};
-		B01D50641F02520B0024A15F /* Address BookTests */ = {
+		B01D50641F02520B0024A15F /* AddressBookTests */ = {
 			isa = PBXGroup;
 			children = (
-				B01D50651F02520B0024A15F /* Address_BookTests.swift */,
+				B01D50651F02520B0024A15F /* AddressBookTests.swift */,
 				B01D50671F02520B0024A15F /* Info.plist */,
 			);
+			name = AddressBookTests;
 			path = "Address BookTests";
 			sourceTree = "<group>";
 		};
-		B01D506F1F02520B0024A15F /* Address BookUITests */ = {
+		B01D506F1F02520B0024A15F /* AddressBookUITests */ = {
 			isa = PBXGroup;
 			children = (
-				B01D50701F02520B0024A15F /* Address_BookUITests.swift */,
+				B01D50701F02520B0024A15F /* AddressBookUITests.swift */,
 				B01D50721F02520B0024A15F /* Info.plist */,
 			);
+			name = AddressBookUITests;
 			path = "Address BookUITests";
 			sourceTree = "<group>";
 		};
@@ -290,11 +295,11 @@
 			files = (
 				B00A9B461F0AB5F2009B35B0 /* InstructionsViewController.swift in Sources */,
 				B01D504C1F02520A0024A15F /* AppDelegate.swift in Sources */,
+				B07B68501F1C2E12009F1B5B /* Contact.swift in Sources */,
 				B01C54EC1F0847D000743F85 /* AddEditViewController.swift in Sources */,
 				B0A4692F1F0DC02E00C06DBC /* AddEditTableViewController.swift in Sources */,
-				B01D504F1F02520A0024A15F /* Address_Book.xcdatamodeld in Sources */,
+				B01D504F1F02520A0024A15F /* AddressBook.xcdatamodeld in Sources */,
 				B01D50511F02520A0024A15F /* MasterViewController.swift in Sources */,
-				B06535971F0BA5C900274012 /* Contact.swift in Sources */,
 				B01D50531F02520A0024A15F /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -303,7 +308,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B01D50661F02520B0024A15F /* Address_BookTests.swift in Sources */,
+				B07B68511F1C2E12009F1B5B /* Contact.swift in Sources */,
+				B01D50661F02520B0024A15F /* AddressBookTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,7 +317,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B01D50711F02520B0024A15F /* Address_BookUITests.swift in Sources */,
+				B07B68521F1C2E12009F1B5B /* Contact.swift in Sources */,
+				B01D50711F02520B0024A15F /* AddressBookUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -567,13 +574,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		B01D504D1F02520A0024A15F /* Address_Book.xcdatamodeld */ = {
+		B01D504D1F02520A0024A15F /* AddressBook.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				B01D504E1F02520A0024A15F /* Address_Book.xcdatamodel */,
+				B01D504E1F02520A0024A15F /* AddressBook.xcdatamodel */,
 			);
-			currentVersion = B01D504E1F02520A0024A15F /* Address_Book.xcdatamodel */;
-			path = Address_Book.xcdatamodeld;
+			currentVersion = B01D504E1F02520A0024A15F /* AddressBook.xcdatamodel */;
+			path = AddressBook.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

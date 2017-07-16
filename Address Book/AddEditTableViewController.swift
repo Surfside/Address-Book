@@ -19,12 +19,42 @@ protocol AddEditTableViewControllerDelegate
 class AddEditTableViewController: UITableViewController, UITextFieldDelegate
 {
 
+  
+  // called to notify delegate to store changes in the model
+  @IBAction func saveButtonPressed(_ sender: Any) {
+    // ensure that first name and last name UITextFields are not empty
+    if (inputFields[0].text?.isEmpty)! || (inputFields[1].text?.isEmpty)!
+    {
+      // create UIAlertController to display error message
+      let alertController = UIAlertController(title: "Error",
+                                              message: "First name and last name are required",
+                                              preferredStyle: UIAlertControllerStyle.alert)
+      let okAction = UIAlertAction(title: "OK",
+                                   style: UIAlertActionStyle.cancel, handler: nil)
+      alertController.addAction(okAction)
+      present(alertController, animated: true,
+              completion: nil)
+    }
+    else
+    {
+      // update the Contract using NSManagedObject method setValue
+      for i in 0..<fieldNames.count
+      {
+        let value = (!((inputFields[i].text?.isEmpty)!) ?  inputFields[i].text : nil)
+        self.contact?.setValue(value, forKey: fieldNames[i])
+      }
+      
+      self.delegate?.didSaveContact(controller: self)
+    }
+
+  }
+
 @IBOutlet var inputFields: [UITextField]!
 
   // field name used in loops to get/set ontact attribute values via
   // NSManagedObjet methods valueForKey and setValue
   
-  private let fieldNames = ["firstname","lastname","email",
+  private let fieldNames = ["timestamp","firstname","lastname","email",
                             "phone","street","city","state","zip"]
   
   var delegate: AddEditTableViewControllerDelegate!
@@ -45,15 +75,18 @@ class AddEditTableViewController: UITableViewController, UITextFieldDelegate
 //              name: UIKeyboardWillHideNotification,
 //              object: nil)
 
-      NotificationCenter.default.addObserver(self,
-                         selector: Selector(("keyboardWillShow")),
-                         name: .UIKeyboardWillShow,
-                         object: nil)
+      NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(notification:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil);
+      NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(notification:)), name:NSNotification.Name.UIKeyboardWillHide, object: nil);
+
+//      NotificationCenter.default.addObserver(self,
+//                         selector: Selector("keyboardWillShow"),
+//                         name: .UIKeyboardWillShow,
+//                         object: nil)
       
-      NotificationCenter.default.addObserver(self,
-                         selector: Selector(("keyboardWillHide")),
-                         name: .UIKeyboardWillHide,
-                         object: nil)
+//      NotificationCenter.default.addObserver(self,
+//                         selector: Selector("keyboardWillHide"),
+//                         name: .UIKeyboardWillHide,
+//                         object: nil)
     }
 
     // called when AddEditTableViwControler about to disappear
@@ -109,8 +142,16 @@ class AddEditTableViewController: UITableViewController, UITextFieldDelegate
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
+
+  
+  // MARK: - Actions
+  
+//  @objc private func keyboardWillShow(notification: Notification) {
+//    print("keyboardWillShow called")
+//  }
     func keyboardWillShow(notification: NSNotification)
     {
+NSLog("AddEditTableViewController:KeyboardWillShow")
         let userInfo = notification.userInfo!
         let frame = userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue!
         let size = frame?.cgRectValue.size // keyboard's size
@@ -127,8 +168,13 @@ class AddEditTableViewController: UITableViewController, UITextFieldDelegate
           self.tableView.contentInset = insets
           self.tableView.scrollIndicatorInsets = insets
         }
+
     }
 
+  
+//  @objc private func keyboardWillHide(notification: Notification) {
+//    print("keyboardWillHide called")
+//  }
     // called when app receives UIKeyboardWillHideNotification
     func keyboardWillHide(notification: NSNotification)
     {
@@ -144,38 +190,6 @@ class AddEditTableViewController: UITableViewController, UITextFieldDelegate
         textField.resignFirstResponder()
         return true
     }
-
-    // called to notify delegate to store changes in the model
-    @IBAction func saveButtonPressed(sender: AnyObject)
-    {
-       // ensure that first name and last name UITextFields are not empty
-       if (inputFields[0].text?.isEmpty)! || (inputFields[1].text?.isEmpty)!
-       {
-           // create UIAlertController to display error message
-           let alertController = UIAlertController(title: "Error",
-                message: "First name and last name are required",
-                preferredStyle: UIAlertControllerStyle.alert)
-           let okAction = UIAlertAction(title: "OK", 
-                style: UIAlertActionStyle.cancel, handler: nil)
-           alertController.addAction(okAction)
-           present(alertController, animated: true,
-                 completion: nil)
-       } 
-       else
-       {
-          // update the Contract using NSManagedObject method setValue
-          for i in 0..<fieldNames.count
-          {
-              let value = (!((inputFields[i].text?.isEmpty)!) ?  inputFields[i].text : nil)
-              self.contact?.setValue(value, forKey: fieldNames[i])
-          }
-
-          self.delegate?.didSaveContact(controller: self)
-      }
-
-    }
-
-
 
     override func didReceiveMemoryWarning() 
     {

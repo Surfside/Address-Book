@@ -12,7 +12,6 @@ import CoreData
 class AddEditViewController: UITableViewController, UITextFieldDelegate, NSFetchedResultsControllerDelegate
 {
 
-  @IBOutlet weak var saveButtonPressed: UIBarButtonItem!
   @IBOutlet var inputFields: [UITextField]!
 
   
