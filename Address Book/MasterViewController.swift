@@ -299,7 +299,7 @@ if (error != nil)
   func configureCell(_ cell: UITableViewCell, withEvent event: Contact)
   {
     cell.textLabel!.text = event.timestamp!.description
-//    cell.textLabel!.text = event.lastName
+//    cell.textLabel!.text = event.lastname
     cell.detailTextLabel!.text = event.firstname
   }
 
@@ -324,8 +324,8 @@ if (error != nil)
 
     // Edited to sort by last name, then first name
     // both using case insensitive comparisons
-    let lastNameSortDescriptor = NSSortDescriptor(key: "lastName", ascending: false)
-    let firstNameSortDescriptor = NSSortDescriptor(key: "firstName", ascending: false)
+    let lastNameSortDescriptor = NSSortDescriptor(key: "lastname", ascending: false)
+    let firstNameSortDescriptor = NSSortDescriptor(key: "firstname", ascending: false)
     
     fetchRequest.sortDescriptors = [sortDescriptor, lastNameSortDescriptor, firstNameSortDescriptor]
       
