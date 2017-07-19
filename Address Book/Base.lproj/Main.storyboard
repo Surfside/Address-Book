@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--MasterNavigationController-->
+        <!--Navigation Controller To Master-->
         <scene sceneID="pY4-Hu-kfo">
             <objects>
-                <navigationController title="MasterNavigationController" id="RMx-3f-FxP" sceneMemberID="viewController">
+                <navigationController title="Navigation Controller To Master" id="RMx-3f-FxP" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="Pmd-2v-anx">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -26,10 +26,10 @@
             </objects>
             <point key="canvasLocation" x="-38" y="-630"/>
         </scene>
-        <!--DetailViewController-->
+        <!--Detail-->
         <scene sceneID="yUG-lL-AsK">
             <objects>
-                <viewController title="DetailViewController" id="JEX-9P-axG" customClass="DetailViewController" customModule="Address_Book" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Detail" id="JEX-9P-axG" customClass="DetailViewController" customModule="Address_Book" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="SYR-Wa-9uf"/>
                         <viewControllerLayoutGuide type="bottom" id="GAO-Cl-Wes"/>
@@ -175,7 +175,7 @@
                     <navigationItem key="navigationItem" title="Details" id="mOI-FS-AaM">
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="OWK-uq-jDv">
                             <connections>
-                                <segue destination="Zmc-1N-IV7" kind="show" id="wUZ-5A-nfm"/>
+                                <segue destination="Zmc-1N-IV7" kind="show" identifier="editContactDetails" id="wUZ-5A-nfm"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -193,10 +193,10 @@
             </objects>
             <point key="canvasLocation" x="1697" y="238"/>
         </scene>
-        <!--AddEditViewController-->
+        <!--Add Edit Table View Controller-->
         <scene sceneID="Ys3-hx-dmL">
             <objects>
-                <tableViewController title="AddEditViewController" id="omF-be-0V8" customClass="AddEditTableViewController" customModule="Address_Book" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Add Edit Table View Controller" id="omF-be-0V8" customClass="AddEditTableViewController" customModule="Address_Book" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="qWm-pk-5ax">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -387,10 +387,10 @@
             </objects>
             <point key="canvasLocation" x="2559" y="-612"/>
         </scene>
-        <!--AddEditViewNavigationController-->
+        <!--Navigation Controller To Add Edit Table-->
         <scene sceneID="0el-yE-UNL">
             <objects>
-                <navigationController title="AddEditViewNavigationController" id="Zmc-1N-IV7" sceneMemberID="viewController">
+                <navigationController title="Navigation Controller To Add Edit Table" id="Zmc-1N-IV7" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="wud-D0-cTw">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -403,10 +403,10 @@
             </objects>
             <point key="canvasLocation" x="1698" y="-612"/>
         </scene>
-        <!--SplitViewController-->
+        <!--Split View Controller-->
         <scene sceneID="Nki-YV-4Qg">
             <objects>
-                <splitViewController title="SplitViewController" id="H1p-Uh-vWS" sceneMemberID="viewController">
+                <splitViewController title="Split View Controller" id="H1p-Uh-vWS" sceneMemberID="viewController">
                     <toolbarItems/>
                     <connections>
                         <segue destination="d6d-ck-T3N" kind="relationship" relationship="detailViewController" id="35a-zF-ugN"/>
@@ -417,10 +417,10 @@
             </objects>
             <point key="canvasLocation" x="-889" y="-204"/>
         </scene>
-        <!--MasterViewController-->
+        <!--Master-->
         <scene sceneID="smW-Zh-WAh">
             <objects>
-                <tableViewController title="MasterViewController" clearsSelectionOnViewWillAppear="NO" id="7bK-jq-Zjz" customClass="MasterViewController" customModule="Address_Book" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Master" clearsSelectionOnViewWillAppear="NO" id="7bK-jq-Zjz" customClass="MasterViewController" customModule="Address_Book" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="r7i-6Z-zg0">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -469,10 +469,10 @@
             </objects>
             <point key="canvasLocation" x="850" y="-630"/>
         </scene>
-        <!--DetailNavigationController-->
+        <!--Navigation Controller To Detail-->
         <scene sceneID="r7l-gg-dq7">
             <objects>
-                <navigationController title="DetailNavigationController" id="vC3-pB-5Vb" sceneMemberID="viewController">
+                <navigationController title="Navigation Controller To Detail" id="vC3-pB-5Vb" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="DjV-YW-jjY">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -485,10 +485,10 @@
             </objects>
             <point key="canvasLocation" x="849" y="238"/>
         </scene>
-        <!--InstructionsNavigationController-->
+        <!--Navigation Controller to Instructions-->
         <scene sceneID="ik6-VJ-ca8">
             <objects>
-                <navigationController title="InstructionsNavigationController" id="d6d-ck-T3N" sceneMemberID="viewController">
+                <navigationController title="Navigation Controller to Instructions" id="d6d-ck-T3N" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="AR9-od-Lgl">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -501,10 +501,10 @@
             </objects>
             <point key="canvasLocation" x="-39" y="238"/>
         </scene>
-        <!--InstructionsViewController-->
+        <!--Instructions View Controller-->
         <scene sceneID="Nwc-IW-LtL">
             <objects>
-                <viewController title="InstructionsViewController" id="GhU-TJ-spF" customClass="InstructionsViewController" customModule="Address_Book" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Instructions View Controller" id="GhU-TJ-spF" customClass="InstructionsViewController" customModule="Address_Book" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="al9-SA-I9d"/>
                         <viewControllerLayoutGuide type="bottom" id="JMk-z9-EPm"/>
@@ -534,7 +534,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="wUZ-5A-nfm"/>
+        <segue reference="Bjs-91-zEQ"/>
         <segue reference="t5O-LA-s6C"/>
     </inferredMetricsTieBreakers>
 </document>

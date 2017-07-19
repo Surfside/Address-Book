@@ -22,7 +22,6 @@ class MasterViewController: UITableViewController,NSFetchedResultsControllerDele
   {
      super.awakeFromNib()
 
-//if UIDevice.currentDevice().userInterfaceIdiom == .pad
     if UIDevice.current.userInterfaceIdiom == .pad
     {
        self.clearsSelectionOnViewWillAppear = false
@@ -43,29 +42,20 @@ class MasterViewController: UITableViewController,NSFetchedResultsControllerDele
   // select first contact or display InstructionsViewController
   func displayFirstContactOrInstructions()
   {
-
     if let splitViewController = self.splitViewController
     {
-
       if !splitViewController.isCollapsed
       { // select and display first contact if there is one
-
         if self.tableView.numberOfRows(inSection: 0) > 0 
         {
-//       let indexPath = NSIndexPath(forRow: 0, inSection: 0)
           let indexPath = NSIndexPath(row: 0, section: 0)
-//       self.tableView.selectRowAtIndexPath(indexPath,
-//            animated: false,
-//            scrollPosition: UITableViewScrollPosition.Top)
           self.tableView.selectRow(at: indexPath as IndexPath, 
                animated: false, 
                scrollPosition: UITableViewScrollPosition.top)
-//       self.performSegueWithIdentifier( "showContactDetail", sender: self)
           self.performSegue(withIdentifier: "showContactDetail", sender: self)
         }
         else
         { // display InstructionsViewController
-//       self.performSegueWithIdentifier( "showInstructions", sender: self)
           self.performSegue(withIdentifier: "showInstructions", sender: self)
         }
       }
@@ -86,63 +76,27 @@ class MasterViewController: UITableViewController,NSFetchedResultsControllerDele
     if let split = self.splitViewController
     {
       let controllers = split.viewControllers
-//   self.detailViewController =
-//          controllers[controllers.count-1].topViewController as?
-//          DetailViewController
       self.detailViewController = 
             (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
     }
   }
 
-  override func didReceiveMemoryWarning() 
-  {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
-  }
-
-
-  func insertNewObject(_ sender: Any) 
-  {
-    let context = self.fetchedResultsController.managedObjectContext
-    let newEvent = Contact(context: context)
-         
-    // If appropriate, configure the new managed object.
-    newEvent.timestamp = NSDate()
-
-    // Save the context.
-    do 
-      {
-        try context.save()
-      }
-    catch 
-    {
-      // Replace this implementation with code to handle the error appropriately.
-      // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-      let nserror = error as NSError
-      fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-    }
-
-  }
-
   // MARK: - Segues
-//override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+
    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
    {
       if segue.identifier == "showContactDetail"
       {
-//      if let indexPath = self.tableView.indexPathForSelectedRow()
          if let indexPath = self.tableView.indexPathForSelectedRow
          {
             // get Contact for selected row
-//         let selectedContact = self.fetchedResultsController.objectAtIndexpath( indexPath) as Contact
             let selectedContact = self.fetchedResultsController.object(at: indexPath) as Contact
 
             // Configure  DetailViewController
-//         let controller = (segue.destinationViewController as UINavigationController).topViewController as DetailViewController
             let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
             controller.delegate = self
             controller.detailItem = selectedContact
-            controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem     // displayModeButtonItem()
+            controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
             controller.navigationItem.leftItemsSupplementBackButton = true
          }
       }
@@ -150,15 +104,10 @@ class MasterViewController: UITableViewController,NSFetchedResultsControllerDele
       {
          // create a contact object that is not yet managed
          let entity = self.fetchedResultsController.fetchRequest.entity!
-//      let newContact = Contact(entity: entity, 
-//           insertIntoManagedObjectContext: nil)
          let newContact = Contact(entity: entity, 
               insertInto: nil)
 
          // configure the AddEditTableViewController
-//      let controller = (segue.destinationViewController as
-//           UINavigationController).topViewController as
-//           AddEditTableViewController
          let controller = (segue.destination as! 
                UINavigationController).topViewController as!
                AddEditTableViewController
@@ -174,7 +123,7 @@ class MasterViewController: UITableViewController,NSFetchedResultsControllerDele
    // called by AddEditViewController after a contact is added
    func didSaveContact(controller: AddEditTableViewController)
    {
-/*
+
     // get NSManagedObjectContext and insert new contact into it
     let context = self.fetchedResultsController.managedObjectContext
     context.insert(controller.contact!)
@@ -188,18 +137,15 @@ if (error != nil)
       displayError(error: error, title: "Error Saving Data",
                    message: "Unable to save contact")
     } else { // if no error, display new contact details
-//      let sectionInfo =
- //       self.fetchedResultsController.sections![0] as NSFetchedResultsSectionInfo
-//  if let row = find(sectionInfo.objects as [NSManagedObject], controller.contact!)
-
-//     {
-//        let path = NSIndexPath(row: row, section: 0)
-//        tableView.selectRow(at: path as IndexPath, animated: true, scrollPosition: .middle)
+      let sectionInfo =
+      self.fetchedResultsController.sections![0] as NSFetchedResultsSectionInfo
+  if let row = find(sectionInfo.objects as [NSManagedObject], controller.contact!) {
+        let path = NSIndexPath(row: row, section: 0)
+        tableView.selectRow(at: path as IndexPath, animated: true, scrollPosition: .middle)
         performSegue(withIdentifier: "showContactDetail",
                                    sender: nil)
       }
     }
-*/
    }
 
    // called by DetailViewController after a contact is edited
@@ -392,6 +338,38 @@ if (error != nil)
       self.tableView.endUpdates()
   }
 
+}
+/*
+  override func didReceiveMemoryWarning()
+  {
+    super.didReceiveMemoryWarning()
+    // Dispose of any resources that can be recreated.
+  }
+  
+  
+  func insertNewObject(_ sender: Any)
+  {
+    let context = self.fetchedResultsController.managedObjectContext
+    let newEvent = Contact(context: context)
+    
+    // If appropriate, configure the new managed object.
+    newEvent.timestamp = NSDate()
+    
+    // Save the context.
+    do
+    {
+      try context.save()
+    }
+    catch
+    {
+      // Replace this implementation with code to handle the error appropriately.
+      // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+      let nserror = error as NSError
+      fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+    }
+    
+  }
+
   /*
    // Implementing the above methods to update the table view in response to individual changes may have performance implications if a large number of changes are made simultaneously. If this proves to be an issue, you can instead just implement controllerDidChangeContent: which notifies the delegate that all section and object changes have been processed.
    
@@ -402,4 +380,4 @@ if (error != nil)
    */
 
 }
-
+*/
