@@ -22,9 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
     let splitViewController = self.window!.rootViewController as! UISplitViewController
 
 let navigationController = splitViewController.viewControllers[splitViewController.viewControllers.count-1] as! UINavigationController
-
 navigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
-
     splitViewController.delegate = self
 
     let masterNavigationController = splitViewController.viewControllers[0] as! UINavigationController
@@ -95,7 +93,7 @@ NSLog("secondaryAsNavConroller")
 
   // MARK: - Core Data stack
 
-  lazy var persistentContainer: NSPersistentContainer = 
+  lazy var persistentContainer: NSPersistentContainer =
   {
 NSLog("persistentContainer")
 /*
@@ -106,7 +104,7 @@ NSLog("persistentContainer")
   that could cause the creation of the store to fail.
 */
     let container = NSPersistentContainer(name: "AddressBook")
-
+NSLog("container is set to AddressBook")
     container.loadPersistentStores(completionHandler:
     {
       (storeDescription, error) in
@@ -123,8 +121,9 @@ NSLog("persistentContainer")
                * The store could not be migrated to the current model version.
                Check the error message to determine what the actual problem was.
             */
-            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            fatalError("Unresolved error in Persistent Container: \(nserror), \(nserror.userInfo)")
           }
+//abort() // added by wayne
       })
       return container
   }()
@@ -137,18 +136,23 @@ NSLog("saveContext")
     let context = persistentContainer.viewContext
     if context.hasChanges
       {
+NSLog("context.hasChanges")
         do
           {
+NSLog("try context.save")
             try context.save()
           }
         catch
           {
+NSLog("catch")
             // Replace this implementation with code to handle the error appropriately.
             // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
             let nserror = error as NSError
             fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
           }
+NSLog("end context.hasChanges")
       }
+NSLog("end saveContext")
   }
 
 }
