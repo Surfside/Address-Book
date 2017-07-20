@@ -21,7 +21,7 @@ class MasterViewController: UITableViewController,NSFetchedResultsControllerDele
   override func awakeFromNib() 
   {
      super.awakeFromNib()
-
+print("Master.awakeFromNib")
     if UIDevice.current.userInterfaceIdiom == .pad
     {
        self.clearsSelectionOnViewWillAppear = false
@@ -35,6 +35,7 @@ class MasterViewController: UITableViewController,NSFetchedResultsControllerDele
   {
     super.viewWillAppear(animated)
     //self.clearsSelectionOnViewWillAppear = self.splitViewController!.isCollapsed
+print("Master.viewWillAppear")
     displayFirstContactOrInstructions()
   }
 
@@ -42,12 +43,16 @@ class MasterViewController: UITableViewController,NSFetchedResultsControllerDele
   // select first contact or display InstructionsViewController
   func displayFirstContactOrInstructions()
   {
+print("Master.displayFirstContactOrInstructions")
     if let splitViewController = self.splitViewController
     {
+print("Master.splitViewController")
       if !splitViewController.isCollapsed
       { // select and display first contact if there is one
+print("Master.splitViewController.isCollapsed")
         if self.tableView.numberOfRows(inSection: 0) > 0 
         {
+print("Master.tableView.numberOfRows")
           let indexPath = NSIndexPath(row: 0, section: 0)
           self.tableView.selectRow(at: indexPath as IndexPath, 
                animated: false, 
@@ -56,6 +61,7 @@ class MasterViewController: UITableViewController,NSFetchedResultsControllerDele
         }
         else
         { // display InstructionsViewController
+print("Master.performSegue.showInstructions")
           self.performSegue(withIdentifier: "showInstructions", sender: self)
         }
       }
@@ -73,8 +79,10 @@ class MasterViewController: UITableViewController,NSFetchedResultsControllerDele
      let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(insertNewObject(_:)))
      self.navigationItem.rightBarButtonItem = addButton
      */
+print("Master.viewDidLoad")
     if let split = self.splitViewController
     {
+print("Master.splitViewController2")
       let controllers = split.viewControllers
       self.detailViewController = 
             (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
@@ -85,10 +93,13 @@ class MasterViewController: UITableViewController,NSFetchedResultsControllerDele
 
    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
    {
+print("Master.prepareForSegue")
       if segue.identifier == "showContactDetail"
       {
+print("Master.prepareForSegue.showContactDetail")
          if let indexPath = self.tableView.indexPathForSelectedRow
          {
+print("Master.indexPath")
             // get Contact for selected row
             let selectedContact = self.fetchedResultsController.object(at: indexPath) as Contact
 
@@ -102,6 +113,7 @@ class MasterViewController: UITableViewController,NSFetchedResultsControllerDele
       }
       else if segue.identifier == "showAddContact"
       {
+print("Master.prepareForSegue.showAddContact")
          // create a contact object that is not yet managed
          let entity = self.fetchedResultsController.fetchRequest.entity!
          let newContact = Contact(entity: entity, 
@@ -123,25 +135,30 @@ class MasterViewController: UITableViewController,NSFetchedResultsControllerDele
    // called by AddEditViewController after a contact is added
    func didSaveContact(controller: AddEditTableViewController)
    {
-
+print("Master.didSaveContact")
     // get NSManagedObjectContext and insert new contact into it
     let context = self.fetchedResultsController.managedObjectContext
     context.insert(controller.contact!)
-    self.navigationController?.popToRootViewController(animated: true)
-    
+//    self.navigationController?.popToRootViewController(animated: true)
+self.navigationController!.popViewController(animated: true)
     // save the context to store the new contact
-    var error: NSError? = nil
+    let nserror: NSError? = nil
 //    if !context.save(&error) { // check for error
-if (error != nil) 
+if (nserror == nil)
     {
-      displayError(error: error, title: "Error Saving Data",
+      displayError(error: nserror, title: "Error Saving Data in Master",
                    message: "Unable to save contact")
     } else { // if no error, display new contact details
+print("Master.newContactSaved")
       let sectionInfo =
       self.fetchedResultsController.sections![0] as NSFetchedResultsSectionInfo
-  if let row = find(sectionInfo.objects as [NSManagedObject], controller.contact!) {
+//  if let row = FIND(sectionInfo.objects as [NSManagedObject], controller.contact!) {
+let row = sectionInfo.numberOfObjects
+if row != 0 {
+print("Master.row = 0")
         let path = NSIndexPath(row: row, section: 0)
         tableView.selectRow(at: path as IndexPath, animated: true, scrollPosition: .middle)
+print("Master.performSegue.showContactDetail")
         performSegue(withIdentifier: "showContactDetail",
                                    sender: nil)
       }
@@ -151,6 +168,7 @@ if (error != nil)
    // called by DetailViewController after a contact is edited
    func didEditContact(controller: DetailViewController)
    {
+print("Master.didEditContact")
       let context = self.fetchedResultsController.managedObjectContext
 
 //      var error: NSError? = nil
@@ -158,10 +176,12 @@ if (error != nil)
 //  {
       do
       {
+print("Master.do try context.save")
          try context.save()
       }
       catch
       {
+print("Master.do catch")
         // Replace this implementation with code to handle the error appropriately.
         // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
         let nserror = error as NSError
@@ -176,6 +196,7 @@ if (error != nil)
    // indicate that an error occurred hen saving database changes
    func displayError(error: NSError?, title: String, message: String)
    {
+print("Master.displayError")
        let alertController = UIAlertController(title: title,
                  message: String(format:  "%@\nError:\(error)\n", message),
                  preferredStyle: UIAlertControllerStyle.alert)
@@ -191,12 +212,14 @@ if (error != nil)
 
   override func numberOfSections(in tableView: UITableView) -> Int
   {
+print("Master.numberOfSections")
     return self.fetchedResultsController.sections?.count ?? 0
   }
 
   // callback that returns  number of rows in the UITbleView
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
   {
+print("Master.tableView.numberOfRowsInSection")
      let sectionInfo = self.fetchedResultsController.sections![section] as NSFetchedResultsSectionInfo
      return sectionInfo.numberOfObjects
   }
@@ -204,6 +227,7 @@ if (error != nil)
   // callback that returns a configured cell for the given NSIndexPath
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath:  IndexPath) -> UITableViewCell
   {
+print("Master.tableView.cellForRowAt")
     let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
     let event = self.fetchedResultsController.object(at: indexPath)
     self.configureCell(cell, withEvent: event)
@@ -213,6 +237,7 @@ if (error != nil)
   // callback that returns whether a cell is editable
   override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool 
   {
+print("Master.tableView.canEditRowAt")
     // Return false if you do not want the specified item to be editable.
     return true
   }
@@ -220,18 +245,21 @@ if (error != nil)
   // callback that deletes a row from the UITableView
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) 
   {
-
+print("Master.tableView.commitEditingStyle")
     if editingStyle == .delete 
     {
+print("Master.editingStyle")
       let context = self.fetchedResultsController.managedObjectContext
       context.delete(self.fetchedResultsController.object(at: indexPath))
             
       do
       {
+print("Master.do2.context.save")
         try context.save()
       }
       catch
       {
+print("Master.do2 catch")
          // Replace this implementation with code to handle the error appropriately.
          // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
          let nserror = error as NSError
@@ -244,6 +272,7 @@ if (error != nil)
 
   func configureCell(_ cell: UITableViewCell, withEvent event: Contact)
   {
+print("Master.configureCell")
     cell.textLabel!.text = event.timestamp!.description
 //    cell.textLabel!.text = event.lastname
     cell.detailTextLabel!.text = event.firstname
@@ -254,9 +283,10 @@ if (error != nil)
 
   var fetchedResultsController: NSFetchedResultsController<Contact>
   {
-
+print("Master.fetchedResultsController")
     if _fetchedResultsController != nil
     {
+print("Master.fetchedResultscontroller.nil")
       return _fetchedResultsController!
     }
       
@@ -283,10 +313,12 @@ if (error != nil)
       
     do 
     {
+print("Master.do3 try.fetchedResultsController")
       try _fetchedResultsController!.performFetch()
     } 
     catch 
     {
+print("Master.do3 catch.fetchedResultsController")
       // Replace this implementation with code to handle the error appropriately.
       // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
       let nserror = error as NSError
@@ -301,12 +333,14 @@ if (error != nil)
 
   func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) 
   {
+print("Master.controllerWillChangeContect")
     self.tableView.beginUpdates()
   }
 
 
   func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) 
   {
+print("Master.controller.didChange setionInfo")
       switch type 
       {
         case .insert:
@@ -320,6 +354,7 @@ if (error != nil)
 
   func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) 
   {
+print("Master.controller.didChange an Object")
       switch type 
       {
         case .insert:
@@ -335,6 +370,7 @@ if (error != nil)
 
   func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) 
   {
+print("Master.controllerDidChangeContent.endUpdates")
       self.tableView.endUpdates()
   }
 

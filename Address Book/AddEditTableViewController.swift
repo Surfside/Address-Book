@@ -31,7 +31,7 @@ class AddEditTableViewController: UITableViewController, UITextFieldDelegate
     override func viewWillAppear(_ animated: Bool)
     {
       super.viewWillAppear(animated)
-      
+print("AddEditTableViewController.viewWillAppear")
       // listen for keyboard show/hide notifications
       NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(notification:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil);
       NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(notification:)), name:NSNotification.Name.UIKeyboardWillHide, object: nil);
@@ -42,7 +42,7 @@ class AddEditTableViewController: UITableViewController, UITextFieldDelegate
     override func viewWillDisappear(_ animated: Bool)
     {
       super.viewWillDisappear(animated)
-
+print("AddEditTableViewController.viewWillDisappear")
       // unregister for keyboard show/hide notifications
       NotificationCenter.default.removeObserver(self, 
                   name: NSNotification.Name.UIKeyboardWillShow, 
@@ -55,16 +55,18 @@ class AddEditTableViewController: UITableViewController, UITextFieldDelegate
     override func viewDidLoad() 
     {
         super.viewDidLoad()
-
+print("AddEditTableViewController.viewDidLoad")
         // set AddEditTableViewController as the UITetFieldDelegate
         for textField in inputFields
         {
+print("AddEditTableViewController.textField.delegate")
             textField.delegate = self
         }
 
         // if editing a Contact, display its data
         if editingContact
         {
+print("AddEditTableViewController.editingContact")
             for i in 0..<fieldNames.count
             {
                 // query Contact object with valueForKey
@@ -72,8 +74,8 @@ class AddEditTableViewController: UITableViewController, UITextFieldDelegate
                 {
                     inputFields[i].text = (value as AnyObject).description
                 }
-
             }
+print("AddEditTableViewController.editingContact.end")
         }
 
         // Uncomment the following line to preserve selection between presentations
@@ -92,7 +94,7 @@ class AddEditTableViewController: UITableViewController, UITextFieldDelegate
 //  }
     func keyboardWillShow(notification: NSNotification)
     {
-NSLog("AddEditTableViewController:KeyboardWillShow")
+print("AddEditTableViewController:KeyboardWillShow")
         let userInfo = notification.userInfo!
         let frame = userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue!
         let size = frame?.cgRectValue.size // keyboard's size
@@ -113,6 +115,7 @@ NSLog("AddEditTableViewController:KeyboardWillShow")
     // called when app receives UIKeyboardWillHideNotification
     func keyboardWillHide(notification: NSNotification)
     {
+print("AddEditTableViewController.keyboardWillHide")
         var insets = self.tableView.contentInset
         insets.bottom = 0
         self.tableView.contentInset = insets
@@ -122,14 +125,16 @@ NSLog("AddEditTableViewController:KeyboardWillShow")
     // hide keyboard if user touches Return key
     func textFieldShouldReturn(_ textField: UITextField) -> Bool
     {
+print("AddEditTableViewController.textFieldShouldReturn")
         textField.resignFirstResponder()
         return true
     }
 
   @IBAction func saveButtonPressed(_ sender: Any) {
     // ensure that first name and last name UITextFields are not empty
-    if (inputFields[0].text?.isEmpty)! || (inputFields[1].text?.isEmpty)!
+    if (inputFields[1].text?.isEmpty)! || (inputFields[2].text?.isEmpty)!
     {
+print("AddEditTableViewController.inputFields.isEmpty")
       // create UIAlertController to display error message
       let alertController = UIAlertController(title: "Error",
                                               message: "First name and last name are required",
@@ -142,6 +147,7 @@ NSLog("AddEditTableViewController:KeyboardWillShow")
     }
     else
     {
+print("AddEditTableViewController.inputFields.NotEmpty")
       // update the Contract using NSManagedObject method setValue
       for i in 0..<fieldNames.count
       {

@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool 
   {
+print("AppDelegate.application.didFinishLaunchingWithOptions")
     // Override point for customization after application launch.
     let splitViewController = self.window!.rootViewController as! UISplitViewController
 
@@ -28,13 +29,13 @@ navigationController.topViewController!.navigationItem.leftBarButtonItem = split
     let masterNavigationController = splitViewController.viewControllers[0] as! UINavigationController
     let controller = masterNavigationController.topViewController as! MasterViewController
     controller.managedObjectContext = self.persistentContainer.viewContext
-NSLog("application:didFinishLaunching")
+print("AppDelegate.application:didFinishLaunching")
     return true
   }
 
   func applicationWillResignActive(_ application: UIApplication) 
   {
-NSLog("applicationWillResignActive")
+print("AppDelegate.applicationWillResignActive")
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
 
@@ -42,26 +43,26 @@ NSLog("applicationWillResignActive")
 
   func applicationDidEnterBackground(_ application: UIApplication)
   {
-NSLog("applicationDidEnterBackground")
+print("AppDelegate.applicationDidEnterBackground")
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
   }
 
   func applicationWillEnterForeground(_ application: UIApplication) 
   {
-NSLog("applicationWillEnterForegroun")
+print("AppDelegate.applicationWillEnterForeground")
     // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
   }
 
   func applicationDidBecomeActive(_ application: UIApplication) 
   {
-NSLog("applicationDidBecomeActive")
+print("AppDelegate.applicationDidBecomeActive")
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
   }
 
   func applicationWillTerminate(_ application: UIApplication) 
   {
-NSLog("applicationWillTerminate")
+print("AppDelegate.applicationWillTerminate")
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     // Saves changes in the application's managed object context before the application terminates.
     self.saveContext()
@@ -74,17 +75,18 @@ NSLog("applicationWillTerminate")
           onto primaryViewController:UIViewController)
                -> Bool
   {
-NSLog("splitViewController")
+print("AppDelegate.splitViewController.collapseSecondary.onto PrimaryVC")
       if let secondaryAsNavController = secondaryViewController as? UINavigationController {
          if let topAsDetailController = secondaryAsNavController.topViewController as? DetailViewController {  // else { return false }
             if topAsDetailController.detailItem == nil
             {
+print("AppDelegate.topAsDetailController == nil")
                // Return true to indicate that we have handled the collapse by doing nothing; the secondary controller will be discarded.
                return true
             }
          } else if (secondaryAsNavController.topViewController as? InstructionsViewController) != nil
               {
-NSLog("secondaryAsNavConroller")
+print("AppDelegate.secondaryAsNavConroller is InstructionsViewController")
                  return true
               }
       }
@@ -95,7 +97,7 @@ NSLog("secondaryAsNavConroller")
 
   lazy var persistentContainer: NSPersistentContainer =
   {
-NSLog("persistentContainer")
+print("AppDelegate.persistentContainer.created")
 /*
   The persistent container for the application. This
   implementation creates and returns a container, having
@@ -104,12 +106,13 @@ NSLog("persistentContainer")
   that could cause the creation of the store to fail.
 */
     let container = NSPersistentContainer(name: "AddressBook")
-NSLog("container is set to AddressBook")
+print("AppDelegate.container is set to AddressBook")
     container.loadPersistentStores(completionHandler:
     {
       (storeDescription, error) in
           if let nserror = error as NSError?
           {
+print("AppDelegate.error")
             // Replace this implementation with code to handle the error appropriately.
             // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                
@@ -125,6 +128,7 @@ NSLog("container is set to AddressBook")
           }
 //abort() // added by wayne
       })
+print("AppDelegate.return container")
       return container
   }()
 
@@ -132,27 +136,27 @@ NSLog("container is set to AddressBook")
 
   func saveContext () 
   {
-NSLog("saveContext")
+print("AppDelegate.saveContext")
     let context = persistentContainer.viewContext
     if context.hasChanges
       {
-NSLog("context.hasChanges")
+print("AppDelegate.context.hasChanges")
         do
           {
-NSLog("try context.save")
+print("AppDelegate.try context.save")
             try context.save()
           }
         catch
           {
-NSLog("catch")
+print("AppDelegate.catch")
             // Replace this implementation with code to handle the error appropriately.
             // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
             let nserror = error as NSError
             fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
           }
-NSLog("end context.hasChanges")
+print("AppDelegate.end context.hasChanges")
       }
-NSLog("end saveContext")
+print("AppDelegate.end saveContext")
   }
 
 }
