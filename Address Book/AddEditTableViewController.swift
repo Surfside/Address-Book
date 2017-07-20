@@ -1,5 +1,5 @@
 //
-//  AddEditTableViewControllerDelegate.swift
+//  AddEditTableViewController.swift
 //  Address Book
 //
 //  Created by Wayne Hill on 7/5/17.
@@ -69,10 +69,12 @@ print("AddEditTableViewController.textField.delegate")
 print("AddEditTableViewController.editingContact")
             for i in 0..<fieldNames.count
             {
+print("AddEditTableViewController.counting")
                 // query Contact object with valueForKey
                 if let value: AnyObject =  contact?.value(forKey: fieldNames[i]) as AnyObject?
                 {
                     inputFields[i].text = (value as AnyObject).description
+print("(inputFields[i].text)")
                 }
             }
 print("AddEditTableViewController.editingContact.end")
@@ -151,10 +153,11 @@ print("AddEditTableViewController.inputFields.NotEmpty")
       // update the Contract using NSManagedObject method setValue
       for i in 0..<fieldNames.count
       {
+print("AddEditTableViewController.inputFields.array")
         let value = (!((inputFields[i].text?.isEmpty)!) ?  inputFields[i].text : nil)
         self.contact?.setValue(value, forKey: fieldNames[i])
       }
-      
+print("AddEditTableViewController.inputFields.ended")
       self.delegate?.didSaveContact(controller: self)
     }
   }

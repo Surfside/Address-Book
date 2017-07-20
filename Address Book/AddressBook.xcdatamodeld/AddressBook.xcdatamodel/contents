@@ -8,7 +8,7 @@
         <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="state" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="street" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="timestamp" optional="YES" attributeType="Date">
+        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO">
             <userInfo/>
         </attribute>
         <attribute name="zip" optional="YES" attributeType="String" syncable="YES"/>

@@ -273,9 +273,11 @@ print("Master.do2 catch")
   func configureCell(_ cell: UITableViewCell, withEvent event: Contact)
   {
 print("Master.configureCell")
-    cell.textLabel!.text = event.timestamp!.description
+cell.textLabel?.text = "Last Name"
+//    cell.textLabel!.text = event.timestamp!.description
 //    cell.textLabel!.text = event.lastname
-    cell.detailTextLabel!.text = event.firstname
+cell.detailTextLabel?.text = "Detail Name"
+//    cell.detailTextLabel!.text = event.firstname
   }
 
 
