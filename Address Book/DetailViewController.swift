@@ -18,6 +18,8 @@ class DetailViewController: UIViewController, AddEditTableViewControllerDelegate
 {
 
   @IBOutlet weak var detailDescriptionLabel: UILabel!
+  @IBOutlet weak var firstTextField: UITextField!
+  @IBOutlet weak var lastTextField: UITextField!
   @IBOutlet weak var emailTextField: UITextField!
   @IBOutlet weak var phoneTextField: UITextField!
   @IBOutlet weak var streetTextField: UITextField!
@@ -84,6 +86,8 @@ label.text = detail.firstname?.description
       self.navigationItem.title = detailItem.firstname! + " " + detailItem.lastname!
 
       // display other attributes if they have values
+      firstTextField.text = detailItem?.firstname
+      lastTextField.text = detailItem?.lastname
       emailTextField.text = detailItem?.email
       phoneTextField.text = detailItem?.phone
       streetTextField.text = detailItem?.street

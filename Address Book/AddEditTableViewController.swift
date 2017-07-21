@@ -21,7 +21,7 @@ class AddEditTableViewController: UITableViewController, UITextFieldDelegate
 
   // field name used in loops to get/set ontact attribute values via
   // NSManagedObjet methods valueForKey and setValue
-  private let fieldNames = ["timestamp","firstname","lastname","email",
+  private let fieldNames = ["firstname","lastname","email",
                             "phone","street","city","state","zip"]
   
   var delegate: AddEditTableViewControllerDelegate!
@@ -133,8 +133,9 @@ print("AddEditTableViewController.textFieldShouldReturn")
     }
 
   @IBAction func saveButtonPressed(_ sender: Any) {
+print("AddEditTableViewController.saveButtonPressed")
     // ensure that first name and last name UITextFields are not empty
-    if (inputFields[1].text?.isEmpty)! || (inputFields[2].text?.isEmpty)!
+    if (inputFields[0].text?.isEmpty)! || (inputFields[1].text?.isEmpty)!
     {
 print("AddEditTableViewController.inputFields.isEmpty")
       // create UIAlertController to display error message
