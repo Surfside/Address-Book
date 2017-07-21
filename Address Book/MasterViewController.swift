@@ -144,25 +144,26 @@ self.navigationController!.popViewController(animated: true)
     // save the context to store the new contact
     let nserror: NSError? = nil
 //    if !context.save(&error) { // check for error
-if (nserror == nil)
+if (nserror != nil)
     {
-      displayError(error: nserror, title: "Error Saving Data in Master",
+      displayError(error: nserror, title: "Error Saving Data in Master at 1\n",
                    message: "Unable to save contact")
     } else { // if no error, display new contact details
 print("Master.newContactSaved")
       let sectionInfo =
       self.fetchedResultsController.sections![0] as NSFetchedResultsSectionInfo
 //  if let row = FIND(sectionInfo.objects as [NSManagedObject], controller.contact!) {
-let row = sectionInfo.numberOfObjects
-if row != 0 {
+let row = sectionInfo.numberOfObjects-1 // minus 1 ????
+if !(row < 0)
+{
 print("Master.row = 0")
         let path = NSIndexPath(row: row, section: 0)
         tableView.selectRow(at: path as IndexPath, animated: true, scrollPosition: .middle)
+}
 print("Master.performSegue.showContactDetail")
         performSegue(withIdentifier: "showContactDetail",
                                    sender: nil)
       }
-    }
    }
 
    // called by DetailViewController after a contact is edited
@@ -185,7 +186,7 @@ print("Master.do catch")
         // Replace this implementation with code to handle the error appropriately.
         // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
         let nserror = error as NSError
-        displayError(error: nserror, title: "Error Saving Data",
+        displayError(error: nserror, title: "Error Saving Data in Master at 2\n",
                      message: "Unable to save contact")
         fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
       }
@@ -272,12 +273,22 @@ print("Master.do2 catch")
 
   func configureCell(_ cell: UITableViewCell, withEvent event: Contact)
   {
-print("Master.configureCell")
-cell.textLabel?.text = "Last Name"
+print("Master.configureCell.withEvent")
+    if (managedObjectContext != nil) // ??????
+    {
+print("Master.configureCell.gotData")
+       cell.textLabel?.text = event.firstname?.description
+       cell.detailTextLabel?.text = event.lastname?.description
+    }
+    else
+    {
+print("Master.configureCell.gotNoData")
+       cell.textLabel?.text = "Last Name"
 //    cell.textLabel!.text = event.timestamp!.description
 //    cell.textLabel!.text = event.lastname
-cell.detailTextLabel?.text = "Detail Name"
+       cell.detailTextLabel?.text = "Detail Name"
 //    cell.detailTextLabel!.text = event.firstname
+     }
   }
 
 
@@ -342,7 +353,7 @@ print("Master.controllerWillChangeContect")
 
   func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) 
   {
-print("Master.controller.didChange setionInfo")
+print("Master.controller.didChange sectionInfo")
       switch type 
       {
         case .insert:
@@ -356,7 +367,7 @@ print("Master.controller.didChange setionInfo")
 
   func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) 
   {
-print("Master.controller.didChange an Object")
+print("Master.controller.didChange anObject")
       switch type 
       {
         case .insert:

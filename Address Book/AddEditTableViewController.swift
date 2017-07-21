@@ -59,7 +59,7 @@ print("AddEditTableViewController.viewDidLoad")
         // set AddEditTableViewController as the UITetFieldDelegate
         for textField in inputFields
         {
-print("AddEditTableViewController.textField.delegate")
+//print("AddEditTableViewController.textField.delegate")
             textField.delegate = self
         }
 
@@ -154,9 +154,9 @@ print("AddEditTableViewController.inputFields.NotEmpty")
       // update the Contract using NSManagedObject method setValue
       for i in 0..<fieldNames.count
       {
-print("AddEditTableViewController.inputFields.array")
         let value = (!((inputFields[i].text?.isEmpty)!) ?  inputFields[i].text : nil)
         self.contact?.setValue(value, forKey: fieldNames[i])
+print("\n\(fieldNames[i]): \(value)")
       }
 print("AddEditTableViewController.inputFields.ended")
       self.delegate?.didSaveContact(controller: self)
