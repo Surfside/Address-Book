@@ -75,14 +75,14 @@ label.text = detail.firstname?.description
 
   func didSaveContact(controller: AddEditTableViewController)
   {
-if (showMe) {print("DVC.didSaveContact")}
+if (showMe || true) {print("DVC.didSaveContact")}
     displayContact() //update contact data on screen
 //    self.navigationController?.popViewController(animated: true)
     if let navController = self.navigationController {
-if (showMe) {print("DVC.navController.popViewController")}
+if (showMe || true) {print("DVC.navController.popViewController")}
       navController.popViewController(animated: true)
     }
-if (showMe) {print("DVC.delegate.didEditContact")}
+if (showMe || true) {print("DVC.delegate.didEditContact")}
     delegate?.didEditContact(controller: self)
   }
   

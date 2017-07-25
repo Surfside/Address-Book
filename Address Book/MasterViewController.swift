@@ -32,11 +32,11 @@ if (showMe) {print("M.awakeFromNib")}
 
   // called just before MasterViewController is presented on the screen
 //override func viewWillAppear(animated: Bool)
-  override func viewWillAppear(_ animated: Bool) 
+  override func viewWillAppear(_ animated: Bool)
   {
     super.viewWillAppear(animated)
     //self.clearsSelectionOnViewWillAppear = self.splitViewController!.isCollapsed
-if (showMe) {print("Master.viewWillAppear")}
+if (showMe) {print("M.viewWillAppear")}
     displayFirstContactOrInstructions()
   }
 
@@ -173,9 +173,6 @@ if (showMe) {print("M.performSegue.showContactDetail")}
 if (showMe) {print("M.didEditContact")}
       let context = self.fetchedResultsController.managedObjectContext
 
-//      var error: NSError? = nil
-//   if !context.save(&error)
-//  {
       do
       {
 if (showMe) {print("M.do try context.save")}
@@ -387,14 +384,13 @@ if (showMe) {print("M.controllerDidChangeContent.endUpdates")}
       self.tableView.endUpdates()
   }
 
-}
-/*
-  override func didReceiveMemoryWarning()
-  {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
-  }
-  
+   // Implementing the above methods to update the table view in response to individual changes may have performance implications if a large number of changes are made simultaneously. If this proves to be an issue, you can instead just implement controllerDidChangeContent: which notifies the delegate that all section and object changes have been processed.
+   
+   func controllerDidChangeContent(controller: NSFetchedResultsController<NSFetchRequestResult>) 
+   {
+      // In the simplest, most efficient, case, reload the table view.
+      self.tableView.reloadData()
+   }
   
   func insertNewObject(_ sender: Any)
   {
@@ -416,17 +412,14 @@ if (showMe) {print("M.controllerDidChangeContent.endUpdates")}
       let nserror = error as NSError
       fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
     }
-    
   }
-
-  /*
-   // Implementing the above methods to update the table view in response to individual changes may have performance implications if a large number of changes are made simultaneously. If this proves to be an issue, you can instead just implement controllerDidChangeContent: which notifies the delegate that all section and object changes have been processed.
-   
-   func controllerDidChangeContent(controller: NSFetchedResultsController) {
-       // In the simplest, most efficient, case, reload the table view.
-       self.tableView.reloadData()
-   }
-   */
-
 }
+
+/*
+ override func didReceiveMemoryWarning()
+ {
+ super.didReceiveMemoryWarning()
+ // Dispose of any resources that can be recreated.
+ }
+
 */

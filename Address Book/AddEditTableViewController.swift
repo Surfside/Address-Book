@@ -12,7 +12,7 @@ import UIKit
 // MasterViewController and DetailViewController conform to this
 protocol AddEditTableViewControllerDelegate
 {
-  func didSaveContact(controller: AddEditTableViewController)
+   func didSaveContact(controller: AddEditTableViewController)
 }
 
 class AddEditTableViewController: UITableViewController, UITextFieldDelegate
@@ -135,11 +135,11 @@ if (showMe) {print("AETVC.textFieldShouldReturn")}
     }
 
   @IBAction func saveButtonPressed(_ sender: Any) {
-if (showMe) {print("AETVC.saveButtonPressed")}
+if (showMe || true) {print("AETVC.saveButtonPressed")}
     // ensure that first name and last name UITextFields are not empty
     if (inputFields[0].text?.isEmpty)! || (inputFields[1].text?.isEmpty)!
     {
-if (showMe) {print("AETVC.inputFields.isEmpty")}
+if (showMe || true) {print("AETVC.inputFields.isEmpty")}
       // create UIAlertController to display error message
       let alertController = UIAlertController(title: "Error",
                                               message: "First name and last name are required",
@@ -152,15 +152,15 @@ if (showMe) {print("AETVC.inputFields.isEmpty")}
     }
     else
     {
-if (showMe) {print("AETVC.inputFields.NotEmpty")}
+if (showMe || true) {print("AETVC.inputFields.NotEmpty")}
       // update the Contract using NSManagedObject method setValue
       for i in 0..<fieldNames.count
       {
         let value = (!((inputFields[i].text?.isEmpty)!) ?  inputFields[i].text : nil)
         self.contact?.setValue(value, forKey: fieldNames[i])
-if (showMe) {print("\n\(fieldNames[i]): \(value)")}
+if (showMe || true) {print("\n\(fieldNames[i]): \(value)")}
       }
-if (showMe) {print("AETVC.inputFields.ended")}
+if (showMe || true) {print("AETVC.inputFields.ended")}
       self.delegate?.didSaveContact(controller: self)
     }
   }
