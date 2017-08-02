@@ -13,6 +13,7 @@ class MasterViewController: UITableViewController,NSFetchedResultsControllerDele
 {
 
 let showMe = false
+
   //NSFetchedResultsController informs MasterViewcontroller if the underlying data has changed i.e. a Contact has been changed
 
   var detailViewController: DetailViewController? = nil

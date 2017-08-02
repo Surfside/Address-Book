@@ -12,7 +12,7 @@ import CoreData
 @objc(Contact)
 public class Contact: NSManagedObject 
 {
-
+// let showMe = false
   @nonobjc public class func fetchRequest() -> NSFetchRequest<Contact> 
   {
 if (true) {print("Contact.fetchRequest")}

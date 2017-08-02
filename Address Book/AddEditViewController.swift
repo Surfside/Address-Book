@@ -11,7 +11,7 @@ import CoreData
 
 class AddEditViewController: UITableViewController, UITextFieldDelegate, NSFetchedResultsControllerDelegate
 {
-let showMe = false
+let showMe = true
 
   @IBOutlet var inputFields: [UITextField]!
 

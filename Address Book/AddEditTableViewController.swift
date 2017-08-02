@@ -21,8 +21,8 @@ let showMe = false
 
  @IBOutlet var inputFields: [UITextField]!
 
-  // field name used in loops to get/set ontact attribute values via
-  // NSManagedObjet methods valueForKey and setValue
+  // field name used in loops to get/set contact attribute values
+  // via NSManagedObjet methods valueForKey and setValue
   private let fieldNames = ["firstname","lastname","email",
                             "phone","street","city","state","zip"]
   
@@ -32,12 +32,11 @@ let showMe = false
 
     override func viewWillAppear(_ animated: Bool)
     {
-      super.viewWillAppear(animated)
+        super.viewWillAppear(animated)
 if (showMe) {print("AETVC.viewWillAppear")}
-      // listen for keyboard show/hide notifications
-      NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(notification:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil);
-      NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(notification:)), name:NSNotification.Name.UIKeyboardWillHide, object: nil);
-
+        // listen for keyboard show/hide notifications
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(notification:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil);
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(notification:)), name:NSNotification.Name.UIKeyboardWillHide, object: nil);
     }
 
     // called when AddEditTableViwControler about to disappear
@@ -61,7 +60,7 @@ if (showMe) {print("AETVC.viewDidLoad")}
         // set AddEditTableViewController as the UITetFieldDelegate
         for textField in inputFields
         {
-//print("AddEditTableViewController.textField.delegate")
+if (showMe) {print("ATVC.textField.delegate = self")}
             textField.delegate = self
         }
 
@@ -91,11 +90,8 @@ if (showMe) {print("AETVC.editingContact.end")}
 
 
   
-  // MARK: - Actions
+    // MARK: - Actions
   
-//  @objc private func keyboardWillShow(notification: Notification) {
-//    print("keyboardWillShow called")
-//  }
     func keyboardWillShow(notification: NSNotification)
     {
 if (showMe) {print("AETVC:KeyboardWillShow")}

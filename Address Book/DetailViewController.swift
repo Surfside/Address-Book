@@ -45,65 +45,65 @@ if (showMe) {print("DVC.detailItem not nil")}
 
    }
 
-   func displayContact()
-   {
+    func displayContact()
+    {
 if (showMe) {print("DVC.displayContact")}
-      // Update the user interface for the detail item.
-      if let detail = self.detailItem
-      {
+        // Update the user interface for the detail item.
+        if let detail = self.detailItem
+        {
 if (showMe) {print("DVC.displayContact assign detailItem")}
-         if let label = self.detailDescriptionLabel
-         {
-if (showMe) {print("DVC.update label description")}
-label.text = detail.firstname?.description
-//            label.text = detail.timestamp!.description
-         }
-      }
+            if let label = self.detailDescriptionLabel
+            {
+if (showMe) {print("DVC.update detail desctription")}
+                label.text = detail.firstname?.description
+//             label.text = detail.timestamp!.description
+            }
+        }
 
-      self.navigationItem.title = detailItem.firstname! + " " + detailItem.lastname!
-
-      // display other attributes if they have values
-      firstTextField.text = detailItem?.firstname
-      lastTextField.text = detailItem?.lastname
-      emailTextField.text = detailItem?.email
-      phoneTextField.text = detailItem?.phone
-      streetTextField.text = detailItem?.street
-      cityTextField.text = detailItem?.city
-      stateTextField.text = detailItem?.state
-      zipTextField.text = detailItem?.zip
-   }
-
-  func didSaveContact(controller: AddEditTableViewController)
-  {
-if (showMe || true) {print("DVC.didSaveContact")}
-    displayContact() //update contact data on screen
-//    self.navigationController?.popViewController(animated: true)
-    if let navController = self.navigationController {
-if (showMe || true) {print("DVC.navController.popViewController")}
-      navController.popViewController(animated: true)
+        self.navigationItem.title = detailItem.firstname! + " " + detailItem.lastname!
+if (showMe) {print("DVC. update navigationItem with full name")}
+        // display other attributes if they have values
+        firstTextField.text = detailItem?.firstname
+        lastTextField.text = detailItem?.lastname
+        emailTextField.text = detailItem?.email
+        phoneTextField.text = detailItem?.phone
+        streetTextField.text = detailItem?.street
+        cityTextField.text = detailItem?.city
+        stateTextField.text = detailItem?.state
+        zipTextField.text = detailItem?.zip
     }
+
+    func didSaveContact(controller: AddEditTableViewController)
+    {
+if (showMe || true) {print("DVC.didSaveContact")}
+        displayContact() //update contact data on screen
+//     self.navigationController?.popViewController(animated: true)
+        if let navController = self.navigationController
+        {
+if (showMe || true) {print("DVC.navController.popViewController")}
+            navController.popViewController(animated: true)
+        }
 if (showMe || true) {print("DVC.delegate.didEditContact")}
-    delegate?.didEditContact(controller: self)
-  }
+        delegate?.didEditContact(controller: self)
+    }
   
-   //override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
-   override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-   {
+    //override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
 if (showMe) {print("DVC.prepareForSegue")}
-      // configure destinationViewConroller for eiting current contact
-      if segue.identifier == "showEditContact"
-      {
-if (showMe) {print(".showEditContact")}
-         let controller = (segue.destination as! UINavigationController).topViewController as! AddEditTableViewController
-         controller.navigationItem.title = "Edit Contact"
-         controller.delegate = self
-         controller.editingContact = true
-         controller.contact = detailItem
-         controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
-         controller.navigationItem.leftItemsSupplementBackButton = true
-      }
-    
-   }
+        // configure destinationViewConroller for eiting current contact
+        if segue.identifier == "showEditContact"
+        {
+if (showMe) {print("DVC.showEditContact")}
+             let controller = (segue.destination as! UINavigationController).topViewController as! AddEditTableViewController
+             controller.navigationItem.title = "Edit Contact"
+             controller.delegate = self
+             controller.editingContact = true
+             controller.contact = detailItem
+             controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
+             controller.navigationItem.leftItemsSupplementBackButton = true
+        }
+    }
 }
 
 /*
