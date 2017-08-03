@@ -16,7 +16,7 @@ protocol DetailViewControllerDelegate
 
 class DetailViewController: UIViewController, AddEditTableViewControllerDelegate
 {
-let showMe = false
+let showMe = true
 
   @IBOutlet weak var detailDescriptionLabel: UILabel!
   @IBOutlet weak var firstTextField: UITextField!
@@ -92,7 +92,8 @@ if (showMe || true) {print("DVC.delegate.didEditContact")}
     {
 if (showMe) {print("DVC.prepareForSegue")}
         // configure destinationViewConroller for eiting current contact
-        if segue.identifier == "showEditContact"
+//        if segue.identifier == "showEditContact"
+        if segue.identifier == "editContactDetails"
         {
 if (showMe) {print("DVC.showEditContact")}
              let controller = (segue.destination as! UINavigationController).topViewController as! AddEditTableViewController

@@ -212,7 +212,7 @@
                     <navigationItem key="navigationItem" title="Details" id="mOI-FS-AaM">
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="OWK-uq-jDv">
                             <connections>
-                                <segue destination="Zmc-1N-IV7" kind="show" identifier="editContactDetails" id="wUZ-5A-nfm"/>
+                                <segue destination="Zmc-1N-IV7" kind="showDetail" identifier="editContactDetails" action="showViewController:sender:" id="wUZ-5A-nfm"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -583,7 +583,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="t5O-LA-s6C"/>
-        <segue reference="Bjs-91-zEQ"/>
+        <segue reference="35a-zF-ugN"/>
+        <segue reference="wUZ-5A-nfm"/>
     </inferredMetricsTieBreakers>
 </document>

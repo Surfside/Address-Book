@@ -98,7 +98,8 @@ if (showMe) {print("AppDel.secondaryAsNavConroller is InstructionsViewController
 
   lazy var persistentContainer: NSPersistentContainer =
   {
-print("AppDel.persistentContainer.created.")
+let showLazy = false
+if (showLazy || false) {print("AppDel.persistentContainer.created.")}
 /*
   The persistent container for the application. This
   implementation creates and returns a container, having
@@ -107,13 +108,13 @@ print("AppDel.persistentContainer.created.")
   that could cause the creation of the store to fail.
 */
     let container = NSPersistentContainer(name: "AddressBook")
-print("AppDel.container is set to \(container.name)")
+if (showLazy || false) {print("AppDel.container is set to \(container.name)")}
     container.loadPersistentStores(completionHandler:
     {
       (storeDescription, error) in
           if let nserror = error as NSError?
           {
-print("AppDel.error is: \(nserror)")
+if (showLazy || false) {print("AppDel.error is: \(nserror)")}
             // Replace this implementation with code to handle the error appropriately.
             // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                
@@ -129,7 +130,7 @@ print("AppDel.error is: \(nserror)")
           }
 //abort() // added by wayne
       })
-print("AppDel.returnedContainer is \(container.name)")
+if (showLazy || false) {print("AppDel.returnedContainer is \(container.name)")}
       return container
   }()
 

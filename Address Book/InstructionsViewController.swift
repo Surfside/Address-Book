@@ -10,7 +10,7 @@ import UIKit
 
 class InstructionsViewController: UIViewController 
 {
-let showMe = true
+let showMe = false
 
     override func viewDidLoad() 
     {

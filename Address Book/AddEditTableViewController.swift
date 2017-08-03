@@ -67,18 +67,18 @@ if (showMe) {print("ATVC.textField.delegate = self")}
         // if editing a Contact, display its data
         if editingContact
         {
-if (showMe) {print("AETVC.editingContact")}
+if (showMe || true) {print("AETVC.editingContact")}
             for i in 0..<fieldNames.count
             {
-if (showMe) {print("AETVC.counting")}
+if (showMe || true) {print("AETVC.counting1")}
                 // query Contact object with valueForKey
                 if let value: AnyObject =  contact?.value(forKey: fieldNames[i]) as AnyObject?
                 {
                     inputFields[i].text = (value as AnyObject).description
-if (showMe) {print("(inputFields[i].text)")}
+if (showMe || true) {print("(inputFields[i].text)")}
                 }
             }
-if (showMe) {print("AETVC.editingContact.end")}
+if (showMe || true) {print("AETVC.editingContact.end")}
         }
 
         // Uncomment the following line to preserve selection between presentations
@@ -130,36 +130,40 @@ if (showMe) {print("AETVC.textFieldShouldReturn")}
         return true
     }
 
-  @IBAction func saveButtonPressed(_ sender: Any) {
-if (showMe || true) {print("AETVC.saveButtonPressed")}
-    // ensure that first name and last name UITextFields are not empty
-    if (inputFields[0].text?.isEmpty)! || (inputFields[1].text?.isEmpty)!
+    @IBAction func saveButtonPressed(_ sender: Any) 
     {
+if (showMe || true) {print("AETVC.saveButtonPressed")}
+        // ensure that first name and last name UITextFields are not empty
+        if (inputFields[0].text?.isEmpty)! || (inputFields[1].text?.isEmpty)!
+        {
 if (showMe || true) {print("AETVC.inputFields.isEmpty")}
-      // create UIAlertController to display error message
-      let alertController = UIAlertController(title: "Error",
+            // create UIAlertController to display error message
+            let alertController = UIAlertController(title: "Error",
                                               message: "First name and last name are required",
                                               preferredStyle: UIAlertControllerStyle.alert)
-      let okAction = UIAlertAction(title: "OK",
+            let okAction = UIAlertAction(title: "OK",
                                    style: UIAlertActionStyle.cancel, handler: nil)
-      alertController.addAction(okAction)
-      present(alertController, animated: true,
+            alertController.addAction(okAction)
+            present(alertController, animated: true,
               completion: nil)
-    }
-    else
-    {
+        }
+        else
+        {
 if (showMe || true) {print("AETVC.inputFields.NotEmpty")}
-      // update the Contract using NSManagedObject method setValue
-      for i in 0..<fieldNames.count
-      {
-        let value = (!((inputFields[i].text?.isEmpty)!) ?  inputFields[i].text : nil)
-        self.contact?.setValue(value, forKey: fieldNames[i])
+            // update the Contract using NSManagedObject method setValue
+            for i in 0..<fieldNames.count
+            {
+               if (showMe || true) {print("AETVC.counting2")}
+                // query Contact object with valueForKey
+                let value = (!((inputFields[i].text?.isEmpty)!) ?  inputFields[i].text : nil)
+                self.contact?.setValue(value, forKey: fieldNames[i])
 if (showMe || true) {print("\n\(fieldNames[i]): \(value)")}
-      }
+            }
 if (showMe || true) {print("AETVC.inputFields.ended")}
-      self.delegate?.didSaveContact(controller: self)
+                self.delegate?.didSaveContact(controller: self)
+        }
+if (showMe || true) {print("AETVC.saveButtonPressed.end")}
     }
-  }
 
 }
 
