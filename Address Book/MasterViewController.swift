@@ -296,33 +296,46 @@ if (showMe) {print("M.configureCell.gotNoData")}
   var fetchedResultsController: NSFetchedResultsController<Contact>
   {
 if (showMe) {print("M.fetchedResultsController")}
+
+    // return only fetched results that are not empty, or nil
     if _fetchedResultsController != nil
     {
-if (showMe) {print("M.fetchedResultscontroller.nil")}
+if (showMe || true) {print("M.fetchedResultscontroller is nil")}
       return _fetchedResultsController!
     }
-      
+
+    // fetch another contact
     let fetchRequest: NSFetchRequest<Contact> = Contact.fetchRequest()
       
-    // Set the batch size to a suitable number.
+    // Set the batch size to a suitable number - 20.
     fetchRequest.fetchBatchSize = 20
       
     // Edit the sort key as appropriate.
-    let sortDescriptor = NSSortDescriptor(key: "timestamp", ascending: false)
+//    let timeStampSortDescriptor = NSSortDescriptor(key: "timestamp", ascending: false)
 
     // Edited to sort by last name, then first name
     // both using case insensitive comparisons
-    let lastNameSortDescriptor = NSSortDescriptor(key: "lastname", ascending: false)
-    let firstNameSortDescriptor = NSSortDescriptor(key: "firstname", ascending: false)
-    
-    fetchRequest.sortDescriptors = [sortDescriptor, lastNameSortDescriptor, firstNameSortDescriptor]
+    let lastNameSortDescriptor = NSSortDescriptor(key: "lastname", ascending: true)
+//    let firstNameSortDescriptor = NSSortDescriptor(key: "firstname", ascending: false)
+
+    fetchRequest.sortDescriptors = [
+//                                       timeStampSortDescriptor,
+                                         lastNameSortDescriptor,
+//                                        firstNameSortDescriptor
+     ]
       
-    // Edit the section name key path and cache name if appropriate.
-    // nil for section name key path means "no sections".
+    // Create the sectionNameKeyPath and cacheName
+    //  for aFetchedResultsController
+    // sectionNameKeyPath: nil means "no sections"
     let aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext!, sectionNameKeyPath: nil, cacheName: "Master")
+
+    // assign a delegate for aFetchedResultsController
     aFetchedResultsController.delegate = self
+
+    // connect the fetchedResultsController to the database
     _fetchedResultsController = aFetchedResultsController
-      
+
+    // do try to fetch data from database, catch all errors
     do 
     {
 if (showMe) {print("M.do3 try.fetchedResultsController")}
@@ -338,6 +351,7 @@ if (showMe) {print("M.do3 catch.fetchedResultsController")}
       fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
     }
 
+    // return the database
     return _fetchedResultsController!
   }    
 
