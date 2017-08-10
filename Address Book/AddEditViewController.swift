@@ -11,7 +11,12 @@ import CoreData
 
 class AddEditViewController: UITableViewController, UITextFieldDelegate, NSFetchedResultsControllerDelegate
 {
-let showMe = true
+let showAll = false
+let showInsertObject = false
+let showSegues = false
+let showTable = false
+let showFetchedResults = false
+
 
   @IBOutlet var inputFields: [UITextField]!
 
@@ -22,7 +27,7 @@ let showMe = true
   {
     super.viewDidLoad()
     // Do any additional setup after loading the view, typically from a nib.
-if (showMe) {print("AEVC.viewDidLoad")}
+if (showAll) {print("AEVC.viewDidLoad")}
 /*
     self.navigationItem.leftBarButtonItem = self.editButtonItem
 
@@ -38,7 +43,7 @@ if (showMe) {print("AEVC.viewDidLoad")}
   
   override func viewWillAppear(_ animated: Bool) 
   {
-if (showMe) {print("AEVC.viewWillAppear")}
+if (showAll) {print("AEVC.viewWillAppear")}
     self.clearsSelectionOnViewWillAppear = self.splitViewController!.isCollapsed
     super.viewWillAppear(animated)
   }
@@ -46,13 +51,13 @@ if (showMe) {print("AEVC.viewWillAppear")}
   override func didReceiveMemoryWarning() 
   {
     super.didReceiveMemoryWarning()
-if (showMe) {print("AEVC.didReceiveMemoryWarning")}
+if (showAll) {print("AEVC.didReceiveMemoryWarning")}
     // Dispose of any resources that can be recreated.
   }
   
   func insertNewObject(_ sender: Any) 
   {
-if (showMe) {print("AEVC.insertNewObject")}
+if (showAll || showInsertObject) {print("AEVC.insertNewObject")}
     let context = self.fetchedResultsController.managedObjectContext
     let newEvent = Contact(context: context)
     
@@ -62,12 +67,12 @@ if (showMe) {print("AEVC.insertNewObject")}
     // Save the context.
     do 
     {
-if (showMe) {print("AEVC.do.try1")}
+if (showAll || showInsertObject) {print("AEVC.do.try1")}
       try context.save()
     } 
     catch
     {
-if (showMe) {print("AEVC.do.catch1")}
+if (showAll || showInsertObject) {print("AEVC.do.catch1")}
       // Replace this implementation with code to handle the error appropriately.
       // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
       let nserror = error as NSError
@@ -79,13 +84,13 @@ if (showMe) {print("AEVC.do.catch1")}
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) 
   {
-if (showMe) {print("AEVC.prepare")}
+if (showAll || showSegues) {print("AEVC.prepare")}
     if segue.identifier == "showContactDetails" 
     {
-if (showMe) {print("AEVC.segue.showContactDetails")}
+if (showAll || showSegues) {print("AEVC.segue.showContactDetails")}
       if let indexPath = self.tableView.indexPathForSelectedRow 
       {
-if (showMe) {print("AEVC.indexPath")}
+if (showAll || showSegues) {print("AEVC.indexPath")}
         let object = self.fetchedResultsController.object(at: indexPath)
         let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
         controller.detailItem = object
@@ -102,14 +107,14 @@ if (showMe) {print("AEVC.indexPath")}
   
   override func numberOfSections(in tableView: UITableView) -> Int 
   {
-if (showMe) {print("AEVC.numberOfSections")}
+if (showAll || showTable) {print("AEVC.numberOfSections")}
     return self.fetchedResultsController.sections?.count ?? 0
 //return 0
   }
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int 
   {
-if (showMe) {print("AEVC.numberOfRowsInSection")}
+if (showAll || showTable) {print("AEVC.numberOfRowsInSection")}
     let sectionInfo = self.fetchedResultsController.sections![section]
     return sectionInfo.numberOfObjects
 //return 1
@@ -117,7 +122,7 @@ if (showMe) {print("AEVC.numberOfRowsInSection")}
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell 
   {
-if (showMe) {print("AEVC.cellForRowAt indexPath")}
+if (showAll || showTable) {print("AEVC.cellForRowAt indexPath")}
     let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
     let event = self.fetchedResultsController.object(at: indexPath)
     self.configureCell(cell, withEvent: event)
@@ -126,28 +131,28 @@ if (showMe) {print("AEVC.cellForRowAt indexPath")}
   
   override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool 
   {
-if (showMe) {print("AEVC.canEditRowAt indexPath")}
+if (showAll || showTable) {print("AEVC.canEditRowAt indexPath")}
     // Return false if you do not want the specified item to be editable.
     return true
   }
   
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) 
   {
-if (showMe) {print("AEVC.commit editingStyle")}
+if (showAll || showTable) {print("AEVC.commit editingStyle")}
     if editingStyle == .delete 
     {
-if (showMe) {print("AEVC.delete")}
+if (showAll || showTable) {print("AEVC.delete")}
        let context = self.fetchedResultsController.managedObjectContext
        context.delete(self.fetchedResultsController.object(at: indexPath))
       
        do 
        {
-if (showMe) {print("AEVC.do.try1")}
+if (showAll || showTable) {print("AEVC.do.try1")}
         try context.save()
        } 
        catch 
        {
-if (showMe) {print("AEVC.do.catch1")}
+if (showAll || showTable) {print("AEVC.do.catch1")}
         // Replace this implementation with code to handle the error appropriately.
         // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
         let nserror = error as NSError
@@ -158,7 +163,7 @@ if (showMe) {print("AEVC.do.catch1")}
   
   func configureCell(_ cell: UITableViewCell, withEvent event: Contact)
   {
-if (showMe) {print("AEVC.configureCell")}
+if (showAll || showTable) {print("AEVC.configureCell")}
     cell.textLabel!.text = event.timestamp!.description
   }
 
@@ -167,7 +172,7 @@ if (showMe) {print("AEVC.configureCell")}
 
   var fetchedResultsController: NSFetchedResultsController<Contact>
   {
-if (showMe) {print("AEVC.fetchedResultController")}
+if (showAll || showFetchedResults) {print("AEVC.fetchedResultController")}
     if _fetchedResultsController != nil 
     {
       return _fetchedResultsController!
@@ -190,10 +195,10 @@ if (showMe) {print("AEVC.fetchedResultController")}
     _fetchedResultsController = aFetchedResultsController
     
     do {
-if (showMe) {print("AEVC.do.performFetch2")}
+if (showAll || showFetchedResults) {print("AEVC.do.performFetch2")}
       try _fetchedResultsController!.performFetch()
     } catch {
-if (showMe) {print("AEVC.catch2")}
+if (showAll || showFetchedResults) {print("AEVC.catch2")}
       // Replace this implementation with code to handle the error appropriately.
       // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
       let nserror = error as NSError
@@ -207,13 +212,13 @@ if (showMe) {print("AEVC.catch2")}
   
   func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) 
   {
-if (showMe) {print("AEVC.controllerwillChangeContent")}
+if (showAll || showFetchedResults) {print("AEVC.controllerwillChangeContent")}
     self.tableView.beginUpdates()
   }
   
   func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) 
   {
-if (showMe) {print("AEVC.didChange sectionInfo")}
+if (showAll || showFetchedResults) {print("AEVC.didChange sectionInfo")}
     switch type {
     case .insert:
       self.tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
@@ -226,7 +231,7 @@ if (showMe) {print("AEVC.didChange sectionInfo")}
   
   func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) 
   {
-if (showMe) {print("AEVC.didChange anObject")}
+if (showAll || showFetchedResults) {print("AEVC.didChange anObject")}
     switch type {
     case .insert:
       tableView.insertRows(at: [newIndexPath!], with: .fade)
@@ -241,7 +246,7 @@ if (showMe) {print("AEVC.didChange anObject")}
   
   func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) 
   {
-if (showMe) {print("AEVC.controllerDidChangecontent1")}
+if (showAll || showFetchedResults) {print("AEVC.controllerDidChangecontent1")}
     self.tableView.endUpdates()
   }
 
@@ -249,7 +254,7 @@ if (showMe) {print("AEVC.controllerDidChangecontent1")}
    
   func controllerDidChangeContent(controller: NSFetchedResultsController<NSFetchRequestResult>)
   { // In the simplest, most efficient, case, reload the table view.
-if (showMe) {print("AEVC.controllerDidChangeContent2")}
+if (showAll || showFetchedResults) {print("AEVC.controllerDidChangeContent2")}
     self.tableView.reloadData()
   }
 

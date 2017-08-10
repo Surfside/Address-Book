@@ -12,7 +12,14 @@ import CoreData
 class MasterViewController: UITableViewController,NSFetchedResultsControllerDelegate,  AddEditTableViewControllerDelegate, DetailViewControllerDelegate
 {
 
-let showMe = false
+let showAll = false                    // everything
+let showTableView = false        // only table view
+let showFetchedData = false    // only fetched data
+let showInstructions = false     // only Instructions
+let showSegues = false             // only Segues
+let showSaveEdit = false          // only Save or Edit functions
+let showError = false               // only errors
+
 
   //NSFetchedResultsController informs MasterViewcontroller if the underlying data has changed i.e. a Contact has been changed
 
@@ -23,7 +30,7 @@ let showMe = false
   override func awakeFromNib() 
   {
      super.awakeFromNib()
-if (showMe) {print("M.awakeFromNib")}
+if (showAll) {print("M.awakeFromNib")}
     if UIDevice.current.userInterfaceIdiom == .pad
     {
        self.clearsSelectionOnViewWillAppear = false
@@ -37,7 +44,7 @@ if (showMe) {print("M.awakeFromNib")}
   {
     super.viewWillAppear(animated)
     //self.clearsSelectionOnViewWillAppear = self.splitViewController!.isCollapsed
-if (showMe) {print("M.viewWillAppear")}
+if (showAll) {print("M.viewWillAppear")}
     displayFirstContactOrInstructions()
   }
 
@@ -45,16 +52,16 @@ if (showMe) {print("M.viewWillAppear")}
   // select first contact or display InstructionsViewController
   func displayFirstContactOrInstructions()
   {
-if (showMe) {print("M.displayFirstContactOrInstructions")}
+if (showAll || showInstructions) {print("M.displayFirstContactOrInstructions")}
     if let splitViewController = self.splitViewController
     {
-if (showMe) {print("M.splitViewController")}
+if (showAll || showInstructions) {print("M.splitViewController")}
       if !splitViewController.isCollapsed
       { // select and display first contact if there is one
-if (showMe) {print("M.splitVC.isCollapsed")}
+if (showAll || showInstructions) {print("M.splitVC.isCollapsed")}
         if self.tableView.numberOfRows(inSection: 0) > 0 
         {
-if (showMe) {print("M.tableView.numberOfRows")}
+if (showAll || showInstructions) {print("M.tableView.numberOfRows")}
           let indexPath = NSIndexPath(row: 0, section: 0)
           self.tableView.selectRow(at: indexPath as IndexPath, 
                animated: false, 
@@ -63,7 +70,7 @@ if (showMe) {print("M.tableView.numberOfRows")}
         }
         else
         { // display InstructionsViewController
-if (showMe) {print("M.performSegue.showInstructions")}
+if (showAll || showInstructions) {print("M.performSegue.showInstructions")}
           self.performSegue(withIdentifier: "showInstructions", sender: self)
         }
       }
@@ -81,10 +88,10 @@ if (showMe) {print("M.performSegue.showInstructions")}
      let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(insertNewObject(_:)))
      self.navigationItem.rightBarButtonItem = addButton
      */
-if (showMe) {print("M.viewDidLoad")}
+if (showAll) {print("M.viewDidLoad")}
     if let split = self.splitViewController
     {
-if (showMe) {print("M.splitViewController2")}
+if (showAll) {print("M.splitViewController2")}
       let controllers = split.viewControllers
       self.detailViewController = 
             (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
@@ -95,13 +102,13 @@ if (showMe) {print("M.splitViewController2")}
 
    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
    {
-if (showMe) {print("M.prepareForSegue")}
+if (showAll || showSegues) {print("M.prepareForSegue")}
       if segue.identifier == "showContactDetail"
       {
-if (showMe) {print("M.prepareForSegue.showContactDetail")}
+if (showAll || showSegues) {print("M.prepareForSegue.showContactDetail")}
          if let indexPath = self.tableView.indexPathForSelectedRow
          {
-if (showMe) {print("M.indexPath")}
+if (showAll || showSegues) {print("M.indexPath")}
             // get Contact for selected row
             let selectedContact = self.fetchedResultsController.object(at: indexPath) as Contact
 
@@ -115,7 +122,7 @@ if (showMe) {print("M.indexPath")}
       }
       else if segue.identifier == "showAddContact"
       {
-if (showMe) {print("M.prepareForSegue.showAddContact")}
+if (showAll || showSegues) {print("M.prepareForSegue.showAddContact")}
          // create a contact object that is not yet managed
          let entity = self.fetchedResultsController.fetchRequest.entity!
          let newContact = Contact(entity: entity, 
@@ -137,7 +144,7 @@ if (showMe) {print("M.prepareForSegue.showAddContact")}
    // called by AddEditViewController after a contact is added
    func didSaveContact(controller: AddEditTableViewController)
    {
-if (showMe) {print("M.didSaveContact")}
+if (showAll || showSaveEdit) {print("M.didSaveContact")}
     // get NSManagedObjectContext and insert new contact into it
     let context = self.fetchedResultsController.managedObjectContext
     context.insert(controller.contact!)
@@ -151,18 +158,18 @@ if (nserror != nil)
       displayError(error: nserror, title: "Error Saving Data in Master at 1\n",
                    message: "Unable to save contact")
     } else { // if no error, display new contact details
-if (showMe) {print("M.newContactSaved")}
+if (showAll || showSaveEdit) {print("M.newContactSaved")}
       let sectionInfo =
       self.fetchedResultsController.sections![0] as NSFetchedResultsSectionInfo
 //  if let row = FIND(sectionInfo.objects as [NSManagedObject], controller.contact!) {
 let row = sectionInfo.numberOfObjects-1 // minus 1 ????
 if !(row < 0)
 {
-if (showMe) {print("M.row = 0")}
+if (showAll || showSaveEdit) {print("M.row = 0")}
         let path = NSIndexPath(row: row, section: 0)
         tableView.selectRow(at: path as IndexPath, animated: true, scrollPosition: .middle)
 }
-if (showMe) {print("M.performSegue.showContactDetail")}
+if (showAll || showSaveEdit) {print("M.performSegue.showContactDetail")}
         performSegue(withIdentifier: "showContactDetail",
                                    sender: nil)
       }
@@ -171,17 +178,17 @@ if (showMe) {print("M.performSegue.showContactDetail")}
    // called by DetailViewController after a contact is edited
    func didEditContact(controller: DetailViewController)
    {
-if (showMe) {print("M.didEditContact")}
+if (showAll || showSaveEdit) {print("M.didEditContact")}
       let context = self.fetchedResultsController.managedObjectContext
 
       do
       {
-if (showMe) {print("M.do try context.save")}
+if (showAll || showSaveEdit) {print("M.do try context.save")}
          try context.save()
       }
       catch
       {
-if (showMe) {print("M.do catch")}
+if (showAll || showSaveEdit) {print("M.do catch")}
         // Replace this implementation with code to handle the error appropriately.
         // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
         let nserror = error as NSError
@@ -196,7 +203,7 @@ if (showMe) {print("M.do catch")}
    // indicate that an error occurred hen saving database changes
    func displayError(error: NSError?, title: String, message: String)
    {
-if (showMe) {print("M.displayError")}
+if (showAll || showError) {print("M.displayError")}
        let alertController = UIAlertController(title: title,
                  message: String(format:  "%@\nError:\(error)\n", message),
                  preferredStyle: UIAlertControllerStyle.alert)
@@ -212,14 +219,14 @@ if (showMe) {print("M.displayError")}
 
   override func numberOfSections(in tableView: UITableView) -> Int
   {
-if (showMe) {print("M.numberOfSections")}
+if (showAll || showTableView) {print("M.numberOfSections")}
     return self.fetchedResultsController.sections?.count ?? 0
   }
 
   // callback that returns  number of rows in the UITbleView
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
   {
-if (showMe) {print("M.tableView.numberOfRowsInSection")}
+if (showAll || showTableView) {print("M.tableView.numberOfRowsInSection")}
      let sectionInfo = self.fetchedResultsController.sections![section] as NSFetchedResultsSectionInfo
      return sectionInfo.numberOfObjects
   }
@@ -227,7 +234,7 @@ if (showMe) {print("M.tableView.numberOfRowsInSection")}
   // callback that returns a configured cell for the given NSIndexPath
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath:  IndexPath) -> UITableViewCell
   {
-if (showMe) {print("M.tableView.cellForRowAt")}
+if (showAll || showTableView) {print("M.tableView.cellForRowAt")}
     let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
     let event = self.fetchedResultsController.object(at: indexPath)
     self.configureCell(cell, withEvent: event)
@@ -237,7 +244,7 @@ if (showMe) {print("M.tableView.cellForRowAt")}
   // callback that returns whether a cell is editable
   override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool 
   {
-if (showMe) {print("M.tableView.canEditRowAt")}
+if (showAll || showTableView) {print("M.tableView.canEditRowAt")}
     // Return false if you do not want the specified item to be editable.
     return true
   }
@@ -245,21 +252,21 @@ if (showMe) {print("M.tableView.canEditRowAt")}
   // callback that deletes a row from the UITableView
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) 
   {
-if (showMe) {print("M.tableView.commitEditingStyle")}
+if (showAll || showTableView) {print("M.tableView.commitEditingStyle")}
     if editingStyle == .delete 
     {
-if (showMe) {print("M.editingStyle")}
+if (showAll || showTableView) {print("M.editingStyle")}
       let context = self.fetchedResultsController.managedObjectContext
       context.delete(self.fetchedResultsController.object(at: indexPath))
             
       do
       {
-if (showMe) {print("M.do2.context.save")}
+if (showAll || showTableView) {print("M.do2.context.save")}
         try context.save()
       }
       catch
       {
-if (showMe) {print("M.do2 catch")}
+if (showAll || showTableView) {print("M.do2 catch")}
          // Replace this implementation with code to handle the error appropriately.
          // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
          let nserror = error as NSError
@@ -272,16 +279,16 @@ if (showMe) {print("M.do2 catch")}
 
   func configureCell(_ cell: UITableViewCell, withEvent event: Contact)
   {
-if (showMe) {print("M.configureCell.withEvent")}
+if (showAll || showTableView) {print("M.configureCell.withEvent")}
     if (managedObjectContext != nil) // ??????
     {
-if (showMe) {print("M.configureCell.gotData")}
+if (showAll || showTableView) {print("M.configureCell.gotData")}
        cell.textLabel?.text = event.firstname?.description
        cell.detailTextLabel?.text = event.lastname?.description
     }
     else
     {
-if (showMe) {print("M.configureCell.gotNoData")}
+if (showAll || showTableView) {print("M.configureCell.gotNoData")}
        cell.textLabel?.text = "Last Name"
 //    cell.textLabel!.text = event.timestamp!.description
 //    cell.textLabel!.text = event.lastname
@@ -295,12 +302,12 @@ if (showMe) {print("M.configureCell.gotNoData")}
 
   var fetchedResultsController: NSFetchedResultsController<Contact>
   {
-if (showMe) {print("M.fetchedResultsController")}
+if (showAll || showFetchedData) {print("M.fetchedResultsController")}
 
     // return only fetched results that are not empty, or nil
     if _fetchedResultsController != nil
     {
-if (showMe || true) {print("M.fetchedResultscontroller is nil")}
+if (showAll || showFetchedData) {print("M.fetchedResultscontroller is not nil")}
       return _fetchedResultsController!
     }
 
@@ -338,12 +345,12 @@ if (showMe || true) {print("M.fetchedResultscontroller is nil")}
     // do try to fetch data from database, catch all errors
     do 
     {
-if (showMe) {print("M.do3 try.fetchedResultsController")}
+if (showAll) {print("M.do3 try.fetchedResultsController")}
       try _fetchedResultsController!.performFetch()
     } 
     catch 
     {
-if (showMe) {print("M.do3 catch.fetchedResultsController")}
+if (showAll) {print("M.do3 catch.fetchedResultsController")}
       // Replace this implementation with code to handle the error appropriately.
       // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
       let nserror = error as NSError
@@ -359,13 +366,13 @@ if (showMe) {print("M.do3 catch.fetchedResultsController")}
 
   func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) 
   {
-if (showMe) {print("M.controllerWillChangeContect")}
+if (showAll || showFetchedData) {print("M.controllerWillChangeContect")}
     self.tableView.beginUpdates()
   }
 
   func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) 
   {
-if (showMe) {print("M.controller.didChange sectionInfo")}
+if (showAll || showFetchedData) {print("M.controller.didChange sectionInfo")}
       switch type 
       {
         case .insert:
@@ -379,7 +386,7 @@ if (showMe) {print("M.controller.didChange sectionInfo")}
 
   func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) 
   {
-if (showMe) {print("M.controller.didChange anObject")}
+if (showAll || showFetchedData) {print("M.controller.didChange anObject")}
       switch type 
       {
         case .insert:
@@ -395,7 +402,7 @@ if (showMe) {print("M.controller.didChange anObject")}
 
   func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) 
   {
-if (showMe) {print("M.controllerDidChangeContent.endUpdates")}
+if (showAll || showFetchedData) {print("M.controllerDidChangeContent.endUpdates")}
       self.tableView.endUpdates()
   }
 
@@ -403,12 +410,14 @@ if (showMe) {print("M.controllerDidChangeContent.endUpdates")}
    
    func controllerDidChangeContent(controller: NSFetchedResultsController<NSFetchRequestResult>) 
    {
+if (showAll || showFetchedData) {print("M.controllerDidChangeContent.reloadData")}
       // In the simplest, most efficient, case, reload the table view.
       self.tableView.reloadData()
    }
   
   func insertNewObject(_ sender: Any)
   {
+if (showAll || showFetchedData) {print("M.insertNewObject")}
     let context = self.fetchedResultsController.managedObjectContext
     let newEvent = Contact(context: context)
     

@@ -14,12 +14,16 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate 
 {
 
-let showMe = false
+let showAll = false                // show everything
+let showCoreData = false      // show core data functions
+let showSplitView = false      // show split view functions
+
+
   var window: UIWindow?
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool 
   {
-if (showMe) {print("AppDel.application.didFinishLaunchingWithOptions")}
+if (showAll) {print("AppDel.application.didFinishLaunchingWithOptions")}
     // Override point for customization after application launch.
     let splitViewController = self.window!.rootViewController as! UISplitViewController
 
@@ -30,13 +34,13 @@ navigationController.topViewController!.navigationItem.leftBarButtonItem = split
     let masterNavigationController = splitViewController.viewControllers[0] as! UINavigationController
     let controller = masterNavigationController.topViewController as! MasterViewController
     controller.managedObjectContext = self.persistentContainer.viewContext
-if (showMe) {print("AppDel.application:didFinishLaunching")}
+if (showAll) {print("AppDel.application:didFinishLaunching")}
     return true
   }
 
   func applicationWillResignActive(_ application: UIApplication) 
   {
-if (showMe) {print("AppDel.applicationWillResignActive")}
+if (showAll) {print("AppDel.applicationWillResignActive")}
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
 
@@ -44,30 +48,31 @@ if (showMe) {print("AppDel.applicationWillResignActive")}
 
   func applicationDidEnterBackground(_ application: UIApplication)
   {
-if (showMe) {print("AppDel.applicationDidEnterBackground")}
+if (showAll) {print("AppDel.applicationDidEnterBackground")}
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
   }
 
   func applicationWillEnterForeground(_ application: UIApplication) 
   {
-if (showMe) {print("AppDel.applicationWillEnterForeground")}
+if (showAll) {print("AppDel.applicationWillEnterForeground")}
     // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
   }
 
   func applicationDidBecomeActive(_ application: UIApplication) 
   {
-if (showMe) {print("AppDel.applicationDidBecomeActive")}
+if (showAll) {print("AppDel.applicationDidBecomeActive")}
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
   }
 
   func applicationWillTerminate(_ application: UIApplication) 
   {
-if (showMe) {print("AppDel.applicationWillTerminate")}
+if (showAll) {print("AppDel.applicationWillTerminate")}
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     // Saves changes in the application's managed object context before the application terminates.
     self.saveContext()
   }
+
 
   // MARK: - Split view
 
@@ -76,23 +81,24 @@ if (showMe) {print("AppDel.applicationWillTerminate")}
           onto primaryViewController:UIViewController)
                -> Bool
   {
-if (showMe) {print("AppDel.splitViewController.collapseSecondary.onto PrimaryVC")}
+if (showAll || showSplitView) {print("AppDel.splitViewController.collapseSecondary.onto PrimaryVC")}
       if let secondaryAsNavController = secondaryViewController as? UINavigationController {
          if let topAsDetailController = secondaryAsNavController.topViewController as? DetailViewController {  // else { return false }
             if topAsDetailController.detailItem == nil
             {
-if (showMe) {print("AppDel.topAsDetailController == nil")}
+if (showAll || showSplitView) {print("AppDel.topAsDetailController == nil")}
                // Return true to indicate that we have handled the collapse by doing nothing; the secondary controller will be discarded.
                return true
             }
          } else if (secondaryAsNavController.topViewController as? InstructionsViewController) != nil
               {
-if (showMe) {print("AppDel.secondaryAsNavConroller is InstructionsViewController")}
+if (showAll || showSplitView) {print("AppDel.secondaryAsNavConroller is InstructionsViewController")}
                  return true
               }
       }
       return false
    }
+
 
   // MARK: - Core Data stack
 
@@ -134,31 +140,32 @@ if (showLazy || false) {print("AppDel.returnedContainer is \(container.name)")}
       return container
   }()
 
+
   // MARK: - Core Data Saving support
 
   func saveContext () 
   {
-if (showMe) {print("AppDel.saveContext")}
+if (showAll || showCoreData) {print("AppDel.saveContext")}
     let context = persistentContainer.viewContext
     if context.hasChanges
       {
-if (showMe) {print("AppDel.context.hasChanges")}
+if (showAll || showCoreData) {print("AppDel.context.hasChanges")}
         do
           {
-if (showMe) {print("AppDel.try context.save")}
+if (showAll || showCoreData) {print("AppDel.try context.save")}
             try context.save()
           }
         catch
           {
-if (showMe) {print("AppDel.catch")}
+if (showAll || showCoreData) {print("AppDel.catch")}
             // Replace this implementation with code to handle the error appropriately.
             // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
             let nserror = error as NSError
             fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
           }
-if (showMe) {print("AppDel.end context.hasChanges")}
+if (showAll || showCoreData) {print("AppDel.end context.hasChanges")}
       }
-if (showMe) {print("AppDel.end saveContext")}
+if (showAll || showCoreData) {print("AppDel.end saveContext")}
   }
 
 }

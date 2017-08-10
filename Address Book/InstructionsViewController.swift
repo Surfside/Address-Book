@@ -10,20 +10,20 @@ import UIKit
 
 class InstructionsViewController: UIViewController 
 {
-let showMe = false
+let showAll = false
 
     override func viewDidLoad() 
     {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-if (showMe) {print("IVC.viewDidLoad")}
+if (showAll) {print("IVC.viewDidLoad")}
     }
 
     override func didReceiveMemoryWarning() 
     {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-if (showMe) {print("IVC.didReceiveMemoryWarning")}
+if (showAll) {print("IVC.didReceiveMemoryWarning")}
     }
     
 

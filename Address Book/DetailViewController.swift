@@ -16,7 +16,11 @@ protocol DetailViewControllerDelegate
 
 class DetailViewController: UIViewController, AddEditTableViewControllerDelegate
 {
-let showMe = true
+let showAll = false
+let showSave = false
+let showSegues = false
+
+
 
   @IBOutlet weak var detailDescriptionLabel: UILabel!
   @IBOutlet weak var firstTextField: UITextField!
@@ -36,10 +40,10 @@ let showMe = true
       super.viewDidLoad()
       // Do any additional setup after loading the view, typically from a nib.
 //      self.configureView()
-if (showMe) {print("DVC.viewDidLoad")}
+if (showAll) {print("DVC.viewDidLoad")}
       if detailItem != nil
       {
-if (showMe) {print("DVC.detailItem not nil")}
+if (showAll) {print("DVC.detailItem not nil")}
         displayContact()
       }
 
@@ -47,21 +51,21 @@ if (showMe) {print("DVC.detailItem not nil")}
 
     func displayContact()
     {
-if (showMe) {print("DVC.displayContact")}
+if (showAll) {print("DVC.displayContact")}
         // Update the user interface for the detail item.
         if let detail = self.detailItem
         {
-if (showMe) {print("DVC.displayContact assign detailItem")}
+if (showAll) {print("DVC.displayContact assign detailItem")}
             if let label = self.detailDescriptionLabel
             {
-if (showMe) {print("DVC.update detail desctription")}
+if (showAll) {print("DVC.update detail desctription")}
                 label.text = detail.firstname?.description
 //             label.text = detail.timestamp!.description
             }
         }
 
         self.navigationItem.title = detailItem.firstname! + " " + detailItem.lastname!
-if (showMe) {print("DVC. update navigationItem with full name")}
+if (showAll) {print("DVC. update navigationItem with full name")}
         // display other attributes if they have values
         firstTextField.text = detailItem?.firstname
         lastTextField.text = detailItem?.lastname
@@ -75,27 +79,27 @@ if (showMe) {print("DVC. update navigationItem with full name")}
 
     func didSaveContact(controller: AddEditTableViewController)
     {
-if (showMe || true) {print("DVC.didSaveContact")}
+if (showAll || showSave) {print("DVC.didSaveContact")}
         displayContact() //update contact data on screen
 //     self.navigationController?.popViewController(animated: true)
         if let navController = self.navigationController
         {
-if (showMe || true) {print("DVC.navController.popViewController")}
+if (showAll || showSave) {print("DVC.navController.popViewController")}
             navController.popViewController(animated: true)
         }
-if (showMe || true) {print("DVC.delegate.didEditContact")}
+if (showAll || showSave) {print("DVC.delegate.didEditContact")}
         delegate?.didEditContact(controller: self)
     }
   
     //override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
-if (showMe) {print("DVC.prepareForSegue")}
+if (showAll || showSegues) {print("DVC.prepareForSegue")}
         // configure destinationViewConroller for eiting current contact
 //        if segue.identifier == "showEditContact"
         if segue.identifier == "editContactDetails"
         {
-if (showMe) {print("DVC.showEditContact")}
+if (showAll || showSegues) {print("DVC.showEditContact")}
              let controller = (segue.destination as! UINavigationController).topViewController as! AddEditTableViewController
              controller.navigationItem.title = "Edit Contact"
              controller.delegate = self
@@ -113,13 +117,13 @@ if (showMe) {print("DVC.showEditContact")}
  {
  super.didReceiveMemoryWarning()
  // Dispose of any resources that can be recreated.
- if (showMe) {print("DVC.didReceiveMemoryWarning")}
+ if (showAll) {print("DVC.didReceiveMemoryWarning")}
  }
  /*
  // called by DetailViewController after a contact is edited
  func didEditContact(controller: DetailViewController)
  {
- if (showMe) {print("DVC.didEditContact")}
+ if (showAll) {print("DVC.didEditContact")}
  let context = self.fetchedResultsController.managedObjectContext
  var error: NSError? = nil
  if !context.save(&error)
@@ -132,7 +136,7 @@ if (showMe) {print("DVC.showEditContact")}
  // indicate tht an error occurred when saving database changes
  func displayError(error: NSError?, title: String, message: String)
  {
- if (showMe) {print("DVC.displayError")}
+ if (showAll) {print("DVC.displayError")}
  let alertController = UIAlertController(title: title, message: String(format: "%@\nError:\(error)\n", message), preferredStyle: UIAlertControllerStyle.alert)
  let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
  alertController.addAction(okAction)

@@ -17,7 +17,12 @@ protocol AddEditTableViewControllerDelegate
 
 class AddEditTableViewController: UITableViewController, UITextFieldDelegate
 {  // called to notify delegate to store changes in the model
-let showMe = false
+
+let showAll = false                  // show everything
+let showSave = false               // show Save functions
+let showKeyboard = false       // show keyboard activations
+let showEditContact = false   // show edit contact
+
 
  @IBOutlet var inputFields: [UITextField]!
 
@@ -33,7 +38,7 @@ let showMe = false
     override func viewWillAppear(_ animated: Bool)
     {
         super.viewWillAppear(animated)
-if (showMe) {print("AETVC.viewWillAppear")}
+if (showAll) {print("AETVC.viewWillAppear")}
         // listen for keyboard show/hide notifications
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(notification:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil);
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(notification:)), name:NSNotification.Name.UIKeyboardWillHide, object: nil);
@@ -43,7 +48,7 @@ if (showMe) {print("AETVC.viewWillAppear")}
     override func viewWillDisappear(_ animated: Bool)
     {
       super.viewWillDisappear(animated)
-if (showMe) {print("AETVC.viewWillDisappear")}
+if (showAll) {print("AETVC.viewWillDisappear")}
       // unregister for keyboard show/hide notifications
       NotificationCenter.default.removeObserver(self, 
                   name: NSNotification.Name.UIKeyboardWillShow, 
@@ -56,29 +61,29 @@ if (showMe) {print("AETVC.viewWillDisappear")}
     override func viewDidLoad() 
     {
         super.viewDidLoad()
-if (showMe) {print("AETVC.viewDidLoad")}
+if (showAll) {print("AETVC.viewDidLoad")}
         // set AddEditTableViewController as the UITetFieldDelegate
         for textField in inputFields
         {
-if (showMe) {print("ATVC.textField.delegate = self")}
+if (showAll) {print("ATVC.textField.delegate = self")}
             textField.delegate = self
         }
 
         // if editing a Contact, display its data
         if editingContact
         {
-if (showMe || true) {print("AETVC.editingContact")}
+if (showAll || showEditContact) {print("AETVC.editingContact")}
             for i in 0..<fieldNames.count
             {
-if (showMe || true) {print("AETVC.counting1")}
+if (showAll || showEditContact) {print("AETVC.counting1")}
                 // query Contact object with valueForKey
                 if let value: AnyObject =  contact?.value(forKey: fieldNames[i]) as AnyObject?
                 {
                     inputFields[i].text = (value as AnyObject).description
-if (showMe || true) {print("(inputFields[i].text)")}
+if (showAll || showEditContact) {print("(inputFields[i].text)")}
                 }
             }
-if (showMe || true) {print("AETVC.editingContact.end")}
+if (showAll || showEditContact) {print("AETVC.editingContact.end")}
         }
 
         // Uncomment the following line to preserve selection between presentations
@@ -94,7 +99,7 @@ if (showMe || true) {print("AETVC.editingContact.end")}
   
     func keyboardWillShow(notification: NSNotification)
     {
-if (showMe) {print("AETVC:KeyboardWillShow")}
+if (showAll || showKeyboard) {print("AETVC:KeyboardWillShow")}
         let userInfo = notification.userInfo!
         let frame = userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue!
         let size = frame?.cgRectValue.size // keyboard's size
@@ -115,7 +120,7 @@ if (showMe) {print("AETVC:KeyboardWillShow")}
     // called when app receives UIKeyboardWillHideNotification
     func keyboardWillHide(notification: NSNotification)
     {
-if (showMe) {print("AETVC.keyboardWillHide")}
+if (showAll || showKeyboard) {print("AETVC.keyboardWillHide")}
         var insets = self.tableView.contentInset
         insets.bottom = 0
         self.tableView.contentInset = insets
@@ -125,18 +130,18 @@ if (showMe) {print("AETVC.keyboardWillHide")}
     // hide keyboard if user touches Return key
     func textFieldShouldReturn(_ textField: UITextField) -> Bool
     {
-if (showMe) {print("AETVC.textFieldShouldReturn")}
+if (showAll || showKeyboard) {print("AETVC.textFieldShouldReturn")}
         textField.resignFirstResponder()
         return true
     }
 
     @IBAction func saveButtonPressed(_ sender: Any) 
     {
-if (showMe || true) {print("AETVC.saveButtonPressed")}
+if (showAll || showSave) {print("AETVC.saveButtonPressed")}
         // ensure that first name and last name UITextFields are not empty
         if (inputFields[0].text?.isEmpty)! || (inputFields[1].text?.isEmpty)!
         {
-if (showMe || true) {print("AETVC.inputFields.isEmpty")}
+if (showAll || showSave) {print("AETVC.inputFields.isEmpty")}
             // create UIAlertController to display error message
             let alertController = UIAlertController(title: "Error",
                                               message: "First name and last name are required",
@@ -149,20 +154,20 @@ if (showMe || true) {print("AETVC.inputFields.isEmpty")}
         }
         else
         {
-if (showMe || true) {print("AETVC.inputFields.NotEmpty")}
+if (showAll || showSave) {print("AETVC.inputFields.NotEmpty")}
             // update the Contract using NSManagedObject method setValue
             for i in 0..<fieldNames.count
             {
-               if (showMe || true) {print("AETVC.counting2")}
+               if (showAll || showSave) {print("AETVC.counting2")}
                 // query Contact object with valueForKey
                 let value = (!((inputFields[i].text?.isEmpty)!) ?  inputFields[i].text : nil)
                 self.contact?.setValue(value, forKey: fieldNames[i])
-if (showMe || true) {print("\n\(fieldNames[i]): \(value)")}
+if (showAll || showSave) {print("\n\(fieldNames[i]): \(value)")}
             }
-if (showMe || true) {print("AETVC.inputFields.ended")}
+if (showAll || showSave) {print("AETVC.inputFields.ended")}
                 self.delegate?.didSaveContact(controller: self)
         }
-if (showMe || true) {print("AETVC.saveButtonPressed.end")}
+if (showAll || showSave) {print("AETVC.saveButtonPressed.end")}
     }
 
 }
@@ -170,7 +175,7 @@ if (showMe || true) {print("AETVC.saveButtonPressed.end")}
 /*
     override func didReceiveMemoryWarning() 
     {
-if (showMe) {print("AETVC.didReceiveMemoryWarning")}
+if (showAll) {print("AETVC.didReceiveMemoryWarning")}
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
