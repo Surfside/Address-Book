@@ -18,7 +18,7 @@ protocol AddEditTableViewControllerDelegate
 class AddEditTableViewController: UITableViewController, UITextFieldDelegate
 {  // called to notify delegate to store changes in the model
 
-let showAll = false                  // show everything
+let showAll = true                  // show everything
 let showSave = false               // show Save functions
 let showKeyboard = false       // show keyboard activations
 let showEditContact = false   // show edit contact

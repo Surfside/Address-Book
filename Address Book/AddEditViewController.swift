@@ -11,7 +11,7 @@ import CoreData
 
 class AddEditViewController: UITableViewController, UITextFieldDelegate, NSFetchedResultsControllerDelegate
 {
-let showAll = false
+let showAll = true
 let showInsertObject = false
 let showSegues = false
 let showTable = false

@@ -14,27 +14,33 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate 
 {
 
-let showAll = false                // show everything
-let showCoreData = false      // show core data functions
-let showSplitView = false      // show split view functions
+let showAll = true                  // show everything
+let showApp = true               // show application processes
+let showCoreData = true      // show core data functions
+let showSplitVC = true      // show split view functions
+let showSteps = true            // show internal steps
 
 
   var window: UIWindow?
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool 
   {
-if (showAll) {print("AppDel.application.didFinishLaunchingWithOptions")}
+if (showAll || showApp) {print("AD1.LaunchWOptions")}
     // Override point for customization after application launch.
     let splitViewController = self.window!.rootViewController as! UISplitViewController
-
-let navigationController = splitViewController.viewControllers[splitViewController.viewControllers.count-1] as! UINavigationController
-navigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
+if (showAll || showSteps) {print("AD.splitVC assigned")}
+    let navigationController = splitViewController.viewControllers[splitViewController.viewControllers.count-1] as! UINavigationController
+if (showAll || showSteps) {print("AD.sVC.count = \(splitViewController.viewControllers.count)")}
+    navigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
+if (showAll || showApp) {print("AD.navVC.topVC.leftButton goes back to splitVC")}
     splitViewController.delegate = self
-
+if (showAll || showSteps) {print("sVC.delegate is AppDel")}
     let masterNavigationController = splitViewController.viewControllers[0] as! UINavigationController
+if (showAll || showSteps){print("AD.masterNC = splitVC")}
     let controller = masterNavigationController.topViewController as! MasterViewController
+if (showAll || showSteps) {print("AD.point to masterVC")}
     controller.managedObjectContext = self.persistentContainer.viewContext
-if (showAll) {print("AppDel.application:didFinishLaunching")}
+if (showAll || showSteps) {print("AD.MOContext is PC.viewContext")}
     return true
   }
 
@@ -61,7 +67,7 @@ if (showAll) {print("AppDel.applicationWillEnterForeground")}
 
   func applicationDidBecomeActive(_ application: UIApplication) 
   {
-if (showAll) {print("AppDel.applicationDidBecomeActive")}
+if (showAll) {print("AD6.appDidBecomeActive")}
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
   }
 
@@ -74,55 +80,67 @@ if (showAll) {print("AppDel.applicationWillTerminate")}
   }
 
 
-  // MARK: - Split view
+    // MARK: - Split view
 
-   func splitViewController(_ splitViewController: UISplitViewController,
+    func splitViewController(_ splitViewController: UISplitViewController,
           collapseSecondary secondaryViewController:UIViewController, 
           onto primaryViewController:UIViewController)
                -> Bool
-  {
-if (showAll || showSplitView) {print("AppDel.splitViewController.collapseSecondary.onto PrimaryVC")}
-      if let secondaryAsNavController = secondaryViewController as? UINavigationController {
-         if let topAsDetailController = secondaryAsNavController.topViewController as? DetailViewController {  // else { return false }
-            if topAsDetailController.detailItem == nil
-            {
-if (showAll || showSplitView) {print("AppDel.topAsDetailController == nil")}
-               // Return true to indicate that we have handled the collapse by doing nothing; the secondary controller will be discarded.
-               return true
-            }
-         } else if (secondaryAsNavController.topViewController as? InstructionsViewController) != nil
-              {
-if (showAll || showSplitView) {print("AppDel.secondaryAsNavConroller is InstructionsViewController")}
-                 return true
-              }
-      }
-      return false
-   }
-
-
-  // MARK: - Core Data stack
-
-  lazy var persistentContainer: NSPersistentContainer =
-  {
-let showLazy = false
-if (showLazy || false) {print("AppDel.persistentContainer.created.")}
-/*
-  The persistent container for the application. This
-  implementation creates and returns a container, having
-  loaded the store for the application to it. This property
-  is optional since there are legitimate error conditions
-  that could cause the creation of the store to fail.
-*/
-    let container = NSPersistentContainer(name: "AddressBook")
-if (showLazy || false) {print("AppDel.container is set to \(container.name)")}
-    container.loadPersistentStores(completionHandler:
     {
-      (storeDescription, error) in
-          if let nserror = error as NSError?
-          {
-if (showLazy || false) {print("AppDel.error is: \(nserror)")}
+if (showAll || showSplitVC) {print("AD3.splitVC.collapseSecond onto PrimaryVC")}
+        if let secondaryAsNavController = secondaryViewController as? UINavigationController
+        {   // if secondary is Navigation Controller
+            if let topAsDetailController = secondaryAsNavController.topViewController as? DetailViewController
+            {   // and if it's topVC is DetailViewController
+                if topAsDetailController.detailItem == nil
+                { // and if that detail controller has no contact information
+                  // then the secondary controller will be discarded
+if (showAll || showSplitVC) {print("AppDel.topAsDetailController == nil")}
+                    // true indicates that we have handled the collapse by doing nothing
+                    return true
+                }
+                // maybe add code here if that detail controller has some contact information
+            }  //  so topVC is not DetailViewController
+            else if (secondaryAsNavController.topViewController as? InstructionsViewController) != nil
+            { // if topVC is Instructions
+if (showAll || showSplitVC) {print("AD4.topVC is Instructions")}
+                // true indicates that we have handled the collapse by doing nothing
+                return true
+            } // so topVC is not InstructionsViewController of DetailViewController
+if (showAll || showSplitVC) {print("AD not InstructionsVC nor DetailVC")}
+        }  // there is no NavigationController
+if (showAll || showSplitVC) {print("AD.return false")}
+        // false indicates that we have handled the collapse by doing something
+        return false
+    }
+
+
+
+    // MARK: - Core Data stack
+
+   /*
+    The persistent container for the application. This
+    implementation creates and returns a container, having
+    loaded the store for the application to it. This property
+    is optional since there are legitimate error conditions
+    that could cause the creation of the store to fail.
+    */
+
+    lazy var persistentContainer: NSPersistentContainer =
+    {  // create a persistent container and load the store called AddressBook
+let showLazy = false
+if (showLazy || false) {print("AD.creating persistentContainer")}
+        let container = NSPersistentContainer(name: "AddressBook")
+if (showLazy || false) {print("AD.container named: \(container.name)")}
+        container.loadPersistentStores(completionHandler:
+        {
+          (storeDescription, error) in
+            if let nserror = error as NSError?
+            {
+if (showLazy || false) {print("AD.while trying to load the store this error occurred: \(nserror)")}
             // Replace this implementation with code to handle the error appropriately.
-            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            // fatalError() causes the application to generate a crash log and terminate. 
+            // You should not use this function in a shipping application, although it may be useful during development.
                
             /*
                Typical reasons for an error here include:
@@ -133,12 +151,11 @@ if (showLazy || false) {print("AppDel.error is: \(nserror)")}
                Check the error message to determine what the actual problem was.
             */
             fatalError("Unresolved error in Persistent Container: \(nserror), \(nserror.userInfo)")
-          }
-//abort() // added by wayne
-      })
-if (showLazy || false) {print("AppDel.returnedContainer is \(container.name)")}
-      return container
-  }()
+            }
+        })
+if (showLazy || false) {print("AD.persistentContainer: \(container.name) was returned")}
+        return container
+    }()
 
 
   // MARK: - Core Data Saving support

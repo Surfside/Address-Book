@@ -17,7 +17,7 @@ let showTableView = false        // only table view
 let showFetchedData = false    // only fetched data
 let showInstructions = false     // only Instructions
 let showSegues = false             // only Segues
-let showSaveEdit = true          // only Save or Edit functions
+let showSaveEdit = false          // only Save or Edit functions
 let showError = false               // only errors
 
 
