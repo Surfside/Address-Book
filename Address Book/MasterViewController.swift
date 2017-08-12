@@ -17,7 +17,7 @@ let showTableView = false        // only table view
 let showFetchedData = false    // only fetched data
 let showInstructions = false     // only Instructions
 let showSegues = false             // only Segues
-let showSaveEdit = false          // only Save or Edit functions
+let showSaveEdit = true          // only Save or Edit functions
 let showError = false               // only errors
 
 
@@ -141,39 +141,47 @@ if (showAll || showSegues) {print("M.prepareForSegue.showAddContact")}
 
   // MARK: - Save or Edit Contact
 
-   // called by AddEditViewController after a contact is added
-   func didSaveContact(controller: AddEditTableViewController)
-   {
-if (showAll || showSaveEdit) {print("M.didSaveContact")}
-    // get NSManagedObjectContext and insert new contact into it
-    let context = self.fetchedResultsController.managedObjectContext
-    context.insert(controller.contact!)
-//    self.navigationController?.popToRootViewController(animated: true)
-self.navigationController!.popViewController(animated: true)
-    // save the context to store the new contact
-    let nserror: NSError? = nil
-//    if !context.save(&error) { // check for error
-if (nserror != nil)
+   // called by AddEditTableViewController after a contact is added
+    func didSaveContact(controller: AddEditTableViewController)
     {
-      displayError(error: nserror, title: "Error Saving Data in Master at 1\n",
+if (showAll || showSaveEdit) {print("M.didSaveContact - 1")}
+        // get NSManagedObjectContext
+        let context = self.fetchedResultsController.managedObjectContext
+if(showAll || showSaveEdit){print("M.context = \(context.description)")}
+        // insert new contact into it
+        context.insert(controller.contact!)
+        // popToRootViewController
+        self.navigationController!.popViewController(animated: true)
+        // clear error messages
+        let nserror: NSError? = nil
+        // check for error messages
+        if (nserror != nil)
+        {
+            displayError(error: nserror, title: "Error Saving Data in Master at 1\n",
                    message: "Unable to save contact")
-    } else { // if no error, display new contact details
-if (showAll || showSaveEdit) {print("M.newContactSaved")}
-      let sectionInfo =
+        }
+        else
+            {   // if no error, display new contact details
+if (showAll || showSaveEdit) {print("M.newContactSaved - 2")}
+                // fetch section information
+                let sectionInfo =
       self.fetchedResultsController.sections![0] as NSFetchedResultsSectionInfo
-//  if let row = FIND(sectionInfo.objects as [NSManagedObject], controller.contact!) {
-let row = sectionInfo.numberOfObjects-1 // minus 1 ????
-if !(row < 0)
-{
-if (showAll || showSaveEdit) {print("M.row = 0")}
-        let path = NSIndexPath(row: row, section: 0)
-        tableView.selectRow(at: path as IndexPath, animated: true, scrollPosition: .middle)
-}
-if (showAll || showSaveEdit) {print("M.performSegue.showContactDetail")}
-        performSegue(withIdentifier: "showContactDetail",
+if (showAll || showSaveEdit) {print("M.rowNumber = \(sectionInfo.numberOfObjects)")}
+                //  if let row = FIND(sectionInfo.objects as [NSManagedObject], controller.contact!) {
+                // fetch row information
+                let row = sectionInfo.numberOfObjects-1
+                // if row is less than 0 - error
+                if !(row < 0)
+                {
+if (showAll || showSaveEdit) {print("M.badRowNumber = \(row.description)")}
+                    let path = NSIndexPath(row: row, section: 0)
+                    tableView.selectRow(at: path as IndexPath, animated: true, scrollPosition: .middle)
+                }
+if (showAll || showSaveEdit) {print("M.segue showContactDetail - 3")}
+                performSegue(withIdentifier: "showContactDetail",
                                    sender: nil)
-      }
-   }
+            }
+    }
 
    // called by DetailViewController after a contact is edited
    func didEditContact(controller: DetailViewController)
