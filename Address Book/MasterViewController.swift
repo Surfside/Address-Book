@@ -12,7 +12,7 @@ import CoreData
 class MasterViewController: UITableViewController,NSFetchedResultsControllerDelegate,  AddEditTableViewControllerDelegate, DetailViewControllerDelegate
 {
 
-let showAll = false                    // everything
+let showAll = true                    // everything
 let showTableView = false        // only table view
 let showFetchedData = false    // only fetched data
 let showInstructions = false     // only Instructions
@@ -21,41 +21,63 @@ let showSaveEdit = true          // only Save or Edit functions
 let showError = false               // only errors
 
 
-  //NSFetchedResultsController informs MasterViewcontroller if the underlying data has changed i.e. a Contact has been changed
+    //NSFetchedResultsController informs MasterViewcontroller if the underlying data has changed i.e. a Contact has been changed
 
-  var detailViewController: DetailViewController? = nil
-  var managedObjectContext: NSManagedObjectContext? = nil
+    var detailViewController: DetailViewController? = nil
+    var managedObjectContext: NSManagedObjectContext? = nil
 
-  // configure popover for UITableView on IPad
-  override func awakeFromNib() 
-  {
-     super.awakeFromNib()
-if (showAll) {print("M.awakeFromNib")}
-    if UIDevice.current.userInterfaceIdiom == .pad
+    // configure popover for UITableView on IPad
+    override func awakeFromNib()
     {
-       self.clearsSelectionOnViewWillAppear = false
-       self.preferredContentSize = CGSize(width: 320.0, height: 600.0)
+        super.awakeFromNib()
+if (showAll) {print("M1.awakeFromNib")}
+        if UIDevice.current.userInterfaceIdiom == .pad
+        {
+            self.clearsSelectionOnViewWillAppear = false
+            self.preferredContentSize = CGSize(width: 320.0, height: 600.0)
+        }
     }
-  }
 
-  // called just before MasterViewController is presented on the screen
-//override func viewWillAppear(animated: Bool)
-  override func viewWillAppear(_ animated: Bool)
-  {
-    super.viewWillAppear(animated)
-    //self.clearsSelectionOnViewWillAppear = self.splitViewController!.isCollapsed
-if (showAll) {print("M.viewWillAppear")}
-    displayFirstContactOrInstructions()
-  }
+    // called after the view did load allowing further UI configuration
+    override func viewDidLoad()
+    {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+if (showAll) {print("M2.viewDidLoad")}
+
+/*
+  *    self.navigationItem.leftBarButtonItem = self.editButtonItem
+  *    let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(insertNewObject(_:)))
+  *    self.navigationItem.rightBarButtonItem = addButton
+  */
+
+        if let split = self.splitViewController
+        {
+if (showAll) {print("M3.splitViewController")}
+            let controllers = split.viewControllers
+            self.detailViewController =
+            (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
+        }
+   }
+   
+
+    // called just before MasterViewController is presented on the screen
+    override func viewWillAppear(_ animated: Bool)
+    {
+        super.viewWillAppear(animated)
+        //self.clearsSelectionOnViewWillAppear = self.splitViewController!.isCollapsed
+if (showAll) {print("M7.viewWillAppear")}
+       displayFirstContactOrInstructions()
+    }
 
   // if the UISplitViewController is not collapsed
   // select first contact or display InstructionsViewController
   func displayFirstContactOrInstructions()
   {
-if (showAll || showInstructions) {print("M.displayFirstContactOrInstructions")}
+if (showAll || showInstructions) {print("M8.displayFirstContactOrInstructions")}
     if let splitViewController = self.splitViewController
     {
-if (showAll || showInstructions) {print("M.splitViewController")}
+if (showAll || showInstructions) {print("M9.splitViewController")}
       if !splitViewController.isCollapsed
       { // select and display first contact if there is one
 if (showAll || showInstructions) {print("M.splitVC.isCollapsed")}
@@ -74,27 +96,6 @@ if (showAll || showInstructions) {print("M.performSegue.showInstructions")}
           self.performSegue(withIdentifier: "showInstructions", sender: self)
         }
       }
-    }
-  }
-
-  // callled after the view loads for further UI configuration
-  override func viewDidLoad()
-  {
-    super.viewDidLoad()
-    /*
-    // Do any additional setup after loading the view, typically from a nib.
-    self.navigationItem.leftBarButtonItem = self.editButtonItem
-
-     let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(insertNewObject(_:)))
-     self.navigationItem.rightBarButtonItem = addButton
-     */
-if (showAll) {print("M.viewDidLoad")}
-    if let split = self.splitViewController
-    {
-if (showAll) {print("M.splitViewController2")}
-      let controllers = split.viewControllers
-      self.detailViewController = 
-            (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
     }
   }
 
@@ -223,18 +224,18 @@ if (showAll || showError) {print("M.displayError")}
    }
 
 
-  // MARK: - Table View
+    // MARK: - Table View
 
-  override func numberOfSections(in tableView: UITableView) -> Int
-  {
-if (showAll || showTableView) {print("M.numberOfSections")}
-    return self.fetchedResultsController.sections?.count ?? 0
-  }
+    override func numberOfSections(in tableView: UITableView) -> Int
+    {
+if (showAll || showTableView) {print("M4-9-14-18.numberOfSections")}
+        return self.fetchedResultsController.sections?.count ?? 0
+    }
 
   // callback that returns  number of rows in the UITbleView
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
   {
-if (showAll || showTableView) {print("M.tableView.numberOfRowsInSection")}
+if (showAll || showTableView) {print("M12-17-21.tableView.numberOfRowsInSection")}
      let sectionInfo = self.fetchedResultsController.sections![section] as NSFetchedResultsSectionInfo
      return sectionInfo.numberOfObjects
   }
@@ -306,73 +307,73 @@ if (showAll || showTableView) {print("M.configureCell.gotNoData")}
   }
 
 
-  // MARK: - Fetched results controller
+    // MARK: - Fetched results controller
+   
+   // create an empty fetched results controller to hold the Contact records
+   var _fetchedResultsController: NSFetchedResultsController<Contact>? = nil
 
-  var fetchedResultsController: NSFetchedResultsController<Contact>
-  {
-if (showAll || showFetchedData) {print("M.fetchedResultsController")}
-
-    // return only fetched results that are not empty, or nil
-    if _fetchedResultsController != nil
+    var fetchedResultsController: NSFetchedResultsController<Contact>
     {
-if (showAll || showFetchedData) {print("M.fetchedResultscontroller is not nil")}
-      return _fetchedResultsController!
-    }
+if (showAll || showFetchedData) {print("M5-10-13-15-17-19-22.fetchedResultsController")}
 
-    // fetch another contact
-    let fetchRequest: NSFetchRequest<Contact> = Contact.fetchRequest()
-      
-    // Set the batch size to a suitable number - 20.
-    fetchRequest.fetchBatchSize = 20
-      
-    // Edit the sort key as appropriate.
-//    let timeStampSortDescriptor = NSSortDescriptor(key: "timestamp", ascending: false)
+        // return only fetched results that are not empty, or nil
+        if _fetchedResultsController != nil
+        {
+if (showAll || showFetchedData) {print("M11-14-16-18-20-23.fetchedResultscontroller is not nil")}
+            return _fetchedResultsController!
+        }
 
-    // Edited to sort by last name, then first name
-    // both using case insensitive comparisons
-    let lastNameSortDescriptor = NSSortDescriptor(key: "lastname", ascending: true)
-//    let firstNameSortDescriptor = NSSortDescriptor(key: "firstname", ascending: false)
+        // fetch another contact
+        let fetchRequest: NSFetchRequest<Contact> = Contact.fetchRequest()
 
-    fetchRequest.sortDescriptors = [
-//                                       timeStampSortDescriptor,
+        // Set the batch size to a suitable number - 20.
+        fetchRequest.fetchBatchSize = 20
+
+        // Sort by timestamp
+//     let timeStampSortDescriptor = NSSortDescriptor(key: "timestamp", ascending: false)
+        // Sort by last name
+        let lastNameSortDescriptor = NSSortDescriptor(key: "lastname", ascending: true)
+        // Sort by first name
+//     let firstNameSortDescriptor = NSSortDescriptor(key: "firstname", ascending: false)
+
+        fetchRequest.sortDescriptors = [
+//                                      timeStampSortDescriptor,
                                          lastNameSortDescriptor,
-//                                        firstNameSortDescriptor
-     ]
-      
-    // Create the sectionNameKeyPath and cacheName
-    //  for aFetchedResultsController
-    // sectionNameKeyPath: nil means "no sections"
-    let aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext!, sectionNameKeyPath: nil, cacheName: "Master")
+//                                      firstNameSortDescriptor
+        ]
 
-    // assign a delegate for aFetchedResultsController
-    aFetchedResultsController.delegate = self
+        // Create a FetchedResultsController and give it a cacheName
+        // a sectionNameKeyPath: nil means "no sections"
+        let aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext!, sectionNameKeyPath: nil, cacheName: "Master")
 
-    // connect the fetchedResultsController to the database
-    _fetchedResultsController = aFetchedResultsController
+        // MVC is the delegate for aFetchedResultsController
+        aFetchedResultsController.delegate = self
 
-    // do try to fetch data from database, catch all errors
-    do 
-    {
-if (showAll) {print("M.do3 try.fetchedResultsController")}
-      try _fetchedResultsController!.performFetch()
-    } 
-    catch 
-    {
+        // point it to the fetched results controller we created
+        _fetchedResultsController = aFetchedResultsController
+
+        // do try to fetch data from database, catch all errors
+        do
+        {
+if (showAll) {print("M6.do3 try.fetchedResultsController")}
+            // fetch data to the fetched results controller
+            try _fetchedResultsController!.performFetch()
+        }
+        catch
+        {
 if (showAll) {print("M.do3 catch.fetchedResultsController")}
-      // Replace this implementation with code to handle the error appropriately.
-      // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-      let nserror = error as NSError
-      displayError(error: nserror, title: "Error Fetching Data", message: "Unable to get data from database")
-      fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            // Replace this implementation with code to handle the error appropriately.
+            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            let nserror = error as NSError
+            displayError(error: nserror, title: "Error Fetching Data", message: "Unable to get data from database")
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+        }
+
+        // return the fetched results controller
+        return _fetchedResultsController!
     }
 
-    // return the database
-    return _fetchedResultsController!
-  }    
-
-  var _fetchedResultsController: NSFetchedResultsController<Contact>? = nil
-
-  func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) 
+  func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>)
   {
 if (showAll || showFetchedData) {print("M.controllerWillChangeContect")}
     self.tableView.beginUpdates()
