@@ -16,7 +16,7 @@ protocol DetailViewControllerDelegate
 
 class DetailViewController: UIViewController, AddEditTableViewControllerDelegate
 {
-let showAll = true
+let showAll = false
 let showSave = false
 let showSegues = false
 

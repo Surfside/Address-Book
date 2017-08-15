@@ -12,7 +12,7 @@ import CoreData
 class MasterViewController: UITableViewController,NSFetchedResultsControllerDelegate,  AddEditTableViewControllerDelegate, DetailViewControllerDelegate
 {
 
-let showAll = true                    // everything
+let showAll = false                    // everything
 let showTableView = false        // only table view
 let showFetchedData = false    // only fetched data
 let showInstructions = false     // only Instructions
@@ -67,14 +67,14 @@ if (showAll) {print("M3.splitViewController")}
         super.viewWillAppear(animated)
         //self.clearsSelectionOnViewWillAppear = self.splitViewController!.isCollapsed
 if (showAll) {print("M7.viewWillAppear")}
-       displayFirstContactOrInstructions()
+       displayContactListOrInstructions()
     }
 
   // if the UISplitViewController is not collapsed
   // select first contact or display InstructionsViewController
-  func displayFirstContactOrInstructions()
+  func displayContactListOrInstructions()
   {
-if (showAll || showInstructions) {print("M8.displayFirstContactOrInstructions")}
+if (showAll || showInstructions) {print("M8.displayContactListOrInstructions")}
     if let splitViewController = self.splitViewController
     {
 if (showAll || showInstructions) {print("M9.splitViewController")}
@@ -282,7 +282,7 @@ if (showAll || showTableView) {print("M.do2 catch")}
          fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
       }
 
-      displayFirstContactOrInstructions()
+      displayContactListOrInstructions()
     }
   }
 

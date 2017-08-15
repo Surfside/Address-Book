@@ -30,11 +30,11 @@ if (showAll || showApp) {print("AD1.LaunchWOptions")}
     let splitViewController = self.window!.rootViewController as! UISplitViewController
 if (showAll || showSteps) {print("AD.splitVC assigned")}
     let navigationController = splitViewController.viewControllers[splitViewController.viewControllers.count-1] as! UINavigationController
-if (showAll || showSteps) {print("AD.sVC.count = \(splitViewController.viewControllers.count)")}
+if (showAll || showSteps) {print("AD.splitVC.count = \(splitViewController.viewControllers.count)")}
     navigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
 if (showAll || showApp) {print("AD.navVC.topVC.leftButton goes back to splitVC")}
     splitViewController.delegate = self
-if (showAll || showSteps) {print("sVC.delegate is AppDel")}
+if (showAll || showSteps) {print("splitVC.delegate is AppDel")}
     let masterNavigationController = splitViewController.viewControllers[0] as! UINavigationController
 if (showAll || showSteps){print("AD.masterNC = splitVC")}
     let controller = masterNavigationController.topViewController as! MasterViewController
@@ -87,19 +87,22 @@ if (showAll) {print("AppDel.applicationWillTerminate")}
           onto primaryViewController:UIViewController)
                -> Bool
     {
-if (showAll || showSplitVC) {print("AD3.splitVC.collapseSecond onto PrimaryVC")}
+if (showAll || showSplitVC) {print("AD3.splitVC.collapseSecondVC onto PrimaryVC")}
         if let secondaryAsNavController = secondaryViewController as? UINavigationController
         {   // if secondary is Navigation Controller
+if (showAll || showSplitVC) {print("AD.splitVC.secondaryNC is secondaryVC as NC")}
             if let topAsDetailController = secondaryAsNavController.topViewController as? DetailViewController
             {   // and if it's topVC is DetailViewController
+if (showAll || showSplitVC) {print("AD.splitVC.topVC is DetailVC")}
                 if topAsDetailController.detailItem == nil
                 { // and if that detail controller has no contact information
                   // then the secondary controller will be discarded
-if (showAll || showSplitVC) {print("AppDel.topAsDetailController == nil")}
+if (showAll || showSplitVC) {print("AD.splitVC.DVC.detailItem == nil")}
                     // true indicates that we have handled the collapse by doing nothing
                     return true
                 }
                 // maybe add code here if that detail controller has some contact information
+if (showAll || showSplitVC) {print("AD.splitVD.DVC.detailItem != nil")}
             }  //  so topVC is not DetailViewController
             else if (secondaryAsNavController.topViewController as? InstructionsViewController) != nil
             { // if topVC is Instructions
@@ -108,8 +111,8 @@ if (showAll || showSplitVC) {print("AD4.topVC is Instructions")}
                 return true
             } // so topVC is not InstructionsViewController of DetailViewController
 if (showAll || showSplitVC) {print("AD not InstructionsVC nor DetailVC")}
-        }  // there is no NavigationController
-if (showAll || showSplitVC) {print("AD.return false")}
+        }  // there is no top View Controller
+if (showAll || showSplitVC) {print("AD.topVC is MasterVC")}
         // false indicates that we have handled the collapse by doing something
         return false
     }

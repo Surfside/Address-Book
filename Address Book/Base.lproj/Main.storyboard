@@ -407,10 +407,10 @@
                             <outlet property="delegate" destination="omF-be-0V8" id="YqC-ed-zlZ"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Add or Edit" id="rHZ-gN-TlP">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="JET-e1-3tA">
+                    <navigationItem key="navigationItem" title="Add or Edit" id="ZO3-Zw-NyD">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="bBy-3f-v7a">
                             <connections>
-                                <action selector="saveButtonPressed:" destination="omF-be-0V8" id="aa2-TA-4zT"/>
+                                <action selector="saveButtonPressed:" destination="omF-be-0V8" id="H7t-uM-ZCF"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -503,7 +503,7 @@
                             <outlet property="delegate" destination="7bK-jq-Zjz" id="RA6-mI-bju"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="List" id="Zdf-7t-Un8">
+                    <navigationItem key="navigationItem" title="Contact List" id="Zdf-7t-Un8">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="jaK-4x-4Fh">
                             <connections>
                                 <segue destination="Zmc-1N-IV7" kind="showDetail" identifier="showAddContact" id="Bjs-91-zEQ"/>
@@ -583,7 +583,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="Bjs-91-zEQ"/>
         <segue reference="t5O-LA-s6C"/>
-        <segue reference="wUZ-5A-nfm"/>
     </inferredMetricsTieBreakers>
 </document>

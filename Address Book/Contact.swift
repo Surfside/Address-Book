@@ -14,7 +14,7 @@ public class Contact: NSManagedObject
 {
   @nonobjc public class func fetchRequest() -> NSFetchRequest<Contact> 
   {
-let showAll = true
+let showAll = false
 if (showAll || false) {print("C1.fetchRequest")}
      return NSFetchRequest<Contact>(entityName: "Contact");
   }
