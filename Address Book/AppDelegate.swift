@@ -14,11 +14,11 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate 
 {
 
-let showAll = true                  // show everything
-let showApp = true               // show application processes
-let showCoreData = true      // show core data functions
-let showSplitVC = true      // show split view functions
-let showSteps = true            // show internal steps
+let showAll = false                  // show everything
+let showApp = false               // show application processes
+let showCoreData = false      // show core data functions
+let showSplitVC = false      // show split view functions
+let showSteps = false            // show internal steps
 
 
   var window: UIWindow?

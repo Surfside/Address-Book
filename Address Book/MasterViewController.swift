@@ -17,7 +17,7 @@ let showTableView = false        // only table view
 let showFetchedData = false    // only fetched data
 let showInstructions = false     // only Instructions
 let showSegues = false             // only Segues
-let showSaveEdit = false          // only Save or Edit functions
+let showSaveEdit = true          // only Save or Edit functions
 let showError = false               // only errors
 
 
@@ -70,118 +70,168 @@ if (showAll) {print("M7.viewWillAppear")}
        displayContactListOrInstructions()
     }
 
-  // if the UISplitViewController is not collapsed
-  // select first contact or display InstructionsViewController
-  func displayContactListOrInstructions()
-  {
+    // if the UISplitViewController is not collapsed
+    // select first contact or display InstructionsViewController
+    func displayContactListOrInstructions()
+    { // chooses which VC to display Contact List or Instructions
 if (showAll || showInstructions) {print("M8.displayContactListOrInstructions")}
-    if let splitViewController = self.splitViewController
-    {
+        if let splitViewController = self.splitViewController
+        { // get the split view controller
 if (showAll || showInstructions) {print("M9.splitViewController")}
-      if !splitViewController.isCollapsed
-      { // select and display first contact if there is one
+        // if splitViewController is not collapsed then a
+        // second controller must be displayed to the
+        // right of the Master view controller, so...
+        if !splitViewController.isCollapsed
+        { // there is a second controller to the right of the Master
 if (showAll || showInstructions) {print("M.splitVC.isCollapsed")}
-        if self.tableView.numberOfRows(inSection: 0) > 0 
-        {
+            if self.tableView.numberOfRows(inSection: 0) > 0
+            { // the table contains a least one row of contacts
 if (showAll || showInstructions) {print("M.tableView.numberOfRows")}
-          let indexPath = NSIndexPath(row: 0, section: 0)
-          self.tableView.selectRow(at: indexPath as IndexPath, 
-               animated: false, 
-               scrollPosition: UITableViewScrollPosition.top)
-          self.performSegue(withIdentifier: "showContactDetail", sender: self)
-        }
-        else
-        { // display InstructionsViewController
+                // get the indexPath to the first row
+                let indexPath = NSIndexPath(row: 0, section: 0)
+                // select the first row and make it visible
+                self.tableView.selectRow(at: indexPath as IndexPath,
+                   animated: false,
+                   scrollPosition: UITableViewScrollPosition.top)
+                // show the contact list for the selected contact
+                self.performSegue(withIdentifier: "showContactDetail", sender: self)
+            }
+            else
+                {  // there are NO rows in the table
 if (showAll || showInstructions) {print("M.performSegue.showInstructions")}
-          self.performSegue(withIdentifier: "showInstructions", sender: self)
+                    // so show the Instructions
+                    self.performSegue(withIdentifier: "showInstructions", sender: self)
+                }
+            // split View Controller is not collapsed and 
+            // a secondary is assigned
+            }
+        // no secondary exists to the right of Master
         }
-      }
+    // either the contact list or the instructions are displayed
     }
-  }
 
-  // MARK: - Segues
+    // MARK: - Segues
 
-   override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-   {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    { // which segue do we prepare for
 if (showAll || showSegues) {print("M.prepareForSegue")}
-      if segue.identifier == "showContactDetail"
-      {
-if (showAll || showSegues) {print("M.prepareForSegue.showContactDetail")}
-         if let indexPath = self.tableView.indexPathForSelectedRow
-         {
+        if segue.identifier == "showContactDetail"
+        { // if segue to detail view controller
+if (showAll || showSegues) {print("M.showContactDetail")}
+            if let indexPath = self.tableView.indexPathForSelectedRow
+            {   // get indexPath to the selected row
 if (showAll || showSegues) {print("M.indexPath")}
-            // get Contact for selected row
-            let selectedContact = self.fetchedResultsController.object(at: indexPath) as Contact
-
-            // Configure  DetailViewController
-            let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
-            controller.delegate = self
-            controller.detailItem = selectedContact
-            controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
-            controller.navigationItem.leftItemsSupplementBackButton = true
-         }
-      }
-      else if segue.identifier == "showAddContact"
-      {
+                // retreive Contacts information for selected row
+                let selectedContact = self.fetchedResultsController.object(at: indexPath) as Contact
+if (showAll || showSegues) {print("M.select a contact")}
+                // get the DetailViewController
+                let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
+if (showAll || showSegues) {print("M.segue to DetailVC")}
+                // assign its delegate
+                controller.delegate = self
+if (showAll || showSegues) {print("M.assign delegate")}
+                // get the selected detail item
+                controller.detailItem = selectedContact
+if (showAll || showSegues) {print("M.detailItem is: \(controller.detailItem.description)")}
+                // get the left bar button items mode
+                controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
+if (showAll || showSegues) {print("M.display Mode Button")}
+                // show the left items name in back button
+                controller.navigationItem.leftItemsSupplementBackButton = true
+if (showAll || showSegues) {print("M.name back button")}
+            }
+        // contact's detail view is shown
+        }
+        else if segue.identifier == "showAddContact"
+            {   // if segue is to add contact
 if (showAll || showSegues) {print("M.prepareForSegue.showAddContact")}
-         // create a contact object that is not yet managed
-         let entity = self.fetchedResultsController.fetchRequest.entity!
-         let newContact = Contact(entity: entity, 
+                // get a contact object that is not yet managed
+                let entity = self.fetchedResultsController.fetchRequest.entity!
+if (showAll || showSegues) {print("M.fetchentity: \(entity.description)")}
+                // prepare to insert the new contact's data
+                let newContact = Contact(entity: entity,
               insertInto: nil)
-
-         // configure the AddEditTableViewController
-         let controller = (segue.destination as! 
+if (showAll || showSegues) {print("M.grab the new contact")}
+                // configure the AddEditTableViewController
+                let controller = (segue.destination as!
                UINavigationController).topViewController as!
                AddEditTableViewController
-         controller.navigationItem.title = "Add Contact"
-         controller.delegate = self
-         controller.editingContact = false // adding, not editing
-         controller.contact = newContact
-      }
-   }
+if (showAll || showSegues) {print("M.topVC is AETVC")}
+                // update the navigationItems title
+                controller.navigationItem.title = "Add Contact"
+if (showAll || showSegues) {print("M.name title: Add Contact")}
+                // set this controller's delegate
+                controller.delegate = self
+if (showAll || showSegues) {print("M.assign delegate")}
+                // true - edit the new contact, false is adding
+                controller.editingContact = false // adding
+if (showAll || showSegues) {print("M.adding a contact")}
+                // insert the new contact
+                controller.contact = newContact
+if (showAll || showSegues) {print("M.insert new contact")}
+            }
+        // not showContactDetail nor showAddContact, so...
+if (showAll || showSegues) {print("M.finished preparing segue")}
+        }
 
-  // MARK: - Save or Edit Contact
 
-   // called by AddEditTableViewController after a contact is added
+    // MARK: - Save or Edit Contact
+
+    // called by AddEditTableViewController after a contact is added
     func didSaveContact(controller: AddEditTableViewController)
-    {
+    {   // AETVC protocol - required
 if (showAll || showSaveEdit) {print("M.didSaveContact - 1")}
         // get NSManagedObjectContext
         let context = self.fetchedResultsController.managedObjectContext
 if(showAll || showSaveEdit){print("M.context = \(context.description)")}
         // insert new contact into it
         context.insert(controller.contact!)
+if (showAll || showSaveEdit) {print("M.insert contact into context")}
         // popToRootViewController
         self.navigationController!.popViewController(animated: true)
+if (showAll || showSaveEdit) {print("M.popVC")}
         // clear error messages
         let nserror: NSError? = nil
         // check for error messages
+if (showAll || showSaveEdit) {print("M.error is nil")}
+
+// try something?
+
         if (nserror != nil)
-        {
+        {   // error saving contact data
             displayError(error: nserror, title: "Error Saving Data in Master at 1\n",
                    message: "Unable to save contact")
         }
         else
-            {   // if no error, display new contact details
+            {   // if no errors, display new contact details
 if (showAll || showSaveEdit) {print("M.newContactSaved - 2")}
                 // fetch section information
                 let sectionInfo =
       self.fetchedResultsController.sections![0] as NSFetchedResultsSectionInfo
-if (showAll || showSaveEdit) {print("M.rowNumber = \(sectionInfo.numberOfObjects)")}
+if (showAll || showSaveEdit) {print("M.numberOfObjects = \(sectionInfo.numberOfObjects)")}
                 //  if let row = FIND(sectionInfo.objects as [NSManagedObject], controller.contact!) {
                 // fetch row information
                 let row = sectionInfo.numberOfObjects-1
+if (showAll || showSaveEdit) {print("M.get row")}
                 // if row is less than 0 - error
                 if !(row < 0)
-                {
+                {  // if any rows exist
 if (showAll || showSaveEdit) {print("M.badRowNumber = \(row.description)")}
+// get the path to each row
                     let path = NSIndexPath(row: row, section: 0)
+if (showAll || showSaveEdit) {print("M.get path for row: \(row.description)")}
+// select each row while keeping it visible
                     tableView.selectRow(at: path as IndexPath, animated: true, scrollPosition: .middle)
-                }
-if (showAll || showSaveEdit) {print("M.segue showContactDetail - 3")}
+if (showAll || showSaveEdit) {print("M.select row: \(row.description)")}
+                }  // even if no rows exist
+if (showAll || showSaveEdit) {print("M.rows are negative?")}
+                // segue to detail information
                 performSegue(withIdentifier: "showContactDetail",
                                    sender: nil)
+if (showAll || showSaveEdit) {print("M.segue showContactDetail - 3")}
+            // end else if no errors
             }
+    // didSaveContact finished
     }
 
    // called by DetailViewController after a contact is edited
