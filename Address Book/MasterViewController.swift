@@ -188,21 +188,23 @@ if(showAll || showSaveEdit){print("M.context = \(context.description)")}
         context.insert(controller.contact!)
 if (showAll || showSaveEdit) {print("M.insert contact into context")}
         // popToRootViewController
-        self.navigationController!.popViewController(animated: true)
-if (showAll || showSaveEdit) {print("M.popVC")}
-        // clear error messages
-        let nserror: NSError? = nil
-        // check for error messages
-if (showAll || showSaveEdit) {print("M.error is nil")}
-
-// try something?
-
-        if (nserror != nil)
-        {   // error saving contact data
-            displayError(error: nserror, title: "Error Saving Data in Master at 1\n",
+self.navigationController?.popToRootViewController(animated: true)
+//        self.navigationController!.popViewController(animated: true)
+if (showAll || showSaveEdit) {print("M.pop to Root VC")}
+      // clear error messages
+      let nserror: NSError? = nil
+      // check for error messages
+      if (showAll || showSaveEdit) {print("M.error is nil")}
+        do
+            {
+                try context.save()
+            }
+        catch
+            {   // error saving contact data
+                displayError(error: nserror, title: "Error Saving Data in Master at 1\n",
                    message: "Unable to save contact")
-        }
-        else
+            }
+        if nserror == nil
             {   // if no errors, display new contact details
 if (showAll || showSaveEdit) {print("M.newContactSaved - 2")}
                 // fetch section information
@@ -212,11 +214,11 @@ if (showAll || showSaveEdit) {print("M.numberOfObjects = \(sectionInfo.numberOfO
                 //  if let row = FIND(sectionInfo.objects as [NSManagedObject], controller.contact!) {
                 // fetch row information
                 let row = sectionInfo.numberOfObjects-1
-if (showAll || showSaveEdit) {print("M.get row")}
+//if (showAll || showSaveEdit) {print("M.get row")}
                 // if row is less than 0 - error
                 if !(row < 0)
                 {  // if any rows exist
-if (showAll || showSaveEdit) {print("M.badRowNumber = \(row.description)")}
+//if (showAll || showSaveEdit) {print("M.badRowNumber = \(row.description)")}
 // get the path to each row
                     let path = NSIndexPath(row: row, section: 0)
 if (showAll || showSaveEdit) {print("M.get path for row: \(row.description)")}
@@ -224,7 +226,7 @@ if (showAll || showSaveEdit) {print("M.get path for row: \(row.description)")}
                     tableView.selectRow(at: path as IndexPath, animated: true, scrollPosition: .middle)
 if (showAll || showSaveEdit) {print("M.select row: \(row.description)")}
                 }  // even if no rows exist
-if (showAll || showSaveEdit) {print("M.rows are negative?")}
+if (showAll || showSaveEdit) {print("M.negative or no rows?")}
                 // segue to detail information
                 performSegue(withIdentifier: "showContactDetail",
                                    sender: nil)
