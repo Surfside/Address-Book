@@ -9,7 +9,9 @@
 import UIKit
 import CoreData
 
-class MasterViewController: UITableViewController,NSFetchedResultsControllerDelegate,  AddEditTableViewControllerDelegate, DetailViewControllerDelegate
+class MasterViewController: UITableViewController,NSFetchedResultsControllerDelegate, 
+   AddEditTableViewControllerDelegate,
+   DetailViewControllerDelegate
 {
 
 let showAll = false                    // everything
@@ -17,8 +19,9 @@ let showTableView = false        // only table view
 let showFetchedData = false    // only fetched data
 let showInstructions = false     // only Instructions
 let showSegues = false             // only Segues
-let showSaveEdit = true          // only Save or Edit functions
-let showError = false               // only errors
+let showSave = true                 // only Save functions
+let showEdit = false                 // only Edit stuff
+let showError = false               // only Errors
 
 
     //NSFetchedResultsController informs MasterViewcontroller if the underlying data has changed i.e. a Contact has been changed
@@ -29,77 +32,74 @@ let showError = false               // only errors
     // configure popover for UITableView on IPad
     override func awakeFromNib()
     {
-        super.awakeFromNib()
 if (showAll) {print("M1.awakeFromNib")}
+        super.awakeFromNib()
+
+        // if the device is an IPad display the screen properly
         if UIDevice.current.userInterfaceIdiom == .pad
         {
+            // do not clear the selected row before the view will appear
             self.clearsSelectionOnViewWillAppear = false
+
+            // set the screen size for the IPad rather than the IPhone
             self.preferredContentSize = CGSize(width: 320.0, height: 600.0)
         }
     }
 
-    // called after the view did load allowing further UI configuration
-    override func viewDidLoad()
-    {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-if (showAll) {print("M2.viewDidLoad")}
-
-/*
-  *    self.navigationItem.leftBarButtonItem = self.editButtonItem
-  *    let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(insertNewObject(_:)))
-  *    self.navigationItem.rightBarButtonItem = addButton
-  */
-
-        if let split = self.splitViewController
-        {
-if (showAll) {print("M3.splitViewController")}
-            let controllers = split.viewControllers
-            self.detailViewController =
-            (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
-        }
-   }
-   
 
     // called just before MasterViewController is presented on the screen
     override func viewWillAppear(_ animated: Bool)
     {
-        super.viewWillAppear(animated)
-        //self.clearsSelectionOnViewWillAppear = self.splitViewController!.isCollapsed
 if (showAll) {print("M7.viewWillAppear")}
-       displayContactListOrInstructions()
+        super.viewWillAppear(animated)
+
+// clear selected row
+//self.clearsSelectionOnViewWillAppear = self.splitViewController!.isCollapsed
+
+        // display either the selected first contact, or instructions
+        displayFirstContactOrInstructions()
     }
 
     // if the UISplitViewController is not collapsed
     // select first contact or display InstructionsViewController
-    func displayContactListOrInstructions()
+    func displayFirstContactOrInstructions()
     { // chooses which VC to display Contact List or Instructions
-if (showAll || showInstructions) {print("M8.displayContactListOrInstructions")}
+if (showAll || showInstructions) {print("M8.displayFirstContactOrInstructions")}
+
         if let splitViewController = self.splitViewController
         { // get the split view controller
-if (showAll || showInstructions) {print("M9.splitViewController")}
-        // if splitViewController is not collapsed then a
-        // second controller must be displayed to the
-        // right of the Master view controller, so...
+if (showAll || showInstructions) {print("M9.get splitViewController")}
+
+        // splitViewController is NOT collapsed because
+        // there is a second controller displayed to
+        // the right of the Master view controller
         if !splitViewController.isCollapsed
         { // there is a second controller to the right of the Master
 if (showAll || showInstructions) {print("M.splitVC.isCollapsed")}
+
+            // select and display the master's first contact if there
+            // is one, or show the instructions if not
             if self.tableView.numberOfRows(inSection: 0) > 0
             { // the table contains a least one row of contacts
 if (showAll || showInstructions) {print("M.tableView.numberOfRows")}
+
                 // get the indexPath to the first row
                 let indexPath = NSIndexPath(row: 0, section: 0)
+
                 // select the first row and make it visible
                 self.tableView.selectRow(at: indexPath as IndexPath,
                    animated: false,
                    scrollPosition: UITableViewScrollPosition.top)
+
                 // show the contact list for the selected contact
                 self.performSegue(withIdentifier: "showContactDetail", sender: self)
+
             }
             else
-                {  // there are NO rows in the table
+                {   // since there are NO rows in the table anyways
 if (showAll || showInstructions) {print("M.performSegue.showInstructions")}
-                    // so show the Instructions
+
+                    // so display the Instructions View Controller
                     self.performSegue(withIdentifier: "showInstructions", sender: self)
                 }
             // split View Controller is not collapsed and 
@@ -107,8 +107,34 @@ if (showAll || showInstructions) {print("M.performSegue.showInstructions")}
             }
         // no secondary exists to the right of Master
         }
-    // either the contact list or the instructions are displayed
+    // either the contact list or the instructions are displayed now
     }
+
+   // called after the view loads
+   override func viewDidLoad()
+   {  // perform additional setup after loading the view from a nib
+      super.viewDidLoad()
+if (showAll) {print("M2.viewDidLoad")}
+      
+      /*
+       *    self.navigationItem.leftBarButtonItem = self.editButtonItem
+       *    let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(insertNewObject(_:)))
+       *    self.navigationItem.rightBarButtonItem = addButton
+       */
+
+      // get the split view controller
+      if let split = self.splitViewController
+      {  // get its other view controllers
+if (showAll) {print("M3.splitViewController")}
+         let controllers = split.viewControllers
+
+            // make detail view controller the top view controller
+            self.detailViewController =
+            (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
+
+      }
+   }
+   
 
     // MARK: - Segues
 
@@ -180,21 +206,21 @@ if (showAll || showSegues) {print("M.finished preparing segue")}
     // called by AddEditTableViewController after a contact is added
     func didSaveContact(controller: AddEditTableViewController)
     {   // AETVC protocol - required
-if (showAll || showSaveEdit) {print("M.didSaveContact - 1")}
+if (showAll || showSave) {print("M.didSaveContact - 1")}
         // get NSManagedObjectContext
         let context = self.fetchedResultsController.managedObjectContext
-if(showAll || showSaveEdit){print("M.context = \(context.description)")}
+if(showAll || showSave){print("M.context = \(context.description)")}
         // insert new contact into it
         context.insert(controller.contact!)
-if (showAll || showSaveEdit) {print("M.insert contact into context")}
+if (showAll || showSave) {print("M.insert contact into context")}
         // popToRootViewController
-self.navigationController?.popToRootViewController(animated: true)
-//        self.navigationController!.popViewController(animated: true)
-if (showAll || showSaveEdit) {print("M.pop to Root VC")}
+self.navigationController!.popToRootViewController(animated: true)
+//      self.navigationController!.popViewController(animated: true)
+if (showAll || showSave) {print("M.pop to Root VC")}
       // clear error messages
       let nserror: NSError? = nil
       // check for error messages
-      if (showAll || showSaveEdit) {print("M.error is nil")}
+      if (showAll || showSave) {print("M.error is nil")}
         do
             {
                 try context.save()
@@ -206,11 +232,11 @@ if (showAll || showSaveEdit) {print("M.pop to Root VC")}
             }
         if nserror == nil
             {   // if no errors, display new contact details
-if (showAll || showSaveEdit) {print("M.newContactSaved - 2")}
+if (showAll || showSave) {print("M.newContactSaved - 2")}
                 // fetch section information
                 let sectionInfo =
       self.fetchedResultsController.sections![0] as NSFetchedResultsSectionInfo
-if (showAll || showSaveEdit) {print("M.numberOfObjects = \(sectionInfo.numberOfObjects)")}
+if (showAll || showSave) {print("M.numberOfObjects = \(sectionInfo.numberOfObjects)")}
                 //  if let row = FIND(sectionInfo.objects as [NSManagedObject], controller.contact!) {
                 // fetch row information
                 let row = sectionInfo.numberOfObjects-1
@@ -221,16 +247,16 @@ if (showAll || showSaveEdit) {print("M.numberOfObjects = \(sectionInfo.numberOfO
 //if (showAll || showSaveEdit) {print("M.badRowNumber = \(row.description)")}
 // get the path to each row
                     let path = NSIndexPath(row: row, section: 0)
-if (showAll || showSaveEdit) {print("M.get path for row: \(row.description)")}
+if (showAll || showSave) {print("M.get path for row: \(row.description)")}
 // select each row while keeping it visible
                     tableView.selectRow(at: path as IndexPath, animated: true, scrollPosition: .middle)
-if (showAll || showSaveEdit) {print("M.select row: \(row.description)")}
+if (showAll || showSave) {print("M.select row: \(row.description)")}
                 }  // even if no rows exist
-if (showAll || showSaveEdit) {print("M.negative or no rows?")}
+if (showAll || showSave) {print("M.negative or no rows?")}
                 // segue to detail information
                 performSegue(withIdentifier: "showContactDetail",
                                    sender: nil)
-if (showAll || showSaveEdit) {print("M.segue showContactDetail - 3")}
+if (showAll || showSave) {print("M.segue showContactDetail - 3")}
             // end else if no errors
             }
     // didSaveContact finished
@@ -239,17 +265,17 @@ if (showAll || showSaveEdit) {print("M.segue showContactDetail - 3")}
    // called by DetailViewController after a contact is edited
    func didEditContact(controller: DetailViewController)
    {
-if (showAll || showSaveEdit) {print("M.didEditContact")}
+if (showAll || showEdit) {print("M.didEditContact")}
       let context = self.fetchedResultsController.managedObjectContext
 
       do
       {
-if (showAll || showSaveEdit) {print("M.do try context.save")}
+if (showAll || showEdit) {print("M.do try context.save")}
          try context.save()
       }
       catch
       {
-if (showAll || showSaveEdit) {print("M.do catch")}
+if (showAll || showEdit) {print("M.do catch")}
         // Replace this implementation with code to handle the error appropriately.
         // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
         let nserror = error as NSError
@@ -257,11 +283,10 @@ if (showAll || showSaveEdit) {print("M.do catch")}
                      message: "Unable to save contact")
         fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
       }
-
-// }
+// throw??
    }
 
-   // indicate that an error occurred hen saving database changes
+   // indicate that an error occurred when saving database changes
    func displayError(error: NSError?, title: String, message: String)
    {
 if (showAll || showError) {print("M.displayError")}
@@ -334,7 +359,7 @@ if (showAll || showTableView) {print("M.do2 catch")}
          fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
       }
 
-      displayContactListOrInstructions()
+      displayFirstContactOrInstructions()
     }
   }
 
