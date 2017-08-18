@@ -206,17 +206,19 @@ if (showAll || showSegues) {print("M.finished preparing segue")}
     // called by AddEditTableViewController after a contact is added
     func didSaveContact(controller: AddEditTableViewController)
     {   // AETVC protocol - required
-if (showAll || showSave) {print("M.didSaveContact - 1")}
+if (showAll || showSave) {print("M.didSaveContact - begins")}
         // get NSManagedObjectContext
         let context = self.fetchedResultsController.managedObjectContext
-if(showAll || showSave){print("M.context = \(context.description)")}
+if(showAll || showSave){print("M.ManagedObjectContext: \(context.description)")}
         // insert new contact into it
         context.insert(controller.contact!)
 if (showAll || showSave) {print("M.insert contact into context")}
         // popToRootViewController
 self.navigationController!.popToRootViewController(animated: true)
-//      self.navigationController!.popViewController(animated: true)
 if (showAll || showSave) {print("M.pop to Root VC")}
+//      self.navigationController!.popViewController(animated: true)
+//if (showAll || showSave) {print("M.pop top VC from stack")}
+
       // clear error messages
       let nserror: NSError? = nil
       // check for error messages
@@ -227,39 +229,40 @@ if (showAll || showSave) {print("M.pop to Root VC")}
             }
         catch
             {   // error saving contact data
-                displayError(error: nserror, title: "Error Saving Data in Master at 1\n",
-                   message: "Unable to save contact")
+                displayError(error: nserror, title: "Error Saving Data in Master\n",
+                   message: "Unable to save contact at 1")
             }
         if nserror == nil
             {   // if no errors, display new contact details
-if (showAll || showSave) {print("M.newContactSaved - 2")}
+if (showAll || showSave) {print("M.no errors and newContactSaved")}
                 // fetch section information
                 let sectionInfo =
       self.fetchedResultsController.sections![0] as NSFetchedResultsSectionInfo
-if (showAll || showSave) {print("M.numberOfObjects = \(sectionInfo.numberOfObjects)")}
+if (showAll || showSave) {print("M.sectionInfo named:  \(sectionInfo.name)")}
                 //  if let row = FIND(sectionInfo.objects as [NSManagedObject], controller.contact!) {
                 // fetch row information
                 let row = sectionInfo.numberOfObjects-1
-//if (showAll || showSaveEdit) {print("M.get row")}
+if (showAll || showSave) {print("M.number of Objects: \(sectionInfo.numberOfObjects)")}
                 // if row is less than 0 - error
                 if !(row < 0)
-                {  // if any rows exist
-//if (showAll || showSaveEdit) {print("M.badRowNumber = \(row.description)")}
+                {  // if at least one row exists
+if (showAll || showSave) {print("M.some row exists: \(row.description)")}
 // get the path to each row
                     let path = NSIndexPath(row: row, section: 0)
-if (showAll || showSave) {print("M.get path for row: \(row.description)")}
-// select each row while keeping it visible
+if (showAll || showSave) {print("M.path points to row: \(row.description)")}
+// select a row and keep it in view
                     tableView.selectRow(at: path as IndexPath, animated: true, scrollPosition: .middle)
-if (showAll || showSave) {print("M.select row: \(row.description)")}
+if (showAll || showSave) {print("M.row: \(row.description)  selected")}
                 }  // even if no rows exist
 if (showAll || showSave) {print("M.negative or no rows?")}
                 // segue to detail information
                 performSegue(withIdentifier: "showContactDetail",
                                    sender: nil)
-if (showAll || showSave) {print("M.segue showContactDetail - 3")}
+if (showAll || showSave) {print("M.segue showContactDetail")}
             // end else if no errors
             }
     // didSaveContact finished
+if (showAll || showSave) {print("M.didSaveContact finished")}
     }
 
    // called by DetailViewController after a contact is edited
