@@ -15,13 +15,16 @@ class MasterViewController: UITableViewController,NSFetchedResultsControllerDele
 {
 
 let showAll = false                    // everything
-let showTableView = false        // only table view
+let showTableView = true        // only table view
 let showFetchedData = false    // only fetched data
 let showInstructions = false     // only Instructions
 let showSegues = false             // only Segues
-let showSave = true                 // only Save functions
+let showSave = false                 // only Save functions
 let showEdit = false                 // only Edit stuff
 let showError = false               // only Errors
+let showSplit = false                // only Split
+let showCell = false                 // only Cell
+let showRow = false                 // only Row
 
 
     //NSFetchedResultsController informs MasterViewcontroller if the underlying data has changed i.e. a Contact has been changed
@@ -61,47 +64,54 @@ if (showAll) {print("M7.viewWillAppear")}
         displayFirstContactOrInstructions()
     }
 
+
     // if the UISplitViewController is not collapsed
     // select first contact or display InstructionsViewController
     func displayFirstContactOrInstructions()
     { // chooses which VC to display Contact List or Instructions
-if (showAll || showInstructions) {print("M8.displayFirstContactOrInstructions")}
+if (showAll || showInstructions) {print("M.displayFirstContactOrInstructions")}
 
         if let splitViewController = self.splitViewController
         { // get the split view controller
-if (showAll || showInstructions) {print("M9.get splitViewController")}
+if (showAll || showInstructions) {print("M.get splitViewController")}
 
         // splitViewController is NOT collapsed because
         // there is a second controller displayed to
         // the right of the Master view controller
         if !splitViewController.isCollapsed
         { // there is a second controller to the right of the Master
-if (showAll || showInstructions) {print("M.splitVC.isCollapsed")}
+if (showAll || showInstructions) {print("M.!splitVC.isCollapsed")}
 
             // select and display the master's first contact if there
             // is one, or show the instructions if not
             if self.tableView.numberOfRows(inSection: 0) > 0
             { // the table contains a least one row of contacts
-if (showAll || showInstructions) {print("M.tableView.numberOfRows")}
+if (showAll || showInstructions) {print("M.numberOfRowsInSection(0) > 0: \(self.tableView.numberOfRows(inSection: 0))")}
 
                 // get the indexPath to the first row
                 let indexPath = NSIndexPath(row: 0, section: 0)
+if (showAll || showInstructions){print("M.indexPath = \(indexPath)")}
 
                 // select the first row and make it visible
                 self.tableView.selectRow(at: indexPath as IndexPath,
                    animated: false,
                    scrollPosition: UITableViewScrollPosition.top)
+if(showAll || showInstructions){print("M.scrollPosition.top")}
 
                 // show the contact list for the selected contact
                 self.performSegue(withIdentifier: "showContactDetail", sender: self)
+if (showAll || showInstructions){print("M.segue showContactDetail")}
 
             }
             else
                 {   // since there are NO rows in the table anyways
+
 if (showAll || showInstructions) {print("M.performSegue.showInstructions")}
 
                     // so display the Instructions View Controller
                     self.performSegue(withIdentifier: "showInstructions", sender: self)
+if (showAll || showInstructions){print("M.segue showInstrtuctions")}
+
                 }
             // split View Controller is not collapsed and 
             // a secondary is assigned
@@ -109,13 +119,16 @@ if (showAll || showInstructions) {print("M.performSegue.showInstructions")}
         // no secondary exists to the right of Master
         }
     // either the contact list or the instructions are displayed now
+if (showAll || showInstructions){print("M. either a Contact List or Instructions should be shown now")}
     }
+
+
 
    // called after the view loads
    override func viewDidLoad()
    {  // perform additional setup after loading the view from a nib
       super.viewDidLoad()
-if (showAll) {print("M2.viewDidLoad")}
+if (showAll) {print("M2.viewDidLoad begins")}
       
       /*
        *    self.navigationItem.leftBarButtonItem = self.editButtonItem
@@ -126,16 +139,21 @@ if (showAll) {print("M2.viewDidLoad")}
       // get the split view controller
       if let split = self.splitViewController
       {  // get its other view controllers
-if (showAll) {print("M3.splitViewController")}
+if (showAll || showSplit) {print("M3.get splitVC")}
+
+         // get the controllers for split
          let controllers = split.viewControllers
+if (showAll || showSplit){print("M.get splitVC.controllers")}
 
             // make detail view controller the top view controller
             self.detailViewController =
             (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
-
+if (showAll || showSplit){print("M.detailVC is topVC")}
       }
+if (showAll || showSplit){print("M.viewDidLoad finished")}
    }
    
+
 
     // MARK: - Segues
 
@@ -202,6 +220,7 @@ if (showAll || showSegues) {print("M.finished preparing segue")}
         }
 
 
+
     // MARK: - Save or Edit Contact
 
     // called by AddEditTableViewController after a contact is added
@@ -222,6 +241,8 @@ if (showAll || showSave) {print("M.pop to Root VC")}
 
       // clear error messages
       let nserror: NSError? = nil
+if (showAll || showSplit){print("M. nserror is nil")}
+
       // check for error messages
       if (showAll || showSave) {print("M.error is nil")}
         do
@@ -267,11 +288,14 @@ if (showAll || showSave) {print("M.without segue to showContactDetail")}
 if (showAll || showSave) {print("M.didSaveContact finished")}
     }
 
+
+
    // called by DetailViewController after a contact is edited
    func didEditContact(controller: DetailViewController)
    {
 if (showAll || showEdit) {print("M.didEditContact")}
       let context = self.fetchedResultsController.managedObjectContext
+if (showAll || showEdit){print("M.get context")}
 
       do
       {
@@ -291,6 +315,7 @@ if (showAll || showEdit) {print("M.do catch")}
 // throw??
    }
 
+
    // indicate that an error occurred when saving database changes
    func displayError(error: NSError?, title: String, message: String)
    {
@@ -307,18 +332,23 @@ if (showAll || showError) {print("M.displayError")}
 
 
     // MARK: - Table View
-
+   
     override func numberOfSections(in tableView: UITableView) -> Int
-    {
-if (showAll || showTableView) {print("M4-9-14-18.numberOfSections")}
+    {   // get the number of Sections in the table
+if (showAll || showTableView) {print("M.numberOfSections: \(self.fetchedResultsController.sections?.count)")}
         return self.fetchedResultsController.sections?.count ?? 0
     }
 
   // callback that returns  number of rows in the UITbleView
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
   {
-if (showAll || showTableView) {print("M12-17-21.tableView.numberOfRowsInSection")}
+if (showAll || showTableView) {print("M.numberOfRowsInSection")}
+
+     // get sectionInfo
      let sectionInfo = self.fetchedResultsController.sections![section] as NSFetchedResultsSectionInfo
+
+if (showAll || showTableView){print("M.numberOfObjects: \(sectionInfo.numberOfObjects)")}
+     // return number of objects in section
      return sectionInfo.numberOfObjects
   }
   
@@ -326,16 +356,26 @@ if (showAll || showTableView) {print("M12-17-21.tableView.numberOfRowsInSection"
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath:  IndexPath) -> UITableViewCell
   {
 if (showAll || showTableView) {print("M.tableView.cellForRowAt")}
+
+    // get reusable cell
     let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-    let event = self.fetchedResultsController.object(at: indexPath)
-    self.configureCell(cell, withEvent: event)
+if (showAll || showCell) {print("M.cell Cell")}
+
+   // get contact
+    let object = self.fetchedResultsController.object(at: indexPath)
+if (showAll || showCell) {print("M.object: \(object.firstname)")}
+
+    // configure cell with contact
+    self.configureCell(cell, withEvent: object)
+if (showAll || showCell) {print("M.cell configured")}
+
     return cell
   }
 
   // callback that returns whether a cell is editable
   override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool 
   {
-if (showAll || showTableView) {print("M.tableView.canEditRowAt")}
+if (showAll || showRow) {print("M.row is NOT editable")}
     // Return false if you do not want the specified item to be editable.
     return true
   }
@@ -343,11 +383,14 @@ if (showAll || showTableView) {print("M.tableView.canEditRowAt")}
   // callback that deletes a row from the UITableView
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) 
   {
-if (showAll || showTableView) {print("M.tableView.commitEditingStyle")}
+if (showAll || showTableView) {print("M.commitEditingStyle")}
     if editingStyle == .delete 
     {
-if (showAll || showTableView) {print("M.editingStyle")}
+if (showAll || showTableView) {print("M.editingStyle .delete")}
+      // get context
       let context = self.fetchedResultsController.managedObjectContext
+
+      // delete object from context
       context.delete(self.fetchedResultsController.object(at: indexPath))
             
       do
@@ -364,29 +407,42 @@ if (showAll || showTableView) {print("M.do2 catch")}
          fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
       }
 
+      //  display either the contact list or instructions
+      //  based on if there are contacts in the database
       displayFirstContactOrInstructions()
     }
   }
 
-  func configureCell(_ cell: UITableViewCell, withEvent event: Contact)
-  {
-if (showAll || showTableView) {print("M.configureCell.withEvent")}
-    if (managedObjectContext != nil) // ??????
-    {
-if (showAll || showTableView) {print("M.configureCell.gotData")}
-       cell.textLabel?.text = event.firstname?.description
-       cell.detailTextLabel?.text = event.lastname?.description
+    // configure cell with contacts
+    func configureCell(_ cell: UITableViewCell, withEvent event: Contact)
+    {  // contacts are called events
+if (showAll || showCell) {print("M.configureCell.withEvent")}
+
+        // if managed object exists
+        if (managedObjectContext != nil)
+        {  // and the managed object does contain a contact
+if (showAll || showCell) {print("M.configureCell.gotData")}
+
+            // update label text with contact's firstname
+            cell.textLabel?.text = event.firstname?.description
+
+            // updarte lebel text with contact's lastname
+            cell.detailTextLabel?.text = event.lastname?.description
+
+        }
+        else // else the managed object does not exist
+        {  // thus the managed object has no contact
+
+if (showAll || showTableView) {print("M.managed object does not exist, so give it place holder data")}
+
+            cell.textLabel?.text = "Last Name"
+//         cell.textLabel!.text = event.timestamp!.description
+//         cell.textLabel!.text = event.lastname
+            cell.detailTextLabel?.text = "Detail Name"
+//         cell.detailTextLabel!.text = event.firstname
+        }
+if (showAll || showCell) {print("M.cell configured finished")}
     }
-    else
-    {
-if (showAll || showTableView) {print("M.configureCell.gotNoData")}
-       cell.textLabel?.text = "Last Name"
-//    cell.textLabel!.text = event.timestamp!.description
-//    cell.textLabel!.text = event.lastname
-       cell.detailTextLabel?.text = "Detail Name"
-//    cell.detailTextLabel!.text = event.firstname
-     }
-  }
 
 
     // MARK: - Fetched results controller
