@@ -38,8 +38,9 @@ if (showAll) {print("M1.awakeFromNib")}
         // if the device is an IPad display the screen properly
         if UIDevice.current.userInterfaceIdiom == .pad
         {
-            // do not clear the selected row before the view will appear
+            // do not clear the selected row before the view will appear; false == do not clear
             self.clearsSelectionOnViewWillAppear = false
+//            self.clearsSelectionOnViewWillAppear = true
 
             // set the screen size for the IPad rather than the IPhone
             self.preferredContentSize = CGSize(width: 320.0, height: 600.0)
@@ -226,6 +227,7 @@ if (showAll || showSave) {print("M.pop to Root VC")}
         do
             {
                 try context.save()
+if (showAll || showSave) {print("M.do try save context")}
             }
         catch
             {   // error saving contact data
@@ -256,9 +258,9 @@ if (showAll || showSave) {print("M.row: \(row.description)  selected")}
                 }  // even if no rows exist
 if (showAll || showSave) {print("M.negative or no rows?")}
                 // segue to detail information
-                performSegue(withIdentifier: "showContactDetail",
-                                   sender: nil)
-if (showAll || showSave) {print("M.segue showContactDetail")}
+//                performSegue(withIdentifier: "showContactDetail",
+ //                                  sender: nil)
+if (showAll || showSave) {print("M.without segue to showContactDetail")}
             // end else if no errors
             }
     // didSaveContact finished
