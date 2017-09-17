@@ -14,17 +14,17 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate 
 {
 
-let showAll = false                  // show everything
-let showApp = false               // show application processes
-let showCoreData = false      // show core data functions
-let showSplitVC = false      // show split view functions
-let showSteps = false            // show internal steps
+let showAll = false                       // show everything
+let showApp = false                     // show application processes
+let showCoreData = false             // show core data functions
+let showSplitVC = false                // show split view functions
+let showSteps = false                   // show internal steps
 
 
-  var window: UIWindow?
+     var window: UIWindow?
 
-  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool 
-  {
+     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool
+     {
 if (showAll || showApp) {print("AD1.LaunchWOptions")}
     // Override point for customization after application launch.
     let splitViewController = self.window!.rootViewController as! UISplitViewController
