@@ -18,15 +18,15 @@ let showTable = false
 let showFetchedResults = false
 
 
-  @IBOutlet var inputFields: [UITextField]!
+     @IBOutlet var inputFields: [UITextField]!
 
-  var detailViewController: DetailViewController? = nil
-  var managedObjectContext: NSManagedObjectContext? = nil
+     var detailViewController: DetailViewController? = nil
+     var managedObjectContext: NSManagedObjectContext? = nil
 
-  override func viewDidLoad() 
-  {
-    super.viewDidLoad()
-    // Do any additional setup after loading the view, typically from a nib.
+     override func viewDidLoad()
+     {
+          super.viewDidLoad()
+          // Do any additional setup after loading the view, typically from a nib.
 if (showAll) {print("AEVC.viewDidLoad")}
 /*
     self.navigationItem.leftBarButtonItem = self.editButtonItem
@@ -39,85 +39,80 @@ if (showAll) {print("AEVC.viewDidLoad")}
       self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
     }
 */
-  }
+     }
   
-  override func viewWillAppear(_ animated: Bool) 
-  {
+     override func viewWillAppear(_ animated: Bool)
+     {
+          super.viewWillAppear(animated)
+          self.clearsSelectionOnViewWillAppear = self.splitViewController!.isCollapsed
 if (showAll) {print("AEVC.viewWillAppear")}
-    self.clearsSelectionOnViewWillAppear = self.splitViewController!.isCollapsed
-    super.viewWillAppear(animated)
-  }
+     }
   
-  override func didReceiveMemoryWarning() 
-  {
-    super.didReceiveMemoryWarning()
+     override func didReceiveMemoryWarning()
+     {
+          super.didReceiveMemoryWarning()
+          // Dispose of any resources that can be recreated.
 if (showAll) {print("AEVC.didReceiveMemoryWarning")}
-    // Dispose of any resources that can be recreated.
-  }
+     }
   
-  func insertNewObject(_ sender: Any) 
-  {
-if (showAll || showInsertObject) {print("AEVC.insertNewObject")}
-    let context = self.fetchedResultsController.managedObjectContext
-    let newEvent = Contact(context: context)
+     func insertNewObject(_ sender: Any)
+     {
+          let context = self.fetchedResultsController.managedObjectContext
+          let newEvent = Contact(context: context)
     
-    // If appropriate, configure the new managed object.
-    newEvent.timestamp = NSDate()
+          // If appropriate, configure the new managed object.
+          newEvent.timestamp = NSDate()
     
-    // Save the context.
-    do 
-    {
+          // Save the context.
+          do
+          {
 if (showAll || showInsertObject) {print("AEVC.do.try1")}
-      try context.save()
-    } 
-    catch
-    {
+               try context.save()
+          }
+          catch
+          {
 if (showAll || showInsertObject) {print("AEVC.do.catch1")}
-      // Replace this implementation with code to handle the error appropriately.
-      // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-      let nserror = error as NSError
-      fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-    }
-  }
+               // Replace this implementation with code to handle the error appropriately.
+               // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+               let nserror = error as NSError
+               fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+          }
+if (showAll || showInsertObject) {print("AEVC.insertNewObject")}
+     }
   
-  // MARK: - Segues
+     // MARK: - Segues
 
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) 
-  {
-if (showAll || showSegues) {print("AEVC.prepare")}
-    if segue.identifier == "showContactDetails" 
-    {
-if (showAll || showSegues) {print("AEVC.segue.showContactDetails")}
-      if let indexPath = self.tableView.indexPathForSelectedRow 
-      {
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+     {
+          if segue.identifier == "showContactDetails"
+          {
+               if let indexPath = self.tableView.indexPathForSelectedRow
+               {
+                    let object = self.fetchedResultsController.object(at: indexPath)
+                    let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
+                    controller.detailItem = object
+                    controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
+                    controller.navigationItem.leftItemsSupplementBackButton = true
 if (showAll || showSegues) {print("AEVC.indexPath")}
-        let object = self.fetchedResultsController.object(at: indexPath)
-        let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
-        controller.detailItem = object
-        controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
-        controller.navigationItem.leftItemsSupplementBackButton = true
-      }
-
-    }
-
-  }
+               }
+if (showAll || showSegues) {print("AEVC.segue.showContactDetails")}
+          }
+if (showAll || showSegues) {print("AEVC.prepare")}
+     }
 
 
-  // MARK: - Table View
+     // MARK: - Table View
   
-  override func numberOfSections(in tableView: UITableView) -> Int 
-  {
-if (showAll || showTable) {print("AEVC.numberOfSections")}
-    return self.fetchedResultsController.sections?.count ?? 0
-//return 0
-  }
+     override func numberOfSections(in tableView: UITableView) -> Int
+     {
+          return self.fetchedResultsController.sections?.count ?? 0
+     }
   
-  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int 
-  {
+     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+     {
 if (showAll || showTable) {print("AEVC.numberOfRowsInSection")}
     let sectionInfo = self.fetchedResultsController.sections![section]
     return sectionInfo.numberOfObjects
-//return 1
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell 
